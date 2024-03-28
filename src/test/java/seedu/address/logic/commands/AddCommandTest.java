@@ -10,6 +10,7 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -40,7 +41,7 @@ public class AddCommandTest {
 
         CommandResult commandResult = new AddCommand(validPerson).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_NEAR_DUPLICATES, Messages.format(validPerson)),
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
                 commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
@@ -86,7 +87,7 @@ public class AddCommandTest {
     }
 
     /**
-     * A default model stub that have all of the methods failing.
+     * A default model stub that have all but one method that add depends on failing.
      */
     private class ModelStub implements Model {
         @Override
@@ -141,9 +142,9 @@ public class AddCommandTest {
 
         @Override
         public List<String> findNearDuplicates(Person person) {
-            throw new AssertionError("This method should not be called.");
+            // Stub implementation, return an empty list
+            return Collections.emptyList();
         }
-
 
         @Override
         public void deletePerson(Person target) {
