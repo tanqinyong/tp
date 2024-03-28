@@ -10,6 +10,7 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -39,7 +40,7 @@ public class AddCommandTest {
 
         CommandResult commandResult = new AddCommand(validPerson).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
+        assertEquals(String.format(AddCommand.MESSAGE_NEAR_DUPLICATES, Messages.format(validPerson)),
                 commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
@@ -137,6 +138,12 @@ public class AddCommandTest {
         public boolean hasPerson(Person person) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public List<String> findNearDuplicates(Person person) {
+            throw new AssertionError("This method should not be called.");
+        }
+
 
         @Override
         public void deletePerson(Person target) {

@@ -8,6 +8,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.util.List;
+
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -39,6 +41,7 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
+    public static final String MESSAGE_NEAR_DUPLICATES = "New person added: %1$s \nPossible duplicate contacts: %2$s";
 
     private final Person toAdd;
 
@@ -58,7 +61,16 @@ public class AddCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
+        // Duplicate Detection feature
+        List<String> duplicateNames = model.findNearDuplicates(toAdd);
         model.addPerson(toAdd);
+
+        if (!duplicateNames.isEmpty()) {
+            return new CommandResult(String.format(MESSAGE_NEAR_DUPLICATES,
+                    Messages.format(toAdd),
+                    String.join(", ", duplicateNames)));
+        }
+
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
     }
 
