@@ -76,15 +76,23 @@ Format: `help`
 
 Adds a person to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS nt/NOTE [ap/APPOINTMENT] [t/TAG]…​`
+Format: `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG]…​`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A person can have any number of tags (including 0)
+A person can have any number of tags, and any number of appointments (including 0)
 </div>
 
 Examples:
 * `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01`
 * `add n/Monica Chng t/IB e/mc@example.com a/Dempsey Hill p/81888818 ap/10:00 FRI`
+
+Only the "Name" field is mandatory. If you do not wish to have the other fields to have values, you can add the person in without the corresponding tag, or leaving the tag blank.
+
+For example:
+* `add n/John`
+* `add n/John a/`
+
+Will both create the same person in the address book (i.e. a person named "John" with no address). The same logic applies to all other fields.
 
 ### Listing all persons : `list`
 
@@ -103,11 +111,13 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ap/APPOINTMENT] [t
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
 * You can remove all the person’s tags by typing `t/` without
-    specifying any tags after it.
+    specifying any tags after it. Appointments work similarly (i.e. typing `ap/` with no appointments after it clears all appointments)
+* You can remove fields (except for name) by typing the tag for the relevant field and leaving it blank
 
 Examples:
 *  `edit 1 p/91234567 e/jj@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `jj@example.com` respectively.
 *  `edit 2 n/Monica Chng t/` Edits the name of the 2nd person to be `Monica Chng` and clears all existing tags.
+*  `edit 3 n/Bobby Brown p/` Edits the name of the 3rd person to be `Bobby Brown` and removes the `phone` field
 
 ### Edits a note to a person : `note`
 
