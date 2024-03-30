@@ -6,6 +6,10 @@ import java.util.Set;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.EmptyAddress;
+import seedu.address.model.person.EmptyEmail;
+import seedu.address.model.person.EmptyNote;
+import seedu.address.model.person.EmptyPhone;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
@@ -113,6 +117,38 @@ public class PersonBuilder {
      */
     public PersonBuilder withNote(String note) {
         this.note = new Note(note);
+        return this;
+    }
+
+    /**
+     * Removes the {@code Phone} of the {@code Person} and replaces it with a {@code EmptyPhone}
+     */
+    public PersonBuilder removePhone() {
+        this.phone = new EmptyPhone();
+        return this;
+    }
+
+    /**
+     * Removes the {@code Email} of the {@code Person} and replaces it with a {@code EmptyEmail}
+     */
+    public PersonBuilder removeEmail() {
+        this.email = new EmptyEmail();
+        return this;
+    }
+
+    /**
+     * Removes the {@code Address} of the {@code Person} and replaces it with a {@code EmptyAddress}
+     */
+    public PersonBuilder removeAddress() {
+        this.address = new EmptyAddress();
+        return this;
+    }
+
+    /**
+     * Removes the {@code Note} of the {@code Person} and replaces it with a {@code EmptyNote}
+     */
+    public PersonBuilder removeNote() {
+        this.note = new EmptyNote();
         return this;
     }
 

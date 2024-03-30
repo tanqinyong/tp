@@ -43,6 +43,9 @@ public class Email {
         checkArgument(isValidEmail(email), MESSAGE_CONSTRAINTS);
         value = email;
     }
+    protected Email() {
+        value = null;
+    }
 
     /**
      * Returns if a given string is a valid email.
@@ -67,6 +70,10 @@ public class Email {
             return false;
         }
 
+        if (other instanceof EmptyEmail) {
+            return false;
+        }
+
         Email otherEmail = (Email) other;
         return value.equals(otherEmail.value);
     }
@@ -76,4 +83,7 @@ public class Email {
         return value.hashCode();
     }
 
+    public boolean isEmpty() {
+        return false;
+    }
 }

@@ -55,10 +55,10 @@ public class PersonCard extends UiPart<Region> {
         this.person = person;
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
-        phone.setText(person.getPhone().value);
-        address.setText(person.getAddress().value);
-        email.setText(person.getEmail().value);
-        note.setText(person.getNote().value.isEmpty() ? "-" : person.getNote().value);
+        phone.setText(person.getPhone().isEmpty() ? "-" : person.getPhone().value);
+        address.setText(person.getAddress().isEmpty() ? "-" : person.getAddress().value);
+        email.setText(person.getEmail().isEmpty() ? "-" : person.getEmail().value);
+        note.setText(person.getNote().isEmpty() ? "-" : person.getNote().value);
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
