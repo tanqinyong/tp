@@ -17,6 +17,10 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.EmptyAddress;
+import seedu.address.model.person.EmptyEmail;
+import seedu.address.model.person.EmptyNote;
+import seedu.address.model.person.EmptyPhone;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
@@ -229,5 +233,24 @@ public class ParserUtilTest {
                 .asList(new Appointment(VALID_APPOINTMENT_1), new Appointment(VALID_APPOINTMENT_2)));
 
         assertEquals(expectedAppointmentSet, actualAppointmentSet);
+    }
+
+    @Test
+    public void parseEmptyFields_returnsEmptyFieldType() throws Exception {
+        //Creating empty Phones
+        assertEquals(ParserUtil.parsePhone(""), new EmptyPhone());
+        assertEquals(ParserUtil.parsePhone(null), new EmptyPhone());
+
+        //Creating empty Addresses
+        assertEquals(ParserUtil.parseAddress(""), new EmptyAddress());
+        assertEquals(ParserUtil.parseAddress(null), new EmptyAddress());
+
+        //Creating empty Emails
+        assertEquals(ParserUtil.parseEmail(""), new EmptyEmail());
+        assertEquals(ParserUtil.parseEmail(null), new EmptyEmail());
+
+        //Creating empty Notes
+        assertEquals(ParserUtil.parseNote(""), new EmptyNote());
+        assertEquals(ParserUtil.parseNote(null), new EmptyNote());
     }
 }

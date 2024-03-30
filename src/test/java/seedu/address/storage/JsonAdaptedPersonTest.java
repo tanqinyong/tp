@@ -3,7 +3,11 @@ package seedu.address.storage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.storage.JsonAdaptedPerson.MISSING_FIELD_MESSAGE_FORMAT;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalPersons.*;
+import static seedu.address.testutil.TypicalPersons.BENSON;
+import static seedu.address.testutil.TypicalPersons.BENSON_NO_ADDRESS;
+import static seedu.address.testutil.TypicalPersons.BENSON_NO_EMAIL;
+import static seedu.address.testutil.TypicalPersons.BENSON_NO_NOTE;
+import static seedu.address.testutil.TypicalPersons.BENSON_NO_PHONE;
 
 import java.util.ArrayList;
 import java.util.List;

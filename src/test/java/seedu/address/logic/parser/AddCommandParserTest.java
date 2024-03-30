@@ -41,13 +41,19 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.address.testutil.TypicalPersons.*;
+import static seedu.address.testutil.TypicalPersons.AMY;
+import static seedu.address.testutil.TypicalPersons.BOB;
+import static seedu.address.testutil.TypicalPersons.CELINE;
+import static seedu.address.testutil.TypicalPersons.NAME_ONLY_CELINE;
+import static seedu.address.testutil.TypicalPersons.NO_ADDRESS_AMY;
+import static seedu.address.testutil.TypicalPersons.NO_EMAIL_AMY;
+import static seedu.address.testutil.TypicalPersons.NO_NOTE_AMY;
+import static seedu.address.testutil.TypicalPersons.NO_PHONE_AMY;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.AddCommand;
-import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
@@ -193,8 +199,8 @@ public class AddCommandParserTest {
                 expectedMessage);
 
         // all prefixes missing
-        assertParseFailure(parser, VALID_NAME_BOB + VALID_PHONE_BOB + VALID_EMAIL_BOB + VALID_ADDRESS_BOB + VALID_NOTE_BOB,
-                expectedMessage);
+        assertParseFailure(parser, VALID_NAME_BOB + VALID_PHONE_BOB + VALID_EMAIL_BOB
+                        + VALID_ADDRESS_BOB + VALID_NOTE_BOB, expectedMessage);
     }
 
     @Test
