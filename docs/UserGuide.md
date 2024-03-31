@@ -63,6 +63,42 @@ TutorRec is a **desktop app for home tutors to manage student contacts, optimize
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
+### Formatting fields for a person
+
+A person has the following fields: `Name`, `Phone`, `Email`, `Address`, `Note`, `Tag`, and `Appointment`.
+
+Below lists the requirements for each to be a valid field.
+
+- `Name`: Must be alphanumeric.
+  - `Jane`, `Jane1` are valid
+  - `Jane@`, `**&&&` are not valid.
+- `Phone`: Must only contain numbers
+  - `999`, `12341234` are valid.
+  - `123Phone`, `aeiou` are not valid.
+- `Email`: contains two parts, in the format `local-part@domain`
+  - `local-part` must adhere to the following restrictions:
+    - Contain only alphanumeric characters
+    - May contain the following special characters `+_.-`
+    - May not begin with the above mentioned special characters
+  - `domain` must adhere to the following restrictions:
+    - end with a valid label which is at least two characters long
+    - domain start and end labels which start and end with alphanumeric characters
+    - domain start and end labels which are separated by hyphens only, if applicable
+  - With these restrictions in mind, the following are some valid and invalid commands:
+    - `alex@example.com`, `jorge@website.site.com`, `jack_jane.john@example.com` are valid.
+    - `alex@@example.com`, `jorge@website.site.com-`, `jack&jane*john@example.com` are not valid.
+- `Address`: must not be blank or contain only spaces.
+  - Note that entering an address which is blank or has spaces will instead treat a person as having no address. Valid addresses are still only those which do not violate the above criteria.
+- `Note`: must not be blank or contain only spaces
+  - See above.
+- `Tag`: No restrictions
+- `Appointment`: Must be in the format `START_TIME-END_TIME DAY`
+  - `START_TIME` and `END-TIME` are in the format `HH-MM`. The time of `START_TIME` must strictly be smaller than `END_TIME`
+  - `DAY` must be one of the following: `MON`, `TUE`, `WED`, `THU`, `FRI`, `SAT`,`SUN`.
+    - Respectively, these represent Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, and Sunday.
+  - `12:00-13:00 MON`, `16:59-22:00 SUN` are valid.
+  - `13:00-11:00 MON`, `16:0000-19:1234 MON`, `16:00-17:00 SUNDAY` are not valid.
+
 ### Viewing help : `help`
 
 Shows a message explaning how to access the help page.
