@@ -84,7 +84,8 @@ A person can have any number of tags, and any number of appointments (including 
 
 Examples:
 * `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01`
-* `add n/Monica Chng t/IB e/mc@example.com a/Dempsey Hill p/81888818 ap/10:00 FRI`
+* `add n/Monica Chng t/IB e/mc@example.com a/Dempsey Hill p/81888818 ap/10:00-12:00 FRI`
+* `add n/Abel nt/Has a brother ap/12:00-15:00 SUN ap/18:00-22:00 TUE`
 
 Only the "Name" field is mandatory. If you do not wish to have the other fields to have values, you can add the person in without the corresponding tag, or leaving the tag blank.
 
