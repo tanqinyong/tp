@@ -6,6 +6,11 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.HOON;
 import static seedu.address.testutil.TypicalPersons.IDA;
+import static seedu.address.testutil.TypicalPersons.JAGEN;
+import static seedu.address.testutil.TypicalPersons.KLEIN;
+import static seedu.address.testutil.TypicalPersons.LYON;
+import static seedu.address.testutil.TypicalPersons.MANFROY;
+import static seedu.address.testutil.TypicalPersons.NASIR;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.IOException;
@@ -101,6 +106,24 @@ public class JsonAddressBookStorageTest {
         } catch (IOException ioe) {
             throw new AssertionError("There should not be an error writing to the file.", ioe);
         }
+    }
+
+    @Test
+    public void savingMissingFieldsToAddressBook_success() throws Exception {
+        Path filePath = testFolder.resolve("TempAddressBook.json");
+        AddressBook original = getTypicalAddressBook();
+        JsonAddressBookStorage jsonAddressBookStorage = new JsonAddressBookStorage(filePath);
+
+        // Each of the following persons have a missing field
+        original.addPerson(JAGEN);
+        original.addPerson(KLEIN);
+        original.addPerson(LYON);
+        original.addPerson(MANFROY);
+        // And this is missing all fields aside from Name
+        original.addPerson(NASIR);
+        jsonAddressBookStorage.saveAddressBook(original, filePath);
+        ReadOnlyAddressBook readBack = jsonAddressBookStorage.readAddressBook(filePath).get();
+        assertEquals(original, new AddressBook(readBack));
     }
 
     @Test

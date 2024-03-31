@@ -63,6 +63,17 @@ public class TypicalPersons {
     public static final Person IDA = new PersonBuilder().withName("Ida Mueller").withPhone("8482131")
             .withEmail("hans@example.com").withAddress("chicago ave").build();
 
+    // More persons; these are missing one or more fields for testing purposes
+    public static final Person JAGEN = new PersonBuilder().withName("Jagen Arch")
+            .withEmail("jagen@example.com").withAddress("japan").withNote("Has Red Paint").build();
+    public static final Person KLEIN = new PersonBuilder().withName("Klein Elibe").withPhone("77617761")
+            .withAddress("america").withNote("Has Sister").build();
+    public static final Person LYON = new PersonBuilder().withName("Lyon Mag").withPhone("77617761")
+            .withEmail("lyon@example.com").withNote("Careful around stones").build();
+    public static final Person MANFROY = new PersonBuilder().withName("Manfroy Jug").withPhone("77617761")
+            .withAddress("manfroy@example.com").withAddress("big map").build();
+    public static final Person NASIR = new PersonBuilder().withName("Nasir Tell").build();
+
     // Manually added - Person's details found in {@code CommandTestUtil}
     public static final Person AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
             .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withNote(VALID_NOTE_AMY)
