@@ -65,6 +65,7 @@ public class AddCommand extends Command {
         List<String> duplicateNames = model.findNearDuplicates(toAdd);
         model.addPerson(toAdd);
 
+        // If there are near duplicate names
         if (!duplicateNames.isEmpty()) {
             return new CommandResult(String.format(MESSAGE_NEAR_DUPLICATES,
                     Messages.format(toAdd),
