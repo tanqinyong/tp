@@ -92,6 +92,11 @@ public class AppointmentTest {
         assertTrue(appointment.overlapsWith(overlappingAppointment));
         assertTrue(overlappingAppointment.overlapsWith(appointment));
 
+        overlappingAppointment = new Appointment("11:00-12:00 FRI");
+
+        assertTrue(appointment.overlapsWith(overlappingAppointment));
+        assertTrue(overlappingAppointment.overlapsWith(appointment));
+
         Appointment notOverlappingAppointment = new Appointment("12:00-14:00 FRI");
 
         assertFalse(appointment.overlapsWith(notOverlappingAppointment));

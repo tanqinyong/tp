@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.BOB;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.model.appointment.exceptions.AppointmentNotFoundException;
 import seedu.address.model.appointment.exceptions.OverlappingAppointmentException;
+import seedu.address.model.person.UniquePersonList;
 
 public class AppointmentListTest {
 
@@ -58,6 +61,15 @@ public class AppointmentListTest {
     public void setAppointment_nullEditedAppointment_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> appointmentList.setAppointment(
                 sundayAppointment, null));
+    }
+
+    @Test
+    public void setAppointment_editedAppointmentIsDifferent_success() {
+        appointmentList.add(sundayAppointment);
+        appointmentList.setAppointment(sundayAppointment, fridayAppointment);
+        AppointmentList expectedAppointmentList = new AppointmentList();
+        expectedAppointmentList.add(fridayAppointment);
+        assertEquals(expectedAppointmentList, appointmentList);
     }
 
     @Test
@@ -122,7 +134,7 @@ public class AppointmentListTest {
     }
 
     @Test
-    public void setAppointment_listWithOverlappingAppointments_throwsOverlappingAppointmentException() {
+    public void setAppointments_listWithOverlappingAppointments_throwsOverlappingAppointmentException() {
         List<Appointment> listWithOverlappingAppointments = Arrays.asList(sundayAppointment,
                 sundayOverlappingAppointment);
         assertThrows(OverlappingAppointmentException.class, () -> appointmentList.setAppointments(
