@@ -27,5 +27,13 @@ public class NoteTest {
         // different remark -> returns false
         Note differentRemark = new Note("Bye");
         assertFalse(note.equals(differentRemark));
+
+        // EmptyNote -> returns false
+        assertFalse(note.equals(new EmptyNote()));
+    }
+
+    @Test
+    public void checkEmptiness() {
+        assertFalse(new Note("dummy").isEmpty());
     }
 }

@@ -13,6 +13,10 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.appointment.Appointment;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.EmptyAddress;
+import seedu.address.model.person.EmptyEmail;
+import seedu.address.model.person.EmptyNote;
+import seedu.address.model.person.EmptyPhone;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
@@ -95,36 +99,46 @@ class JsonAdaptedPerson {
         }
         final Name modelName = new Name(name);
 
+        Phone usedPhone;
         if (phone == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
-        }
-        if (!Phone.isValidPhone(phone)) {
+            usedPhone = new EmptyPhone();
+        } else if (!Phone.isValidPhone(phone)) {
             throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
+        } else {
+            usedPhone = new Phone(phone);
         }
-        final Phone modelPhone = new Phone(phone);
+        final Phone modelPhone = usedPhone;
 
+        Email usedEmail;
         if (email == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
-        }
-        if (!Email.isValidEmail(email)) {
+            usedEmail = new EmptyEmail();
+        } else if (!Email.isValidEmail(email)) {
             throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
+        } else {
+            usedEmail = new Email(email);
         }
-        final Email modelEmail = new Email(email);
+        final Email modelEmail = usedEmail;
 
+        Address usedAddress;
         if (address == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
-        }
-        if (!Address.isValidAddress(address)) {
+            usedAddress = new EmptyAddress();
+        } else if (!Address.isValidAddress(address)) {
             throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
+        } else {
+            usedAddress = new Address(address);
         }
-        final Address modelAddress = new Address(address);
+        final Address modelAddress = usedAddress;
+
+        Note usedNote;
+        if (note == null) {
+            usedNote = new EmptyNote();
+        } else {
+            usedNote = new Note(note);
+        }
+        final Note modelNote = usedNote;
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
 
-        if (note == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Note.class.getSimpleName()));
-        }
-        final Note modelNote = new Note(note);
         final Set<Appointment> modelAppointments = new HashSet<>(personAppointments);
 
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelNote, modelTags, modelAppointments);

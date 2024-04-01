@@ -125,15 +125,20 @@ public class Person {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .add("name", name)
-                .add("phone", phone)
-                .add("email", email)
-                .add("address", address)
-                .add("note", note)
-                .add("tags", tags)
-                .add("appointments", appointments)
-                .toString();
+        ToStringBuilder returnedString = new ToStringBuilder(this)
+                .add("name", name);
+        if (!phone.isEmpty()) {
+            returnedString.add("phone", phone);
+        }
+        if (!email.isEmpty()) {
+            returnedString.add("email", email);
+        }
+        if (!address.isEmpty()) {
+            returnedString.add("address", address);
+        }
+        if (!note.isEmpty()) {
+            returnedString.add("note", note);
+        }
+        return returnedString.add("tags", tags).add("appointments", appointments).toString();
     }
-
 }

@@ -84,5 +84,13 @@ public class EmailTest {
 
         // different values -> returns false
         assertFalse(email.equals(new Email("other.valid@email")));
+
+        // EmptyEmail -> returns false
+        assertFalse(email.equals(new EmptyEmail()));
+    }
+
+    @Test
+    public void checkEmptiness() {
+        assertFalse(new Email("valid@email").isEmpty());
     }
 }

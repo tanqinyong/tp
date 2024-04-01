@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.stage.Stage?>
 
-<fx:root minHeight="600" minWidth="450" onCloseRequest="#handleExit" title="TutorRec" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="500" minHeight="500" minWidth="500" maxWidth="1000" onCloseRequest="#handleExit" title="TutorRec" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
   <icons>
     <Image url="@/images/tutorrec.png" />
   </icons>
@@ -23,7 +23,7 @@
         <URL value="@Extensions.css" />
       </stylesheets>
 
-      <VBox>
+      <VBox maxHeight="-Infinity" minHeight="-Infinity">
         <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
           <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
@@ -32,7 +32,6 @@
             <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
           </Menu>
         </MenuBar>
-
         <HBox HBox.hgrow="ALWAYS">
           <VBox>
             <StackPane fx:id="commandBoxPlaceholder" styleClass="pane-with-border" VBox.vgrow="NEVER">
@@ -41,27 +40,19 @@
               </padding>
             </StackPane>
 
-            <StackPane fx:id="resultDisplayPlaceholder" maxHeight="100" minHeight="100" prefHeight="100" styleClass="pane-with-border" VBox.vgrow="NEVER">
-              <padding>
-                <Insets bottom="5" left="10" right="5" top="5" />
-              </padding>
-            </StackPane>
-
-            <VBox fx:id="personList" minWidth="400" prefWidth="400" styleClass="pane-with-border" VBox.vgrow="ALWAYS">
+            <VBox fx:id="personList" minWidth="500" prefWidth="500" styleClass="pane-with-border" VBox.vgrow="ALWAYS">
               <padding>
                 <Insets bottom="10" left="10" right="5" top="5" />
               </padding>
               <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS" />
             </VBox>
           </VBox>
-          <VBox fx:id="detailList" minWidth="280" prefWidth="280" styleClass="pane-with-border" VBox.vgrow="ALWAYS">
+          <StackPane fx:id="resultDisplayPlaceholder" minHeight="100" prefHeight="100" styleClass="pane-with-border" VBox.vgrow="ALWAYS">
             <padding>
-              <Insets bottom="10" left="5" right="10" top="10" />
+              <Insets bottom="8" left="5" right="10" top="8" />
             </padding>
-            <StackPane fx:id="detailListPanelPlaceholder" VBox.vgrow="ALWAYS" />
-          </VBox>
+          </StackPane>
         </HBox>
-
         <StackPane fx:id="statusbarPlaceholder" VBox.vgrow="NEVER" />
       </VBox>
     </Scene>
