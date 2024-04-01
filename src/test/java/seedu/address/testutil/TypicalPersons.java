@@ -11,6 +11,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_CELINE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_CELINE;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NOTE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NOTE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NOTE_CELINE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
@@ -40,6 +41,10 @@ public class TypicalPersons {
             .withEmail("johnd@example.com").withPhone("98765432")
             .withTags("owesMoney", "friends").withNote("He can't take beer!")
             .withAppointments("12:00-13:00 SUN").build();
+    public static final Person BENSON_NO_ADDRESS = new PersonBuilder(BENSON).removeAddress().build();
+    public static final Person BENSON_NO_PHONE = new PersonBuilder(BENSON).removePhone().build();
+    public static final Person BENSON_NO_EMAIL = new PersonBuilder(BENSON).removeEmail().build();
+    public static final Person BENSON_NO_NOTE = new PersonBuilder(BENSON).removeNote().build();
 
     public static final Person CARL = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
             .withEmail("heinz@example.com").withAddress("wall street").build();
@@ -58,9 +63,21 @@ public class TypicalPersons {
     public static final Person IDA = new PersonBuilder().withName("Ida Mueller").withPhone("8482131")
             .withEmail("hans@example.com").withAddress("chicago ave").build();
 
+    // More persons; these are missing one or more fields for testing purposes
+    public static final Person JAGEN = new PersonBuilder().withName("Jagen Arch")
+            .withEmail("jagen@example.com").withAddress("japan").withNote("Has Red Paint").build();
+    public static final Person KLEIN = new PersonBuilder().withName("Klein Elibe").withPhone("77617761")
+            .withAddress("america").withNote("Has Sister").build();
+    public static final Person LYON = new PersonBuilder().withName("Lyon Mag").withPhone("77617761")
+            .withEmail("lyon@example.com").withNote("Careful around stones").build();
+    public static final Person MANFROY = new PersonBuilder().withName("Manfroy Jug").withPhone("77617761")
+            .withAddress("manfroy@example.com").withAddress("big map").build();
+    public static final Person NASIR = new PersonBuilder().withName("Nasir Tell").build();
+
     // Manually added - Person's details found in {@code CommandTestUtil}
     public static final Person AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
-            .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIEND).build();
+            .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withNote(VALID_NOTE_AMY)
+            .withTags(VALID_TAG_FRIEND).build();
     public static final Person BOB = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
             .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withNote(VALID_NOTE_BOB)
             .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
@@ -68,6 +85,17 @@ public class TypicalPersons {
             .withEmail(VALID_EMAIL_CELINE).withAddress(VALID_ADDRESS_CELINE).withNote(VALID_NOTE_CELINE)
             .withAppointments(VALID_APPOINTMENT_FRIDAY, VALID_APPOINTMENT_SUNDAY)
             .build();
+    public static final Person NO_ADDRESS_AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
+            .withEmail(VALID_EMAIL_AMY).withNote(VALID_NOTE_AMY).withTags(VALID_TAG_FRIEND).removeAddress().build();
+    public static final Person NO_PHONE_AMY = new PersonBuilder().withName(VALID_NAME_AMY)
+            .withEmail(VALID_EMAIL_AMY).withNote(VALID_NOTE_AMY).withAddress(VALID_ADDRESS_AMY)
+            .withTags(VALID_TAG_FRIEND).removePhone().build();
+    public static final Person NO_EMAIL_AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
+            .withAddress(VALID_ADDRESS_AMY).withNote(VALID_NOTE_AMY).withTags(VALID_TAG_FRIEND).removeEmail().build();
+    public static final Person NO_NOTE_AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
+            .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIEND).removeNote().build();
+    public static final Person NAME_ONLY_CELINE = new PersonBuilder().withName(VALID_NAME_CELINE)
+            .removeEmail().removeNote().removeAddress().removePhone().build();
 
     public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER
 

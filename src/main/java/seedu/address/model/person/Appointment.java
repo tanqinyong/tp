@@ -18,7 +18,7 @@ public class Appointment {
             + "HH is from 00 to 23, "
             + "MM is from 00 to 59.\n"
             + "2. This is followed by a DAY. "
-            + "DAY must be one of: 'MON', 'TUE', 'WED','THU', 'FRI', 'SAT','SUN'\n";
+            + "DAY must be one of: 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT','SUN'\n";
     // alphanumeric and special characters
     private static final String HOUR = "[\\d]{2}";
     private static final String MINUTE = "[\\d]{2}";

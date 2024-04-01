@@ -19,6 +19,10 @@ public class Note {
         value = note;
     }
 
+    protected Note() {
+        value = null;
+    }
+
     @Override
     public String toString() {
         return value;
@@ -35,6 +39,10 @@ public class Note {
             return false;
         }
 
+        if (other instanceof EmptyNote) {
+            return false;
+        }
+
         Note otherNote = (Note) other;
         return value.equals(otherNote.value);
     }
@@ -42,5 +50,9 @@ public class Note {
     @Override
     public int hashCode() {
         return value.hashCode();
+    }
+
+    public boolean isEmpty() {
+        return false;
     }
 }

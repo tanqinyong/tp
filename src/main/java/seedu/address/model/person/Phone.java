@@ -26,6 +26,10 @@ public class Phone {
         value = phone;
     }
 
+    protected Phone() {
+        value = null;
+    }
+
     /**
      * Returns true if a given string is a valid phone number.
      */
@@ -49,6 +53,10 @@ public class Phone {
             return false;
         }
 
+        if (other instanceof EmptyPhone) {
+            return false;
+        }
+
         Phone otherPhone = (Phone) other;
         return value.equals(otherPhone.value);
     }
@@ -58,4 +66,7 @@ public class Phone {
         return value.hashCode();
     }
 
+    public boolean isEmpty() {
+        return false;
+    }
 }

@@ -63,6 +63,42 @@ TutorRec is a **desktop app for home tutors to manage student contacts, optimize
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
+### Formatting fields for a person
+
+A person has the following fields: `Name`, `Phone`, `Email`, `Address`, `Note`, `Tag`, and `Appointment`.
+
+Below lists the requirements for each to be a valid field.
+
+- `Name`: Must be alphanumeric.
+  - `Jane`, `Jane1` are valid
+  - `Jane@`, `**&&&` are not valid.
+- `Phone`: Must only contain numbers
+  - `999`, `12341234` are valid.
+  - `123Phone`, `aeiou` are not valid.
+- `Email`: contains two parts, in the format `local-part@domain`
+  - `local-part` must adhere to the following restrictions:
+    - Contain only alphanumeric characters
+    - May contain the following special characters `+_.-`
+    - May not begin with the above mentioned special characters
+  - `domain` must adhere to the following restrictions:
+    - end with a valid label which is at least two characters long
+    - domain start and end labels which start and end with alphanumeric characters
+    - domain start and end labels which are separated by hyphens only, if applicable
+  - With these restrictions in mind, the following are some valid and invalid commands:
+    - `alex@example.com`, `jorge@website.site.com`, `jack_jane.john@example.com` are valid.
+    - `alex@@example.com`, `jorge@website.site.com-`, `jack&jane*john@example.com` are not valid.
+- `Address`: must not be blank or contain only spaces.
+  - Note that entering an address which is blank or has spaces will instead treat a person as having no address. Valid addresses are still only those which do not violate the above criteria.
+- `Note`: must not be blank or contain only spaces
+  - See above.
+- `Tag`: No restrictions
+- `Appointment`: Must be in the format `START_TIME-END_TIME DAY`
+  - `START_TIME` and `END-TIME` are in the format `HH-MM`. The time of `START_TIME` must strictly be smaller than `END_TIME`
+  - `DAY` must be one of the following: `MON`, `TUE`, `WED`, `THU`, `FRI`, `SAT`,`SUN`.
+    - Respectively, these represent Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, and Sunday.
+  - `12:00-13:00 MON`, `16:59-22:00 SUN` are valid.
+  - `13:00-11:00 MON`, `16:0000-19:1234 MON`, `16:00-17:00 SUNDAY` are not valid.
+
 ### Viewing help : `help`
 
 Shows a message explaning how to access the help page.
@@ -76,15 +112,24 @@ Format: `help`
 
 Adds a person to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS nt/NOTE [ap/APPOINTMENT] [t/TAG]…​`
+Format: `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG]…​`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A person can have any number of tags (including 0)
+A person can have any number of tags, and any number of appointments (including 0)
 </div>
 
 Examples:
 * `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01`
-* `add n/Monica Chng t/IB e/mc@example.com a/Dempsey Hill p/81888818 ap/10:00 FRI`
+* `add n/Monica Chng t/IB e/mc@example.com a/Dempsey Hill p/81888818 ap/10:00-12:00 FRI`
+* `add n/Abel nt/Has a brother ap/12:00-15:00 SUN ap/18:00-22:00 TUE`
+
+Only the "Name" field is mandatory. If you do not wish to have the other fields to have values, you can add the person in without the corresponding tag, or leaving the tag blank.
+
+For example:
+* `add n/John`
+* `add n/John a/`
+
+Will both create the same person in the address book (i.e. a person named "John" with no address). The same logic applies to all other fields.
 
 ### Listing all persons : `list`
 
@@ -103,11 +148,13 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ap/APPOINTMENT] [t
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
 * You can remove all the person’s tags by typing `t/` without
-    specifying any tags after it.
+    specifying any tags after it. Appointments work similarly (i.e. typing `ap/` with no appointments after it clears all appointments)
+* You can remove fields (except for name) by typing the tag for the relevant field and leaving it blank
 
 Examples:
 *  `edit 1 p/91234567 e/jj@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `jj@example.com` respectively.
 *  `edit 2 n/Monica Chng t/` Edits the name of the 2nd person to be `Monica Chng` and clears all existing tags.
+*  `edit 3 n/Bobby Brown p/` Edits the name of the 3rd person to be `Bobby Brown` and removes the `phone` field
 
 ### Edits a note to a person : `note`
 
