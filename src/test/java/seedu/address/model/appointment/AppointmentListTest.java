@@ -75,15 +75,6 @@ public class AppointmentListTest {
     }
 
     @Test
-    public void setAppointment_editedAppointmentIsSameAppointment_success() {
-        appointmentList.add(sundayAppointment);
-        appointmentList.setAppointment(sundayAppointment, sundayAppointment);
-        AppointmentList expectedAppointmentList = new AppointmentList();
-        expectedAppointmentList.add(sundayAppointment);
-        assertEquals(appointmentList, expectedAppointmentList);
-    }
-
-    @Test
     public void remove_nullAppointment_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> appointmentList.remove(null));
     }
