@@ -1,16 +1,18 @@
 package seedu.address.model.appointment;
 
-import seedu.address.model.appointment.exceptions.AppointmentNotFoundException;
-import seedu.address.model.appointment.exceptions.OverlappingAppointmentException;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.UniquePersonList;
+import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import seedu.address.model.appointment.exceptions.AppointmentNotFoundException;
+import seedu.address.model.appointment.exceptions.OverlappingAppointmentException;
 
+/**
+ * A list of appointments that enforces no overlapping between its elements and does not allow nulls.
+ * Supports a minimal set of list operations.
+ */
 public class AppointmentList {
     private List<Appointment> internalList = new ArrayList<Appointment>();
 

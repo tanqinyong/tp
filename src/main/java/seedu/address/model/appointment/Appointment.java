@@ -131,9 +131,7 @@ public class Appointment {
     }
 
     /**
-     *
-     * @param other is an appointment
-     * @return True if appointment overlaps with other, otherwise False
+     * Return true if appointment overlaps with other, otherwise False
      */
     public boolean overlapsWith(Appointment other) {
         // days are different
@@ -142,10 +140,9 @@ public class Appointment {
         }
 
         // intervals overlap
-        if (this.startTime.isBefore(other.endTime) &&  other.startTime.isBefore(this.endTime)) {
+        if (this.startTime.isBefore(other.endTime) && other.startTime.isBefore(this.endTime)) {
             return true;
-        }
-        else if (other.startTime.isBefore(this.endTime) && this.startTime.isBefore(other.endTime)) {
+        } else if (other.startTime.isBefore(this.endTime) && this.startTime.isBefore(other.endTime)) {
             return true;
         }
 
