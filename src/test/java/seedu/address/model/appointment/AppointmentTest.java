@@ -1,4 +1,4 @@
-package seedu.address.model.person;
+package seedu.address.model.appointment;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -72,5 +72,24 @@ public class AppointmentTest {
 
         // different values -> returns false
         assertFalse(appointment.equals(new Appointment("13:30-14:30 SAT")));
+    }
+
+    @Test
+    public void overlapsWith() {
+        Appointment appointment = new Appointment("10:00-12:00 FRI");
+        Appointment overlappingAppointment = new Appointment("11:00-13:00 FRI");
+
+        assertTrue(appointment.overlapsWith(overlappingAppointment));
+        assertTrue(overlappingAppointment.overlapsWith(appointment));
+
+        overlappingAppointment = new Appointment("10:00-11:00 FRI");
+
+        assertTrue(appointment.overlapsWith(overlappingAppointment));
+        assertTrue(overlappingAppointment.overlapsWith(appointment));
+
+        Appointment notOverlappingAppointment = new Appointment("12:00-14:00 FRI");
+
+        assertFalse(appointment.overlapsWith(notOverlappingAppointment));
+        assertFalse(notOverlappingAppointment.overlapsWith(appointment));
     }
 }
