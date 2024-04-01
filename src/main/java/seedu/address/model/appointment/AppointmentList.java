@@ -49,7 +49,7 @@ public class AppointmentList {
             throw new AppointmentNotFoundException();
         }
 
-        if (!target.equals(editedAppointment) && hasOverlappingAppointment(editedAppointment)) {
+        if (hasOverlappingAppointment(editedAppointment)) {
             throw new OverlappingAppointmentException();
         }
 
@@ -92,17 +92,6 @@ public class AppointmentList {
         for (int i = 0; i < appointments.size() - 1; i++) {
             for (int j = i + 1; j < appointments.size(); j++) {
                 if (appointments.get(i).overlapsWith(appointments.get(j))) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private boolean appointmentsAreUnique(List<Appointment> appointments) {
-        for (int i = 0; i < appointments.size() - 1; i++) {
-            for (int j = i + 1; j < appointments.size(); j++) {
-                if (appointments.get(i).equals(appointments.get(j))) {
                     return false;
                 }
             }

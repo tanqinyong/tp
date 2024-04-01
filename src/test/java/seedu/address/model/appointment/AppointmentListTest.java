@@ -67,6 +67,14 @@ public class AppointmentListTest {
     }
 
     @Test
+    public void setAppointment_editedAppointmentOverlapsWithList_throwsOverlappingAppointmentException() {
+        appointmentList.add(sundayAppointment);
+        appointmentList.add(fridayAppointment);
+        assertThrows(OverlappingAppointmentException.class, () -> appointmentList.setAppointment(
+                sundayAppointment, sundayOverlappingAppointment));
+    }
+
+    @Test
     public void setAppointment_editedAppointmentIsSameAppointment_success() {
         appointmentList.add(sundayAppointment);
         appointmentList.setAppointment(sundayAppointment, sundayAppointment);
