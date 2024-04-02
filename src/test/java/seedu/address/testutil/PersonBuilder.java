@@ -68,6 +68,8 @@ public class PersonBuilder {
         note = personToCopy.getNote();
         tags = new HashSet<>(personToCopy.getTags());
         appointments = new HashSet<>(personToCopy.getAppointments());
+        subjects = new HashSet<>(personToCopy.getSubjects());
+        level = personToCopy.getLevel();
     }
 
     /**

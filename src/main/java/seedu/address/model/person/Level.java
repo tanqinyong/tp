@@ -29,4 +29,22 @@ public class Level {
     public boolean isEmpty() {
         return false;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof Level)) {
+            return false;
+        }
+
+        if (other instanceof EmptyLevel) {
+            return false;
+        }
+
+        Level otherLevel = (Level) other;
+        return internalLevel.equals(otherLevel.internalLevel);
+    }
 }

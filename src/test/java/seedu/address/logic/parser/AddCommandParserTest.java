@@ -66,7 +66,7 @@ public class AddCommandParserTest {
 
     @Test
     public void parse_allFieldsPresent_success() {
-        Person expectedPerson = new PersonBuilder(BOB).withTags(VALID_TAG_FRIEND).build();
+        Person expectedPerson = new PersonBuilder(BOB).withTags(VALID_TAG_FRIEND).removeLevel().build();
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
@@ -75,7 +75,7 @@ public class AddCommandParserTest {
 
         // multiple tags - all accepted
         Person expectedPersonMultipleTags = new PersonBuilder(BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
-                .build();
+                .removeLevel().build();
         assertParseSuccess(parser,
                 NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
                         + NOTE_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
@@ -84,7 +84,7 @@ public class AddCommandParserTest {
         // multiple appointments - all accepted
         Person expectedPersonMultipleAppointments = new PersonBuilder(CELINE)
                 .withAppointments(VALID_APPOINTMENT_FRIDAY, VALID_APPOINTMENT_SUNDAY)
-                .build();
+                .removeLevel().build();
         assertParseSuccess(parser,
                 NAME_DESC_CELINE + PHONE_DESC_CELINE + EMAIL_DESC_CELINE + ADDRESS_DESC_CELINE
                         + NOTE_DESC_CELINE + APPOINTMENT_DESC_FRIDAY + APPOINTMENT_DESC_SUNDAY,
@@ -94,7 +94,7 @@ public class AddCommandParserTest {
         Person expectedPersonMultipleAppointmentsAndTags = new PersonBuilder(BOB)
                 .withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
                 .withAppointments(VALID_APPOINTMENT_FRIDAY, VALID_APPOINTMENT_SUNDAY)
-                .build();
+                .removeLevel().build();
         assertParseSuccess(parser,
                 NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
                         + NOTE_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND
@@ -161,32 +161,32 @@ public class AddCommandParserTest {
     @Test
     public void parse_optionalFieldsMissing_success() {
         // zero tags
-        Person expectedPerson = new PersonBuilder(AMY).withTags().build();
+        Person expectedPerson = new PersonBuilder(AMY).withTags().removeLevel().build();
         assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY,
                 new AddCommand(expectedPerson));
 
         //No email field
-        Person expectedPersonNoEmail = new PersonBuilder(NO_EMAIL_AMY).withTags().build();
+        Person expectedPersonNoEmail = new PersonBuilder(NO_EMAIL_AMY).withTags().removeLevel().build();
         assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY,
                 new AddCommand(expectedPersonNoEmail));
 
         //No address field
-        Person expectedPersonNoAddress = new PersonBuilder(NO_ADDRESS_AMY).withTags().build();
+        Person expectedPersonNoAddress = new PersonBuilder(NO_ADDRESS_AMY).withTags().removeLevel().build();
         assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + NOTE_DESC_AMY,
                 new AddCommand(expectedPersonNoAddress));
 
         //No phone field
-        Person expectedPersonNoPhone = new PersonBuilder(NO_PHONE_AMY).withTags().build();
+        Person expectedPersonNoPhone = new PersonBuilder(NO_PHONE_AMY).withTags().removeLevel().build();
         assertParseSuccess(parser, NAME_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY,
                 new AddCommand(expectedPersonNoPhone));
 
         //No Note field
-        Person expectedPersonNoNote = new PersonBuilder(NO_NOTE_AMY).withTags().build();
+        Person expectedPersonNoNote = new PersonBuilder(NO_NOTE_AMY).withTags().removeLevel().build();
         assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY,
                 new AddCommand(expectedPersonNoNote));
 
         //Only Name field
-        Person expectedPersonNameOnly = new PersonBuilder(NAME_ONLY_CELINE).withTags().build();
+        Person expectedPersonNameOnly = new PersonBuilder(NAME_ONLY_CELINE).withTags().removeLevel().build();
         assertParseSuccess(parser, NAME_DESC_CELINE, new AddCommand(expectedPersonNameOnly));
     }
 

@@ -157,9 +157,8 @@ public class Person {
             returnedString.add("note", note);
         }
         returnedString.add("tags", tags).add("appointments", appointments);
-        if (!subjects.isEmpty()) {
-            returnedString.add("subjects", subjects);
-        }
+        returnedString.add("subjects", subjects);
+
         if (!level.isEmpty()) {
             returnedString.add("level", level);
         }
