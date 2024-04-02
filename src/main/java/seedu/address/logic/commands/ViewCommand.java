@@ -16,7 +16,7 @@ import seedu.address.model.person.Person;
  *
  * Code is heavily borrowed from existing DeleteCommand.java due to extreme similarities in desired implementation.
  */
-public class ViewCommand  extends Command {
+public class ViewCommand extends Command {
     public static final String COMMAND_WORD = "view";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Displays all information about a person "

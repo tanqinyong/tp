@@ -11,7 +11,7 @@ import java.util.Arrays;
  * Helper functions for handling strings.
  */
 public class StringUtil {
-     public static final String SEPARATOR = "\n------------------------------------------\n";
+    public static final String SEPARATOR = "\n------------------------------------------\n";
 
     /**
      * Returns true if the {@code sentence} contains the {@code word}.

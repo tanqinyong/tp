@@ -10,8 +10,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.commons.util.StringUtil;
+import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
 
 /**

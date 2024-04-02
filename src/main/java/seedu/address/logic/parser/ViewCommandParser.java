@@ -9,9 +9,9 @@ import seedu.address.logic.parser.exceptions.ParseException;
 /**
  * Parses input arguments and creates a new ViewCommand object.
  *
- * Code is heavily borrowed from existing DeleteCommandParser.java due to extreme similarities in desired implementation.
+ * Code is heavily borrowed from existing DeleteCommandParser.java due to similarities in desired implementation.
  */
-public class ViewCommandParser implements Parser<ViewCommand>{
+public class ViewCommandParser implements Parser<ViewCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of ViewCommand and returns
      * a ViewCommand object for execution.
