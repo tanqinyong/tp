@@ -101,7 +101,7 @@ public class PersonTest {
                 + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress()
                 + ", note=" + ALICE.getNote() + ", tags=" + ALICE.getTags()
                 + ", appointments=" + ALICE.getAppointments() + ", subjects="
-                + ALICE.getSubjects() +  ", level=" + ALICE.getLevel() + "}";
+                + ALICE.getSubjects() + ", level=" + ALICE.getLevel() + "}";
         assertEquals(expected, ALICE.toString());
     }
 }

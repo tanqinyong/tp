@@ -40,7 +40,8 @@ public class TypicalPersons {
             .withAddress("311, Clementi Ave 2, #02-25")
             .withEmail("johnd@example.com").withPhone("98765432")
             .withTags("owesMoney", "friends").withNote("He can't take beer!")
-            .withAppointments("12:00-13:00 SUN").build();
+            .withAppointments("12:00-13:00 SUN")
+            .withSubjects("MATH").build();
     public static final Person BENSON_NO_ADDRESS = new PersonBuilder(BENSON).removeAddress().build();
     public static final Person BENSON_NO_PHONE = new PersonBuilder(BENSON).removePhone().build();
     public static final Person BENSON_NO_EMAIL = new PersonBuilder(BENSON).removeEmail().build();
