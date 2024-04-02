@@ -65,7 +65,8 @@ TutorRec is a **desktop app for home tutors to manage student contacts, optimize
 
 ### Formatting fields for a person
 
-A person has the following fields: `Name`, `Phone`, `Email`, `Address`, `Note`, `Tag`, and `Appointment`.
+A person has the following fields: `Name`, `Phone`, `Email`, `Address`, `Note`, `Tag`, `Appointment`,
+`Subject` and `Level`.
 
 Below lists the requirements for each to be a valid field.
 
@@ -92,6 +93,8 @@ Below lists the requirements for each to be a valid field.
 - `Note`: must not be blank or contain only spaces
   - See above.
 - `Tag`: No restrictions
+- `Subject`: Must be "MATH", "SCIENCE" or "ENGLISH".
+- `Level`: Must be "P1", "P2", "P3", "P4", "P5", "P6".
 - `Appointment`: Must be in the format `START_TIME-END_TIME DAY`
   - `START_TIME` and `END-TIME` are in the format `HH-MM`. The time of `START_TIME` must strictly be smaller than `END_TIME`
   - `DAY` must be one of the following: `MON`, `TUE`, `WED`, `THU`, `FRI`, `SAT`,`SUN`.
@@ -112,15 +115,15 @@ Format: `help`
 
 Adds a person to the address book.
 
-Format: `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG]…​`
+Format: `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A person can have any number of tags, and any number of appointments (including 0)
 </div>
 
 Examples:
-* `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01`
-* `add n/Monica Chng t/IB e/mc@example.com a/Dempsey Hill p/81888818 ap/10:00-12:00 FRI`
+* `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01 s/MATH`
+* `add n/Monica Chng e/mc@example.com a/Dempsey Hill p/81888818 ap/10:00-12:00 FRI l/P6`
 * `add n/Abel nt/Has a brother ap/12:00-15:00 SUN ap/18:00-22:00 TUE`
 
 Only the "Name" field is mandatory. If you do not wish to have the other fields to have values, you can add the person in without the corresponding tag, or leaving the tag blank.
@@ -253,10 +256,10 @@ _Details coming soon ..._
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [ap/APPOINTMENT] [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [ap/APPOINTMENT] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
 **Help** | `help`
