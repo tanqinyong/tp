@@ -1,5 +1,9 @@
 package seedu.address.model.person;
 
+/**
+ * Represents a Person's subject in the address book.
+ * Guarantees: immutable; is valid as declared in {@link #isValidSubject(String)}
+ */
 public class Subject {
 
     public static final String MESSAGE_CONSTRAINTS = "Subjects should only be ENGLISH, MATH, or SCIENCE";
