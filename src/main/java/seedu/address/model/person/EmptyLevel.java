@@ -1,5 +1,8 @@
 package seedu.address.model.person;
 
+/**
+ * An Empty Level class, for use when no field is listed in a person's level during creation
+ */
 public class EmptyLevel extends Level {
     public EmptyLevel() {
         super();

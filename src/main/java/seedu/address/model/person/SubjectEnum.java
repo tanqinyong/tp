@@ -1,5 +1,5 @@
 package seedu.address.model.person;
 
-public enum SubjectEnum {
+enum SubjectEnum {
     ENGLISH, MATH, SCIENCE
 }

@@ -1,5 +1,9 @@
 package seedu.address.model.person;
 
+/**
+ * Represents a Person's level in the address book.
+ * Guarantees: immutable; is always valid
+ */
 public class Level {
     public static final String MESSAGE_CONSTRAINTS = "Levels should only be P1, P2, P3, P4, P5 or P6";
 
@@ -13,10 +17,14 @@ public class Level {
         this.internalLevel = null;
     }
 
+    @Override
     public String toString() {
         return internalLevel.toString();
     }
 
+    /**
+     * Returns if a given string is a valid level.
+     */
     public static boolean isValidLevel(String test) {
         try {
             LevelEnum.valueOf(test);

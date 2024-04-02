@@ -20,6 +20,9 @@ public class Subject {
         return internalSubject.toString();
     }
 
+    /**
+     * Returns true if a given string is a valid subject.
+     */
     public static boolean isValidSubject(String test) {
         try {
             SubjectEnum.valueOf(test);
