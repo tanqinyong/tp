@@ -103,7 +103,8 @@ public class Person {
         detailList.add(this.getEmail().isEmpty() ? "-" : this.getEmail().value + "\n");
         detailList.add(this.getAddress().isEmpty() ? "-" : this.getAddress().value + "\n");
         detailList.add(StringUtil.SEPARATOR);
-        detailList.add("\nAPPOINTMENTS:\n" + (this.getAppointments().isEmpty()
+        detailList.add("\nAPPOINTMENTS:\n");
+        detailList.add(this.getAppointments().isEmpty()
                 ? "-\n"
                 : this.getAppointments().stream()
                 .map(Object::toString)
