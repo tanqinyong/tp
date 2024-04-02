@@ -2,12 +2,16 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.commons.util.StringUtil;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -76,6 +80,39 @@ public class Person {
      */
     public Set<Appointment> getAppointments() {
         return Collections.unmodifiableSet(appointments);
+    }
+
+    /**
+     * Returns a formatted string that contains all the details of the Person object for the
+     * View command.
+     */
+    public List<String> getViewDetails() {
+        List<String> detailList = new ArrayList<>();
+
+        detailList.add(this.getName().fullName.toUpperCase() + "\n");
+        detailList.add("\nTAGS: " + (this.getTags().isEmpty()
+                ? "-"
+                : this.getTags().stream()
+                .map(Object::toString)
+                .map(str -> str + " ")
+                .collect(Collectors.joining())) + "\n"
+        );
+        detailList.add(StringUtil.SEPARATOR);
+        detailList.add("\nDETAILS:\n");
+        detailList.add(this.getPhone().isEmpty() ? "-" : this.getPhone().value + "\n");
+        detailList.add(this.getEmail().isEmpty() ? "-" : this.getEmail().value + "\n");
+        detailList.add(this.getAddress().isEmpty() ? "-" : this.getAddress().value + "\n");
+        detailList.add(StringUtil.SEPARATOR);
+        detailList.add("\nAPPOINTMENTS:\n" + (this.getAppointments().isEmpty()
+                ? "-\n"
+                : this.getAppointments().stream()
+                .map(Object::toString)
+                .map(str -> str + "\n")
+                .collect(Collectors.joining())));
+        detailList.add(StringUtil.SEPARATOR);
+        detailList.add("\nNOTES:\n" + (this.getNote().isEmpty() ? "-" : this.getNote().value));
+
+        return detailList;
     }
 
     /**
