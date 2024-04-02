@@ -26,14 +26,16 @@ public class Person {
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
     private final Set<Appointment> appointments = new HashSet<>();
+    private final Set<Subject> subjects = new HashSet<>();
+    private final Level level;
 
     /**
      * Every field must be present and not null.
      */
     public Person(
-        Name name, Phone phone, Email email, Address address, Note note, Set<Tag> tags, Set<Appointment> appointments
+        Name name, Phone phone, Email email, Address address, Note note, Set<Tag> tags, Set<Appointment> appointments, Set<Subject> subjects, Level level
     ) {
-        requireAllNonNull(name, phone, email, address, tags, appointments);
+        requireAllNonNull(name, phone, email, address, tags, appointments, subjects, level);
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -41,6 +43,8 @@ public class Person {
         this.note = note;
         this.tags.addAll(tags);
         this.appointments.addAll(appointments);
+        this.subjects.addAll(subjects);
+        this.level = level;
     }
 
     public Name getName() {
@@ -63,6 +67,10 @@ public class Person {
         return note;
     }
 
+    public Level getLevel() {
+        return level;
+    }
+
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
@@ -76,6 +84,14 @@ public class Person {
      */
     public Set<Appointment> getAppointments() {
         return Collections.unmodifiableSet(appointments);
+    }
+
+    /**
+     * Returns an immutable subject set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public Set<Subject> getSubjects() {
+        return Collections.unmodifiableSet(subjects);
     }
 
     /**
@@ -113,13 +129,15 @@ public class Person {
                 && address.equals(otherPerson.address)
                 && note.equals(otherPerson.note)
                 && tags.equals(otherPerson.tags)
-                && appointments.equals(otherPerson.appointments);
+                && appointments.equals(otherPerson.appointments)
+                && subjects.equals(otherPerson.subjects)
+                && level.equals(otherPerson.level);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags, appointments);
+        return Objects.hash(name, phone, email, address, tags, appointments, note, subjects, level);
     }
 
     @Override
@@ -138,6 +156,13 @@ public class Person {
         if (!note.isEmpty()) {
             returnedString.add("note", note);
         }
-        return returnedString.add("tags", tags).add("appointments", appointments).toString();
+        returnedString.add("tags", tags).add("appointments", appointments);
+        if (!subjects.isEmpty()) {
+            returnedString.add("subjects", subjects);
+        }
+        if (!level.isEmpty()) {
+            returnedString.add("level", level);
+        }
+        return returnedString.toString();
     }
 }

@@ -8,12 +8,15 @@ import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmptyAddress;
 import seedu.address.model.person.EmptyEmail;
+import seedu.address.model.person.EmptyLevel;
 import seedu.address.model.person.EmptyNote;
 import seedu.address.model.person.EmptyPhone;
+import seedu.address.model.person.Level;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Subject;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -27,6 +30,7 @@ public class PersonBuilder {
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_NOTE = "She likes aardvarks.";
+    public static final String DEFAULT_LEVEL = "P1";
 
     private Name name;
     private Phone phone;
@@ -35,6 +39,8 @@ public class PersonBuilder {
     private Note note;
     private Set<Tag> tags;
     private Set<Appointment> appointments;
+    private Set<Subject> subjects;
+    private Level level;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -45,9 +51,10 @@ public class PersonBuilder {
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
         note = new Note(DEFAULT_NOTE);
-
         tags = new HashSet<>();
         appointments = new HashSet<>();
+        subjects = new HashSet<>();
+        level = new Level(DEFAULT_LEVEL);
     }
 
     /**
@@ -89,6 +96,15 @@ public class PersonBuilder {
     }
 
     /**
+     * Parses the {@code subjects} into a {@code Set<Subject>}
+     * and set it to the {@code Person} that we are building.
+     */
+    public PersonBuilder withSubjects(String ... subjects) {
+        this.subjects = SampleDataUtil.getSubjectSet(subjects);
+        return this;
+    }
+
+    /**
      * Sets the {@code Address} of the {@code Person} that we are building.
      */
     public PersonBuilder withAddress(String address) {
@@ -117,6 +133,14 @@ public class PersonBuilder {
      */
     public PersonBuilder withNote(String note) {
         this.note = new Note(note);
+        return this;
+    }
+
+    /**
+     * Sets the {@code Level} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withLevel(String level) {
+        this.level = new Level(level);
         return this;
     }
 
@@ -152,8 +176,16 @@ public class PersonBuilder {
         return this;
     }
 
+    /**
+     * Removes the {@code Level} of the {@code Person} and replaces it with a {@code EmptyLevel}
+     */
+    public PersonBuilder removeLevel() {
+        this.level = new EmptyLevel();
+        return this;
+    }
+
     public Person build() {
-        return new Person(name, phone, email, address, note, tags, appointments);
+        return new Person(name, phone, email, address, note, tags, appointments, subjects, level);
     }
 
 }
