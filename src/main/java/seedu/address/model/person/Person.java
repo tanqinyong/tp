@@ -109,7 +109,7 @@ public class Person {
                 : this.getAppointments().stream()
                 .map(Object::toString)
                 .map(str -> str + "\n")
-                .collect(Collectors.joining())));
+                .collect(Collectors.joining()));
         detailList.add(StringUtil.SEPARATOR);
         detailList.add("\nNOTES:\n" + (this.getNote().isEmpty() ? "-" : this.getNote().value));
 
