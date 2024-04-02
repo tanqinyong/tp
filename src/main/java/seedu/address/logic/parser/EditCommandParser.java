@@ -17,7 +17,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -43,7 +42,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         Index index;
 
         if (argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_NO_INDEX_EDIT_COMMAND, AddCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_NO_INDEX_EDIT_COMMAND, EditCommand.MESSAGE_USAGE));
         }
 
         try {
