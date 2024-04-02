@@ -95,7 +95,8 @@ public class Person {
                 : this.getTags().stream()
                 .map(Object::toString)
                 .map(str -> str + " ")
-                .collect(Collectors.joining())) + "\n"
+                .collect(Collectors.joining())
+                .trim()) + "\n"
         );
         detailList.add(StringUtil.SEPARATOR);
         detailList.add("\nDETAILS:\n");
