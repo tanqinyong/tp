@@ -13,7 +13,7 @@ import seedu.address.model.tag.Tag;
  * Jackson-friendly version of {@link seedu.address.model.person.Subject}.
  */
 public class JsonAdaptedSubject {
-    
+
     private final String subject;
 
     /**
