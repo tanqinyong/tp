@@ -35,4 +35,23 @@ public class Subject {
             return false;
         }
     }
+
+    @Override
+    public int hashCode() {
+        return internalSubject.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof Subject)) {
+            return false;
+        }
+
+        Subject otherSubject = (Subject) other;
+        return internalSubject.equals(otherSubject.internalSubject);
+    }
 }
