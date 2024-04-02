@@ -89,6 +89,8 @@ public class Person {
     public List<String> getViewDetails() {
         List<String> detailList = new ArrayList<>();
 
+        assert this.getName() != null;
+        
         detailList.add(this.getName().fullName.toUpperCase() + "\n");
         detailList.add("\nTAGS: " + (this.getTags().isEmpty()
                 ? "-"
