@@ -19,6 +19,9 @@ public class Messages {
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
 
+    public static final String MESSAGE_NO_NAME_ADD_COMMAND = "No name provided! Please add name with n/[NAME]. \n%1$s";
+    public static final String MESSAGE_NO_INDEX_EDIT_COMMAND = "No valid index provided! \n%1$s";
+
     /**
      * Returns an error message indicating the duplicate prefixes.
      */
