@@ -13,8 +13,12 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BOB;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.util.StringUtil;
 import seedu.address.testutil.PersonBuilder;
 
 public class PersonTest {
@@ -42,9 +46,9 @@ public class PersonTest {
         editedAlice = new PersonBuilder(ALICE).withName(VALID_NAME_BOB).build();
         assertFalse(ALICE.isSamePerson(editedAlice));
 
-        // name differs in case, all other attributes same -> returns false
+        // name differs in case, all other attributes same -> returns true
         Person editedBob = new PersonBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertFalse(BOB.isSamePerson(editedBob));
+        assertTrue(BOB.isSamePerson(editedBob));
 
         // name has trailing spaces, all other attributes same -> returns false
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
@@ -93,6 +97,13 @@ public class PersonTest {
         // different tags -> returns false
         editedAlice = new PersonBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(ALICE.equals(editedAlice));
+
+        // no appointments -> returns false
+        assertFalse(ALICE.hasAppointments());
+
+        // has appointments -> returns true;
+        editedAlice = new PersonBuilder(ALICE).withAppointments("08:00-09:00 SUN").build();
+        assertTrue(editedAlice.hasAppointments());
     }
 
     @Test
@@ -100,7 +111,27 @@ public class PersonTest {
         String expected = Person.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
                 + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress()
                 + ", note=" + ALICE.getNote() + ", tags=" + ALICE.getTags()
-                + ", appointments=" + ALICE.getAppointments() + "}";
+                + ", appointments=" + ALICE.getAppointments() + ", subjects="
+                + ALICE.getSubjects() + ", level=" + ALICE.getLevel() + "}";
         assertEquals(expected, ALICE.toString());
+    }
+
+    @Test
+    public void getViewDetailsMethod() {
+        List<String> expected = new ArrayList<>();
+        expected.add("ALICE PAULINE\n");
+        expected.add("\nTAGS: [friends]\n");
+        expected.add(StringUtil.SEPARATOR);
+        expected.add("\nDETAILS:\n");
+        expected.add("94351253\n");
+        expected.add("alice@example.com\n");
+        expected.add("123, Jurong West Ave 6, #08-111\n");
+        expected.add(StringUtil.SEPARATOR);
+        expected.add("\nAPPOINTMENTS:\n");
+        expected.add("-\n");
+        expected.add(StringUtil.SEPARATOR);
+        expected.add("\nNOTES:\nShe likes aardvarks.");
+
+        assertEquals(expected.toString(), ALICE.getViewDetails().toString());
     }
 }

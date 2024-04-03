@@ -1,4 +1,4 @@
-package seedu.address.model.person;
+package seedu.address.model.appointment;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
@@ -18,7 +18,7 @@ public class Appointment {
             + "HH is from 00 to 23, "
             + "MM is from 00 to 59.\n"
             + "2. This is followed by a DAY. "
-            + "DAY must be one of: 'MON', 'TUE', 'WED','THU', 'FRI', 'SAT','SUN'\n";
+            + "DAY must be one of: 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT','SUN'\n";
     // alphanumeric and special characters
     private static final String HOUR = "[\\d]{2}";
     private static final String MINUTE = "[\\d]{2}";
@@ -62,7 +62,7 @@ public class Appointment {
     }
 
     /**
-     * Returns true if a given string is a appointment.
+     * Returns true if a given string is an appointment.
      */
     public static boolean isValidAppointment(String test) {
         if (!(test.matches(VALIDATION_REGEX))) {
@@ -128,6 +128,25 @@ public class Appointment {
 
         Appointment otherAppointment = (Appointment) other;
         return value.equals(otherAppointment.value);
+    }
+
+    /**
+     * Return true if appointment overlaps with other, otherwise False
+     */
+    public boolean overlapsWith(Appointment other) {
+        // days are different
+        if (this.day != other.day) {
+            return false;
+        }
+
+        // intervals overlap
+        if (this.startTime.isBefore(other.endTime) && other.startTime.isBefore(this.endTime)) {
+            return true;
+        } else if (other.startTime.isBefore(this.endTime) && this.startTime.isBefore(other.endTime)) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override

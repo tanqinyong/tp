@@ -2,12 +2,17 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import seedu.address.commons.util.StringUtil;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.appointment.Appointment;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -26,14 +31,17 @@ public class Person {
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
     private final Set<Appointment> appointments = new HashSet<>();
+    private final Set<Subject> subjects = new HashSet<>();
+    private final Level level;
 
     /**
      * Every field must be present and not null.
      */
     public Person(
-        Name name, Phone phone, Email email, Address address, Note note, Set<Tag> tags, Set<Appointment> appointments
+        Name name, Phone phone, Email email, Address address, Note note,
+        Set<Tag> tags, Set<Appointment> appointments, Set<Subject> subjects, Level level
     ) {
-        requireAllNonNull(name, phone, email, address, tags, appointments);
+        requireAllNonNull(name, phone, email, address, tags, appointments, subjects, level);
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -41,6 +49,8 @@ public class Person {
         this.note = note;
         this.tags.addAll(tags);
         this.appointments.addAll(appointments);
+        this.subjects.addAll(subjects);
+        this.level = level;
     }
 
     public Name getName() {
@@ -63,6 +73,10 @@ public class Person {
         return note;
     }
 
+    public Level getLevel() {
+        return level;
+    }
+
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
@@ -70,12 +84,65 @@ public class Person {
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
     }
+
     /**
      * Returns an immutable appointment set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
     public Set<Appointment> getAppointments() {
         return Collections.unmodifiableSet(appointments);
+    }
+
+    /**
+     * Returns an immutable subject set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public Set<Subject> getSubjects() {
+        return Collections.unmodifiableSet(subjects);
+    }
+
+    /**
+     * Returns a formatted string that contains all the details of the Person object for the
+     * View command.
+     */
+    public List<String> getViewDetails() {
+        List<String> detailList = new ArrayList<>();
+
+        assert this.getName() != null;
+        detailList.add(this.getName().fullName.toUpperCase() + "\n");
+        detailList.add("\nTAGS: " + (this.getTags().isEmpty()
+                ? "-"
+                : this.getTags().stream()
+                .map(Object::toString)
+                .map(str -> str + " ")
+                .collect(Collectors.joining())
+                .trim()) + "\n"
+        );
+        detailList.add(StringUtil.SEPARATOR);
+        detailList.add("\nDETAILS:\n");
+        detailList.add(this.getPhone().isEmpty() ? "-" : this.getPhone().value + "\n");
+        detailList.add(this.getEmail().isEmpty() ? "-" : this.getEmail().value + "\n");
+        detailList.add(this.getAddress().isEmpty() ? "-" : this.getAddress().value + "\n");
+        detailList.add(StringUtil.SEPARATOR);
+        detailList.add("\nAPPOINTMENTS:\n");
+        detailList.add(this.getAppointments().isEmpty()
+                ? "-\n"
+                : this.getAppointments().stream()
+                .map(Object::toString)
+                .map(str -> str + "\n")
+                .collect(Collectors.joining()));
+        detailList.add(StringUtil.SEPARATOR);
+        detailList.add("\nNOTES:\n" + (this.getNote().isEmpty() ? "-" : this.getNote().value));
+
+        return detailList;
+
+    }
+
+    /**
+     * Returns a boolean value which indicates whether the person has any appointments.
+     */
+    public boolean hasAppointments() {
+        return !appointments.isEmpty();
     }
 
     /**
@@ -113,7 +180,9 @@ public class Person {
                 && address.equals(otherPerson.address)
                 && note.equals(otherPerson.note)
                 && tags.equals(otherPerson.tags)
-                && appointments.equals(otherPerson.appointments);
+                && appointments.equals(otherPerson.appointments)
+                && subjects.equals(otherPerson.subjects)
+                && level.equals(otherPerson.level);
     }
 
     @Override
@@ -124,15 +193,26 @@ public class Person {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .add("name", name)
-                .add("phone", phone)
-                .add("email", email)
-                .add("address", address)
-                .add("note", note)
-                .add("tags", tags)
-                .add("appointments", appointments)
-                .toString();
-    }
+        ToStringBuilder returnedString = new ToStringBuilder(this)
+                .add("name", name);
+        if (!phone.isEmpty()) {
+            returnedString.add("phone", phone);
+        }
+        if (!email.isEmpty()) {
+            returnedString.add("email", email);
+        }
+        if (!address.isEmpty()) {
+            returnedString.add("address", address);
+        }
+        if (!note.isEmpty()) {
+            returnedString.add("note", note);
+        }
+        returnedString.add("tags", tags).add("appointments", appointments);
+        returnedString.add("subjects", subjects);
 
+        if (!level.isEmpty()) {
+            returnedString.add("level", level);
+        }
+        return returnedString.toString();
+    }
 }

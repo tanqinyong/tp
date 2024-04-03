@@ -25,10 +25,11 @@ public class ViewAppointmentsCommandTest {
         expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
     }
 
-    // Basic test for now, will include more as we develop.
+    // Test modified to account for revised Appointment command where contact name is shown
     @Test
     public void execute_viewAppointments_success() {
         String expectedMessage = "Appointments:\n"
+                + "\nBenson Meier\n"
                 + "12:00-13:00 SUN";
         assertCommandSuccess(new ViewAppointmentsCommand(), model, expectedMessage, expectedModel);
     }

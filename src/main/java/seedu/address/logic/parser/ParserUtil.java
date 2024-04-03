@@ -9,12 +9,19 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.appointment.Appointment;
 import seedu.address.model.person.Address;
-import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.EmptyAddress;
+import seedu.address.model.person.EmptyEmail;
+import seedu.address.model.person.EmptyLevel;
+import seedu.address.model.person.EmptyNote;
+import seedu.address.model.person.EmptyPhone;
+import seedu.address.model.person.Level;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Subject;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -59,8 +66,13 @@ public class ParserUtil {
      * @throws ParseException if the given {@code phone} is invalid.
      */
     public static Phone parsePhone(String phone) throws ParseException {
-        requireNonNull(phone);
+        if (phone == null) {
+            return new EmptyPhone();
+        }
         String trimmedPhone = phone.trim();
+        if (phone.equals("")) {
+            return new EmptyPhone();
+        }
         if (!Phone.isValidPhone(trimmedPhone)) {
             throw new ParseException(Phone.MESSAGE_CONSTRAINTS);
         }
@@ -74,8 +86,13 @@ public class ParserUtil {
      * @throws ParseException if the given {@code address} is invalid.
      */
     public static Address parseAddress(String address) throws ParseException {
-        requireNonNull(address);
+        if (address == null) {
+            return new EmptyAddress();
+        }
         String trimmedAddress = address.trim();
+        if (address.equals("")) {
+            return new EmptyAddress();
+        }
         if (!Address.isValidAddress(trimmedAddress)) {
             throw new ParseException(Address.MESSAGE_CONSTRAINTS);
         }
@@ -89,8 +106,13 @@ public class ParserUtil {
      * @throws ParseException if the given {@code email} is invalid.
      */
     public static Email parseEmail(String email) throws ParseException {
-        requireNonNull(email);
+        if (email == null) {
+            return new EmptyEmail();
+        }
         String trimmedEmail = email.trim();
+        if (email.equals("")) {
+            return new EmptyEmail();
+        }
         if (!Email.isValidEmail(trimmedEmail)) {
             throw new ParseException(Email.MESSAGE_CONSTRAINTS);
         }
@@ -119,8 +141,13 @@ public class ParserUtil {
      * @throws ParseException if the given {@code note} is invalid.
      */
     public static Note parseNote(String note) throws ParseException {
-        requireNonNull(note);
+        if (note == null) {
+            return new EmptyNote();
+        }
         String trimmedNote = note.trim();
+        if (note.equals("")) {
+            return new EmptyNote();
+        }
         return new Note(trimmedNote);
     }
 
@@ -159,5 +186,45 @@ public class ParserUtil {
             appointmentSet.add(parseAppointment(appointment));
         }
         return appointmentSet;
+    }
+
+    /**
+     * Parses a {@code String subject} into a {@code Subject}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code subject} is invalid.
+     */
+    private static Subject parseSubject(String subject) throws ParseException {
+        requireNonNull(subject);
+        String trimmedSubject = subject.trim();
+        if (!Subject.isValidSubject(trimmedSubject)) {
+            throw new ParseException(Subject.MESSAGE_CONSTRAINTS);
+        }
+        return new Subject(trimmedSubject);
+    }
+
+    /**
+     * Parses {@code Collection<String> subjects} into a {@code Set<Subject>}.
+     */
+    public static Set<Subject> parseSubjects(Collection<String> subjects) throws ParseException {
+        requireNonNull(subjects);
+        final Set<Subject> subjectSet = new HashSet<>();
+        for (String subjectName : subjects) {
+            subjectSet.add(parseSubject(subjectName));
+        }
+        return subjectSet;
+    }
+
+    /**
+     * Parses a {@code String level} into a {@code Level}.
+     */
+    public static Level parseLevel(String level) {
+        if (level == null) {
+            return new EmptyLevel();
+        }
+        if (!Level.isValidLevel(level)) {
+            throw new IllegalArgumentException(Level.MESSAGE_CONSTRAINTS);
+        }
+        return new Level(level);
     }
 }

@@ -56,5 +56,13 @@ public class PhoneTest {
 
         // different values -> returns false
         assertFalse(phone.equals(new Phone("995")));
+
+        // EmptyPhone -> returns false
+        assertFalse(phone.equals(new EmptyPhone()));
+    }
+
+    @Test
+    public void checkEmptiness() {
+        assertFalse(new Phone("776").isEmpty());
     }
 }

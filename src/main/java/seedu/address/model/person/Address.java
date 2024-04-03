@@ -30,6 +30,10 @@ public class Address {
         value = address;
     }
 
+    protected Address() {
+        value = null;
+    }
+
     /**
      * Returns true if a given string is a valid email.
      */
@@ -53,6 +57,10 @@ public class Address {
             return false;
         }
 
+        if (other instanceof EmptyAddress) {
+            return false;
+        }
+
         Address otherAddress = (Address) other;
         return value.equals(otherAddress.value);
     }
@@ -62,4 +70,7 @@ public class Address {
         return value.hashCode();
     }
 
+    public boolean isEmpty() {
+        return false;
+    }
 }

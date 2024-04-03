@@ -52,5 +52,13 @@ public class AddressTest {
 
         // different values -> returns false
         assertFalse(address.equals(new Address("Other Valid Address")));
+
+        // EmptyAddress -> returns false
+        assertFalse(address.equals(new EmptyAddress()));
+    }
+
+    @Test
+    public void checkEmptiness() {
+        assertFalse(new Address("dummy").isEmpty());
     }
 }
