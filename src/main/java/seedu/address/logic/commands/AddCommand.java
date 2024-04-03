@@ -14,6 +14,7 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.appointment.Appointment;
+import seedu.address.model.appointment.AppointmentList;
 import seedu.address.model.person.Person;
 
 /**
@@ -46,6 +47,7 @@ public class AddCommand extends Command {
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
     public static final String MESSAGE_OVERLAPPING_APPOINTMENT = "The appointments clash with an existing appointment";
+    public static final String MESSAGE_OVERLAPPING_APPOINTMENT_ARGUMENTS = "These appointments clash with each other";
 
     private final Person toAdd;
 
@@ -65,10 +67,15 @@ public class AddCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
+        AppointmentList appointments = new AppointmentList();
         for (Appointment appointment : toAdd.getAppointments()) {
             if (model.appointmentsOverlap(appointment)) {
                 throw new CommandException(MESSAGE_OVERLAPPING_APPOINTMENT);
             }
+            if (appointments.overlaps(appointment)) {
+                throw new CommandException(MESSAGE_OVERLAPPING_APPOINTMENT_ARGUMENTS);
+            }
+            appointments.add(appointment);
         }
 
         model.addPerson(toAdd);
