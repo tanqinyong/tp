@@ -177,6 +177,17 @@ It can be seen here that each appointment, after being parsed, will be added to 
 
 Note that certain details, such as other fields in a `Person` have been omitted for brevity.
 
+### Notes for students
+#### Implementation
+
+TutorRec is able to add notes to each student. They are added as a field (`/nt`) when doing an `add` or `edit` command, so something similar to:
+
+`edit 1 /nt "This student is very good at math, but struggles with English."` will edit the person on index 1 to have the note "This student is very good at math, but struggles with English."
+
+The class diagram below shows the classes involved in the implementation of the NoteCommand.
+
+![NotesClassDiagram](images/NotesClassDiagram.png)
+
 ### Listing Students
 
 #### Implementation

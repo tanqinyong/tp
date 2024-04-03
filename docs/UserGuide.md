@@ -140,6 +140,14 @@ Shows a list of all persons in the address book.
 
 Format: `list`
 
+### Viewing a person : `view`
+
+Displays all information of a person.
+
+Format: `view INDEX`
+
+* Displays all information of the person at the specified index. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, ...
+
 ### Editing a person : `edit`
 
 Edits an existing person in the address book.
@@ -208,6 +216,8 @@ Displays all current appointments across all users from the address book.
 
 Format: `appointments`
 
+* Displays all current appointments along with the persons involved.
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
@@ -262,4 +272,5 @@ Action | Format, Examples
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
+**View** | `view INDEX`
 **Help** | `help`

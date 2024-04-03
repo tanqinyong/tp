@@ -73,6 +73,14 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Returns a list of persons with similar name as {@code person}.
+     */
+    public List<String> findNearDuplicates(Person person) {
+        requireNonNull(person);
+        return persons.findNearDuplicates(person);
+    }
+
+    /**
      * Adds a person to the address book.
      * The person must not already exist in the address book.
      */

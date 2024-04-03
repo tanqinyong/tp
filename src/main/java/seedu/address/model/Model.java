@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -58,6 +59,12 @@ public interface Model {
      * Returns true if a person with the same identity as {@code person} exists in the address book.
      */
     boolean hasPerson(Person person);
+
+    /**
+     * Returns a list of persons with similar name as {@code person}.
+     */
+    List<String> findNearDuplicates(Person person);
+
 
     /**
      * Deletes the given person.

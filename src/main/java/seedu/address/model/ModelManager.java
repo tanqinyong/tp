@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -95,6 +96,15 @@ public class ModelManager implements Model {
     public boolean hasPerson(Person person) {
         requireNonNull(person);
         return addressBook.hasPerson(person);
+    }
+
+    /**
+     * Returns a list of persons with similar name as {@code person}.
+     */
+    @Override
+    public List<String> findNearDuplicates(Person person) {
+        requireNonNull(person);
+        return addressBook.findNearDuplicates(person);
     }
 
     @Override
