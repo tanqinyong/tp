@@ -115,7 +115,6 @@ public class ModelManager implements Model {
     @Override
     public void addPerson(Person person) {
         addressBook.addPerson(person);
-        addAppointments(person);
 
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
@@ -138,12 +137,6 @@ public class ModelManager implements Model {
     public boolean appointmentsOverlap(Set<Appointment> appointments) {
         requireNonNull(appointments);
         return addressBook.appointmentsOverlap(appointments);
-    }
-
-    private void addAppointments(Person person) {
-        for (Appointment appointment : person.getAppointments()) {
-            addressBook.addAppointment(appointment);
-        }
     }
 
     @Override
