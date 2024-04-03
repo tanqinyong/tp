@@ -5,11 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalAppointments.SUN_APPOINTMENT_10_TO_12;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.appointment.Appointment;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
 
@@ -51,6 +54,16 @@ public class AddCommandTest {
         ModelStub modelStub = new ModelStubWithPerson(validPerson);
 
         assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
+    }
+
+    @Test
+    public void execute_overlappingAppointment_throwsCommandException() {
+        Person anotherPerson = new PersonBuilder(ALICE).withAppointments("11:00-13:00 SUN").build();
+        AddCommand addCommand = new AddCommand(anotherPerson);
+        ModelStub modelStub = new ModelStubWithAppointment(SUN_APPOINTMENT_10_TO_12);
+
+        assertThrows(CommandException.class,
+                AddCommand.MESSAGE_OVERLAPPING_APPOINTMENT, () -> addCommand.execute(modelStub));
     }
 
     @Test
@@ -149,12 +162,37 @@ public class AddCommandTest {
         }
 
         @Override
+        public void setAppointment(Appointment target, Appointment editedAppointment) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public ObservableList<Person> getFilteredPersonList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public void updateFilteredPersonList(Predicate<Person> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateFilteredAppointmentList(Predicate<Appointment> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean appointmentsOverlap(Appointment appointment) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean appointmentsOverlap(Set<Appointment> appointments) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Appointment> getFilteredAppointmentList() {
             throw new AssertionError("This method should not be called.");
         }
     }
@@ -174,6 +212,29 @@ public class AddCommandTest {
         public boolean hasPerson(Person person) {
             requireNonNull(person);
             return this.person.isSamePerson(person);
+        }
+    }
+
+    /**
+     * A Model stub that contains a single appointment.
+     */
+    private class ModelStubWithAppointment extends ModelStub {
+        private final Appointment appointment;
+
+        ModelStubWithAppointment(Appointment appointment) {
+            requireNonNull(appointment);
+            this.appointment = appointment;
+        }
+
+        @Override
+        public boolean hasPerson(Person person) {
+            return false;
+        }
+
+        @Override
+        public boolean appointmentsOverlap(Appointment appointment) {
+            requireNonNull(appointment);
+            return this.appointment.overlapsWith(appointment);
         }
     }
 
