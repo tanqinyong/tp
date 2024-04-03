@@ -60,6 +60,14 @@ TutorRec is a **desktop app for home tutors to manage student contacts, optimize
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
+* Prefixes are adjusted to accept slightly incorrect variations and **minor** typos, e.g., `phon/`, `addr/`, `subj/`, `lvl/`.
+
+    * You may choose to use short form or long form of prefixes, e.g., `n/` or `name/`, which are interchangeable.
+
+* TutorRec does not allow for duplicate contacts, and contacts are differentiated by their unique names.
+
+    * Names are not case-sensitive, `John Doe` is the same name as `JOhn dOE`, however, whitespaces do differentiate names apart, e.g., `Mary Anne` is a different name (and person) from `Maryanne`.
+
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
