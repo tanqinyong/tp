@@ -140,7 +140,7 @@ public class Person {
         String summaryString = "\n";
         summaryString += this.getLevel().isEmpty()
                 ? ""
-                :"[" + this.getLevel().toString() + "] ";
+                : "[" + this.getLevel().toString() + "] ";
         summaryString += this.getSubjects().isEmpty()
                 ? ""
                 : this.getSubjects().stream()
