@@ -72,15 +72,11 @@ public class AddCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
-        AppointmentList appointments = new AppointmentList();
-        for (Appointment appointment : toAdd.getAppointments()) {
-            if (model.appointmentsOverlap(appointment)) {
-                throw new CommandException(MESSAGE_OVERLAPPING_APPOINTMENT);
-            }
-            if (appointments.overlaps(appointment)) {
-                throw new CommandException(MESSAGE_OVERLAPPING_APPOINTMENT_ARGUMENTS);
-            }
-            appointments.add(appointment);
+        if (model.appointmentsOverlap(toAdd.getAppointments())) {
+            throw new CommandException(MESSAGE_OVERLAPPING_APPOINTMENT);
+        }
+        if (Appointment.hasOverlapping(toAdd.getAppointments())) {
+            throw new CommandException(MESSAGE_OVERLAPPING_APPOINTMENT_ARGUMENTS);
         }
 
         // Duplicate Detection feature
