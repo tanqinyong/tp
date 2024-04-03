@@ -39,7 +39,10 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NOTE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_SUBJECT_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_SUBJECT_CELINE;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_SUBJECT_MATH;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_SUBJECT_MT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
@@ -101,6 +104,17 @@ public class AddCommandParserTest {
                         + LEVEL_DESC_CELINE + SUBJECT_DESC_CELINE,
                 new AddCommand(expectedPersonMultipleAppointments));
 
+        // multiple subjects - all accepted
+        Person expectedPersonMultipleSubjects = new PersonBuilder(BOB)
+                .withTags(VALID_TAG_FRIEND)
+                .withSubjects(VALID_SUBJECT_BOB, VALID_SUBJECT_MT)
+                .build();
+        assertParseSuccess(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+                        + NOTE_DESC_BOB + TAG_DESC_FRIEND
+                        + LEVEL_DESC_BOB + SUBJECT_DESC_BOB + SUBJECT_DESC_MT,
+                new AddCommand(expectedPersonMultipleSubjects));
+
         // multiple tags AND appointments - all accepted
         Person expectedPersonMultipleAppointmentsAndTags = new PersonBuilder(BOB)
                 .withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
@@ -112,6 +126,19 @@ public class AddCommandParserTest {
                         + APPOINTMENT_DESC_FRIDAY + APPOINTMENT_DESC_SUNDAY
                         + SUBJECT_DESC_BOB + LEVEL_DESC_BOB,
                 new AddCommand(expectedPersonMultipleAppointmentsAndTags));
+
+        // multiple tags, appointments AND subjects - all accepted
+        Person expectedPersonMultipleTagsAppointmentsAndSubjects = new PersonBuilder(CELINE)
+                .withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
+                .withAppointments(VALID_APPOINTMENT_FRIDAY, VALID_APPOINTMENT_SUNDAY)
+                .withSubjects(VALID_SUBJECT_CELINE, VALID_SUBJECT_MATH)
+                .build();
+        assertParseSuccess(parser,
+                NAME_DESC_CELINE + PHONE_DESC_CELINE + EMAIL_DESC_CELINE + ADDRESS_DESC_CELINE
+                        + NOTE_DESC_CELINE + TAG_DESC_HUSBAND + TAG_DESC_FRIEND
+                        + APPOINTMENT_DESC_FRIDAY + APPOINTMENT_DESC_SUNDAY
+                        + SUBJECT_DESC_CELINE + SUBJECT_DESC_MATH + LEVEL_DESC_CELINE,
+                new AddCommand(expectedPersonMultipleTagsAppointmentsAndSubjects));
     }
 
     @Test
