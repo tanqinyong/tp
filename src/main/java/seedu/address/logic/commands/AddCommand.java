@@ -48,8 +48,10 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
-    public static final String MESSAGE_OVERLAPPING_APPOINTMENT = "The appointments clash with an existing appointment";
-    public static final String MESSAGE_OVERLAPPING_APPOINTMENT_ARGUMENTS = "These appointments clash with each other";
+    public static final String MESSAGE_OVERLAPPING_APPOINTMENT =
+            "This person's appointments clash with an existing appointment";
+    public static final String MESSAGE_OVERLAPPING_APPOINTMENT_ARGUMENTS =
+            "This person's appointments clash with each other";
     public static final String MESSAGE_NEAR_DUPLICATES = "New person added: %1$s \nPossible duplicate contacts: %2$s";
 
     private final Person toAdd;
