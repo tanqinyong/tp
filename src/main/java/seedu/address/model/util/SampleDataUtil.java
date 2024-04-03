@@ -1,6 +1,7 @@
 package seedu.address.model.util;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,29 +28,29 @@ public class SampleDataUtil {
     public static Person[] getSamplePersons() {
         return new Person[] {
             new Person(new Name("Alex Yeoh"), new Phone("87438807"), new Email("alexyeoh@example.com"),
-                new Address("Blk 30 Geylang Street 29, #06-40"), new Note("Loves coffee!"),
-                getTagSet("friends"), getAppointmentSet("12:00-13:00 SUN", "00:00-01:00 MON"),
-                getSubjectSet("Math", "Science"), new Level("P1")),
+                new Address("Blk 30 Geylang Street 29, #06-40"), new Note("Week in fractions."),
+                getTagSet("referral"), getAppointmentSet("12:00-13:00 SUN", "00:00-01:00 MON"),
+                getSubjectSet("Math", "Science"), new Level("P4")),
             new Person(new Name("Bernice Yu"), new Phone("99272758"), new Email("berniceyu@example.com"),
                 new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"), EMPTY_NOTE,
-                getTagSet("colleagues", "friends"), getAppointmentSet("08:00-09:00 MON"),
+                getTagSet("weak"), getAppointmentSet("08:00-09:00 MON"),
                 getSubjectSet("Math", "English"), new Level("P2")),
             new Person(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
                 new Address("Blk 11 Ang Mo Kio Street 74, #11-04"), EMPTY_NOTE,
-                getTagSet("neighbours"), getAppointmentSet("14:20-15:00 SAT"),
+                getTagSet("payment"), getAppointmentSet("14:20-15:00 SAT"),
                 getSubjectSet("Science"), new Level("P3")),
             new Person(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
                 new Address("Blk 436 Serangoon Gardens Street 26, #16-43"), EMPTY_NOTE,
-                getTagSet("family"), getAppointmentSet("16:30-18:00 THU", "19:00-20:00 WED"),
-                getSubjectSet("Math", "Science"), new Level("P4")),
+                new HashSet<Tag>(), getAppointmentSet("16:30-18:00 THU", "19:00-20:00 WED"),
+                getSubjectSet("Math", "Science"), new Level("P6")),
             new Person(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
                 new Address("Blk 47 Tampines Street 20, #17-35"), EMPTY_NOTE,
-                getTagSet("classmates"), getAppointmentSet("16:00-17:00 TUE"),
-                getSubjectSet("Math", "Science"), new Level("P5")),
+                new HashSet<Tag>(), getAppointmentSet("16:00-17:00 TUE"),
+                getSubjectSet("Math", "Science"), new Level("P6")),
             new Person(new Name("Roy Balakrishnan"), new Phone("92624417"), new Email("royb@example.com"),
                 new Address("Blk 45 Aljunied Street 85, #11-31"), EMPTY_NOTE,
-                getTagSet("colleagues"), getAppointmentSet("14:30-15:00 WED"),
-                getSubjectSet("Math", "Science"), new Level("P6"))
+                new HashSet<Tag>(), getAppointmentSet("14:30-15:00 WED"),
+                getSubjectSet("Math", "Science"), new Level("P4"))
         };
     }
 
