@@ -31,7 +31,6 @@ public class AppointmentTest {
         assertFalse(Appointment.isValidAppointment("23:15-23:16")); // day missing
         assertFalse(Appointment.isValidAppointment("3:15-4:30 FRI")); // H digit missing
         assertFalse(Appointment.isValidAppointment("3:15-04:30 FRI")); // H digit missing
-        assertFalse(Appointment.isValidAppointment("03:15-04:30 fri")); // DAY not capitalised
         assertFalse(Appointment.isValidAppointment("12:34-13:33 FOB")); // not a day of the week
         assertFalse(Appointment.isValidAppointment("00:00-00:12FRI")); // no space between times and day
         assertFalse(Appointment.isValidAppointment("0000-1234 FRI")); // no colon between hour and minute
@@ -48,6 +47,10 @@ public class AppointmentTest {
         assertTrue(Appointment.isValidAppointment("02:00-03:00 THU")); // matches HH:mm DAY
         assertTrue(Appointment.isValidAppointment("12:00-13:00 FRI")); // matches HH:mm DAY
         assertTrue(Appointment.isValidAppointment("13:30-14:00 SUN")); // matches HH:mm DAY
+        assertTrue(Appointment.isValidAppointment("03:15-04:30 fri")); // DAY can be in lower case
+        assertTrue(Appointment.isValidAppointment("03:15-04:30 fRI")); // DAY can be in lower and upper case
+        assertTrue(Appointment.isValidAppointment("03:15-04:30 Fri")); // DAY can be in lower and upper case
+        assertTrue(Appointment.isValidAppointment("03:15-04:30 fRi")); // DAY can be in lower and upper case
 
     }
 
