@@ -3,8 +3,8 @@ package seedu.address.model.appointment;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -83,9 +83,9 @@ public class AppointmentList implements Iterable<Appointment> {
      * Replaces the contents of this list with {@code appointments}.
      * {@code appointments} must not contain overlapping appointments.
      */
-    public void setAppointments(List<Appointment> appointments) {
+    public void setAppointments(Collection<Appointment> appointments) {
         requireAllNonNull(appointments);
-        if (!appointmentsDoNotOverlap(appointments)) {
+        if (Appointment.hasOverlapping(appointments)) {
             throw new OverlappingAppointmentException();
         }
 
@@ -97,17 +97,6 @@ public class AppointmentList implements Iterable<Appointment> {
      */
     public ObservableList<Appointment> asUnmodifiableObservableList() {
         return internalUnmodifiableList;
-    }
-
-    private boolean appointmentsDoNotOverlap(List<Appointment> appointments) {
-        for (int i = 0; i < appointments.size() - 1; i++) {
-            for (int j = i + 1; j < appointments.size(); j++) {
-                if (appointments.get(i).overlapsWith(appointments.get(j))) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     @Override

@@ -5,6 +5,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -59,6 +60,20 @@ public class Appointment {
         startTime = LocalTime.parse(extractStartTime(appointment));
         endTime = LocalTime.parse(extractEndTime(appointment));
         day = dayToDayOfWeek.get(extractDay(appointment));
+    }
+
+    /**
+     * Returns true if a given collection of appointments overlap.
+     */
+    public static boolean hasOverlapping(Collection<Appointment> appointments) {
+        for (Appointment appointment : appointments) {
+            for (Appointment other : appointments) {
+                if (!appointment.equals(other) && appointment.overlapsWith(other)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
