@@ -93,8 +93,8 @@ Below lists the requirements for each to be a valid field.
 - `Note`: must not be blank or contain only spaces
   - See above.
 - `Tag`: No restrictions
-- `Subject`: Must be "MATH", "SCIENCE" or "ENGLISH".
-- `Level`: Must be "P1", "P2", "P3", "P4", "P5", "P6".
+- `Subject`: Must be "MATH", "SCIENCE", "ENGLISH" or "MT".
+- `Level`: Must be "P1", "P2", "P3", "P4", "P5" or "P6".
 - `Appointment`: Must be in the format `START_TIME-END_TIME DAY`
   - `START_TIME` and `END-TIME` are in the format `HH-MM`. The time of `START_TIME` must strictly be smaller than `END_TIME`
   - `DAY` must be one of the following: `MON`, `TUE`, `WED`, `THU`, `FRI`, `SAT`,`SUN`.
