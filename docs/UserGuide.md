@@ -99,7 +99,8 @@ Below lists the requirements for each to be a valid field.
   - `START_TIME` and `END-TIME` are in the format `HH-MM`. The time of `START_TIME` must strictly be smaller than `END_TIME`
   - `DAY` must be one of the following: `MON`, `TUE`, `WED`, `THU`, `FRI`, `SAT`,`SUN`.
     - Respectively, these represent Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, and Sunday.
-  - `12:00-13:00 MON`, `16:59-22:00 SUN` are valid.
+    - These are not case-sensitive
+  - `12:00-13:00 MON`, `16:59-22:00 sun` are valid.
   - `13:00-11:00 MON`, `16:0000-19:1234 MON`, `16:00-17:00 SUNDAY` are not valid.
 
 ### Viewing help : `help`
