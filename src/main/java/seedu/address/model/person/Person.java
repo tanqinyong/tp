@@ -80,6 +80,13 @@ public class Person {
     }
 
     /**
+     * Returns a boolean value which indicates whether the person has any appointments.
+     */
+    public boolean hasAppointments() {
+        return !appointments.isEmpty();
+    }
+
+    /**
      * Returns true if both persons have the same name.
      * This defines a weaker notion of equality between two persons.
      */
