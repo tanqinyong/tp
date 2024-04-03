@@ -3,9 +3,12 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Set;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.appointment.Appointment;
+import seedu.address.model.appointment.AppointmentList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 
@@ -15,6 +18,7 @@ import seedu.address.model.person.UniquePersonList;
  */
 public class AddressBook implements ReadOnlyAddressBook {
 
+    private final AppointmentList appointments;
     private final UniquePersonList persons;
 
     /*
@@ -26,6 +30,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         persons = new UniquePersonList();
+        appointments = new AppointmentList();
     }
 
     public AddressBook() {}
@@ -53,8 +58,8 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
-
         setPersons(newData.getPersonList());
+        setAppointments(newData.getAppointmentList());
     }
 
     //// person-level operations
@@ -94,6 +99,51 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.remove(key);
     }
 
+    //// appointment-level operations
+    /**
+     * Adds an appointment to the address book.
+     * The appointment must not overlap with existing appointments in the address book.
+     */
+    public void addAppointment(Appointment appointment) {
+        appointments.add(appointment);
+    }
+
+    /**
+     * Replaces the given appointment {@code target} in the list with {@code editedAppointment}.
+     * {@code target} must exist in the address book.
+     * The appointment {@code editedAppointment} must not overlap with other existing appointments in the address book.
+     */
+    public void setAppointment(Appointment target, Appointment editedAppointment) {
+        requireNonNull(editedAppointment);
+
+        appointments.setAppointment(target, editedAppointment);
+    }
+
+    /**
+     * Returns true if an appointment {@code appointment} overlaps with existing appointments in the address book.
+     */
+    public boolean appointmentsOverlap(Appointment appointment) {
+        requireNonNull(appointment);
+        return appointments.overlaps(appointment);
+    }
+
+    /**
+     * Returns true if an appointment in {@code appointments} overlaps with existing appointments in the address book.
+     */
+    public boolean appointmentsOverlap(Set<Appointment> appointments) {
+        requireNonNull(appointments);
+        for (Appointment ap : appointments) {
+            if (this.appointments.overlaps(ap)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void setAppointments(List<Appointment> appointments) {
+        this.appointments.setAppointments(appointments);
+    }
+
     //// util methods
 
     @Override
@@ -109,6 +159,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     @Override
+    public ObservableList<Appointment> getAppointmentList() {
+        return appointments.asUnmodifiableObservableList();
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
@@ -120,7 +175,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
 
         AddressBook otherAddressBook = (AddressBook) other;
-        return persons.equals(otherAddressBook.persons);
+        boolean isPersonsEqual = persons.equals(otherAddressBook.persons);
+        boolean isAppointmentsEqual = appointments.equals(otherAddressBook.appointments);
+        return isPersonsEqual && isAppointmentsEqual;
     }
 
     @Override
