@@ -6,10 +6,11 @@ package seedu.address.model.person;
  */
 public class Subject {
 
-    public static final String MESSAGE_CONSTRAINTS = "Subjects should only be ENGLISH, MATH, or SCIENCE";
+    public static final String MESSAGE_CONSTRAINTS = "Subjects should only be ENGLISH, MATH, SCIENCE or MT.";
     private final SubjectEnum internalSubject;
 
     public Subject(String subject) {
+        subject = subject.trim().toUpperCase();
         this.internalSubject = SubjectEnum.valueOf(subject);
     }
 
@@ -29,6 +30,7 @@ public class Subject {
      */
     public static boolean isValidSubject(String test) {
         try {
+            test = test.trim().toUpperCase();
             SubjectEnum.valueOf(test);
             return true;
         } catch (IllegalArgumentException e) {
