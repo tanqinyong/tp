@@ -28,7 +28,7 @@ public class SampleDataUtil {
     public static Person[] getSamplePersons() {
         return new Person[] {
             new Person(new Name("Alex Yeoh"), new Phone("87438807"), new Email("alexyeoh@example.com"),
-                new Address("Blk 30 Geylang Street 29, #06-40"), new Note("Week in fractions."),
+                new Address("Blk 30 Geylang Street 29, #06-40"), new Note("Weak in fractions."),
                 getTagSet("referral"), getAppointmentSet("12:00-13:00 SUN", "00:00-01:00 MON"),
                 getSubjectSet("Math", "Science"), new Level("P4")),
             new Person(new Name("Bernice Yu"), new Phone("99272758"), new Email("berniceyu@example.com"),
