@@ -1,7 +1,9 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,6 +25,7 @@ class JsonSerializableAddressBook {
     public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
     public static final String MESSAGE_OVERLAPPING_APPOINTMENT =
             "Appointment list contains overlapping appointment(s).";
+    public static final String MESSAGE_APPOINTMENTS_PERSONS_MISMATCH = "Persons list and appointments list don't match";
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
     private final List<JsonAdaptedAppointment> appointments = new ArrayList<>();
@@ -60,20 +63,31 @@ class JsonSerializableAddressBook {
      */
     public AddressBook toModelType() throws IllegalValueException {
         AddressBook addressBook = new AddressBook();
+
+        Set<Appointment> temp = new HashSet<>();
+        for (JsonAdaptedAppointment jsonAdaptedAppointment : appointments) {
+            Appointment appointment = jsonAdaptedAppointment.toModelType();
+            temp.add(appointment);
+        }
+
+
+        if (Appointment.hasOverlapping(temp)) {
+            throw new IllegalValueException(MESSAGE_OVERLAPPING_APPOINTMENT);
+        }
+
         for (JsonAdaptedPerson jsonAdaptedPerson : persons) {
             Person person = jsonAdaptedPerson.toModelType();
+
             if (addressBook.hasPerson(person)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
             }
             addressBook.addPerson(person);
         }
-        for (JsonAdaptedAppointment jsonAdaptedAppointment : appointments) {
-            Appointment appointment = jsonAdaptedAppointment.toModelType();
-            if (addressBook.appointmentsOverlap(appointment)) {
-                throw new IllegalValueException(MESSAGE_OVERLAPPING_APPOINTMENT);
-            }
-            addressBook.addAppointment(appointment);
+
+        if (!temp.equals(new HashSet<>(addressBook.getAppointmentList()))) {
+            throw new IllegalValueException(MESSAGE_APPOINTMENTS_PERSONS_MISMATCH);
         }
+
         return addressBook;
     }
 
