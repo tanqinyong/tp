@@ -9,6 +9,11 @@ public class Subject {
     public static final String MESSAGE_CONSTRAINTS = "Subjects should only be ENGLISH, MATH, SCIENCE or MT.";
     private final SubjectEnum internalSubject;
 
+    /**
+     * Constructs a {@code Subject}.
+     *
+     * @param subject A valid subject.
+     */
     public Subject(String subject) {
         subject = subject.trim().toUpperCase();
         this.internalSubject = SubjectEnum.valueOf(subject);

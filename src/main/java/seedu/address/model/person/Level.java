@@ -9,6 +9,11 @@ public class Level {
 
     private final LevelEnum internalLevel;
 
+    /**
+     * Constructs a {@code Level}.
+     *
+     * @param level A valid level.
+     */
     public Level(String level) {
         level = level.trim().toUpperCase();
         this.internalLevel = LevelEnum.valueOf(level);
