@@ -10,6 +10,7 @@ public class Level {
     private final LevelEnum internalLevel;
 
     public Level(String level) {
+        level = level.trim().toUpperCase();
         this.internalLevel = LevelEnum.valueOf(level);
     }
 
@@ -27,6 +28,7 @@ public class Level {
      */
     public static boolean isValidLevel(String test) {
         try {
+            test = test.trim().toUpperCase();
             LevelEnum.valueOf(test);
             return true;
         } catch (IllegalArgumentException e) {

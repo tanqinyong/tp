@@ -35,6 +35,7 @@ public class LevelTest {
         assertTrue(Level.isValidLevel("P4"));
         assertTrue(Level.isValidLevel("P5"));
         assertTrue(Level.isValidLevel("P6"));
+        assertTrue(Level.isValidLevel("p1"));
     }
 
     @Test
