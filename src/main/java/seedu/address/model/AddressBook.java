@@ -2,8 +2,9 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
@@ -48,9 +49,14 @@ public class AddressBook implements ReadOnlyAddressBook {
     /**
      * Replaces the contents of the person list with {@code persons}.
      * {@code persons} must not contain duplicate persons.
+     *
      */
     public void setPersons(List<Person> persons) {
         this.persons.setPersons(persons);
+        this.appointments.setAppointments(persons
+                .stream()
+                .flatMap(person -> person.getAppointments().stream())
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -59,7 +65,6 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
         setPersons(newData.getPersonList());
-        setAppointments(newData.getAppointmentList());
     }
 
     //// person-level operations
@@ -86,6 +91,9 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void addPerson(Person p) {
         persons.add(p);
+        for (Appointment appointment : p.getAppointments()) {
+            addAppointment(appointment);
+        }
     }
 
     /**
@@ -97,6 +105,16 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(editedPerson);
 
         persons.setPerson(target, editedPerson);
+
+        // remove target's appointments
+         for (Appointment appointment : target.getAppointments()) {
+             appointments.remove(appointment);
+         }
+
+        // add editedPerson's appointments
+        for (Appointment appointment : editedPerson.getAppointments()) {
+            appointments.add(appointment);
+        }
     }
 
     /**
@@ -138,7 +156,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     /**
      * Returns true if an appointment in {@code appointments} overlaps with existing appointments in the address book.
      */
-    public boolean appointmentsOverlap(Set<Appointment> appointments) {
+    public boolean appointmentsOverlap(Collection<Appointment> appointments) {
         requireNonNull(appointments);
         for (Appointment ap : appointments) {
             if (this.appointments.overlaps(ap)) {
@@ -146,10 +164,6 @@ public class AddressBook implements ReadOnlyAddressBook {
             }
         }
         return false;
-    }
-
-    private void setAppointments(List<Appointment> appointments) {
-        this.appointments.setAppointments(appointments);
     }
 
     //// util methods
