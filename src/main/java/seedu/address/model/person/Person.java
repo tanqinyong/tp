@@ -94,6 +94,7 @@ public class Person {
      */
     public Set<Subject> getSubjects() {
         return Collections.unmodifiableSet(subjects);
+    }
 
     /**
      * Returns a boolean value which indicates whether the person has any appointments.
