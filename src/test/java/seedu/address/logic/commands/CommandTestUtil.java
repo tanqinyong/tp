@@ -5,9 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_APPOINTMENT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.testutil.Assert.assertThrows;
 
@@ -47,6 +49,13 @@ public class CommandTestUtil {
     public static final String VALID_NOTE_CELINE = "Sleepy";
     public static final String VALID_APPOINTMENT_FRIDAY = "18:00-20:00 FRI";
     public static final String VALID_APPOINTMENT_SUNDAY = "08:00-10:00 SUN";
+    public static final String VALID_SUBJECT_MATH = "Math";
+    public static final String VALID_SUBJECT_MT = "MT";
+    public static final String VALID_SUBJECT_BOB = "Math";
+    public static final String VALID_SUBJECT_CELINE = "MT";
+    public static final String VALID_LEVEL_P1 = "P1";
+    public static final String VALID_LEVEL_BOB = "P2";
+    public static final String VALID_LEVEL_CELINE = "P5";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
@@ -67,12 +76,20 @@ public class CommandTestUtil {
     public static final String NOTE_DESC_CELINE = " " + PREFIX_NOTE + VALID_NOTE_CELINE;
     public static final String APPOINTMENT_DESC_FRIDAY = " " + PREFIX_APPOINTMENT + VALID_APPOINTMENT_FRIDAY;
     public static final String APPOINTMENT_DESC_SUNDAY = " " + PREFIX_APPOINTMENT + VALID_APPOINTMENT_SUNDAY;
+    public static final String SUBJECT_DESC_MATH = " " + PREFIX_SUBJECT + VALID_SUBJECT_MATH;
+    public static final String SUBJECT_DESC_MT = " " + PREFIX_SUBJECT + VALID_SUBJECT_MT;
+    public static final String SUBJECT_DESC_BOB = " " + PREFIX_SUBJECT + VALID_SUBJECT_BOB;
+    public static final String SUBJECT_DESC_CELINE = " " + PREFIX_SUBJECT + VALID_SUBJECT_CELINE;
+    public static final String LEVEL_DESC_P1 = " " + PREFIX_LEVEL + VALID_LEVEL_P1;
+    public static final String LEVEL_DESC_BOB = " " + PREFIX_LEVEL + VALID_LEVEL_BOB;
+    public static final String LEVEL_DESC_CELINE = " " + PREFIX_LEVEL + VALID_LEVEL_CELINE;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
     public static final String INVALID_APPOINTMENT_DESC = " " + PREFIX_APPOINTMENT + "aaaaaaaa"; // not in date format
+    public static final String INVALID_SUBJECT_DESC = " " + PREFIX_SUBJECT + "Gaming"; // not a valid subject
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";

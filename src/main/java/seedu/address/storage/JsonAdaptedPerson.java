@@ -15,12 +15,15 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmptyAddress;
 import seedu.address.model.person.EmptyEmail;
+import seedu.address.model.person.EmptyLevel;
 import seedu.address.model.person.EmptyNote;
 import seedu.address.model.person.EmptyPhone;
+import seedu.address.model.person.Level;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Subject;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -37,6 +40,8 @@ class JsonAdaptedPerson {
     private final String note;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
     private final List<JsonAdaptedAppointment> appointments = new ArrayList<>();
+    private final List<JsonAdaptedSubject> subjects = new ArrayList<>();
+    private final String level;
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -45,17 +50,22 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
             @JsonProperty("note") String note, @JsonProperty("tags") List<JsonAdaptedTag> tags,
-            @JsonProperty("appointments") List<JsonAdaptedAppointment> appointments) {
+            @JsonProperty("appointments") List<JsonAdaptedAppointment> appointments,
+            @JsonProperty("subjects") List<JsonAdaptedSubject> subjects, @JsonProperty("level") String level) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.note = note;
+        this.level = level;
         if (tags != null) {
             this.tags.addAll(tags);
         }
         if (appointments != null) {
             this.appointments.addAll(appointments);
+        }
+        if (subjects != null) {
+            this.subjects.addAll(subjects);
         }
     }
 
@@ -68,11 +78,15 @@ class JsonAdaptedPerson {
         email = source.getEmail().value;
         address = source.getAddress().value;
         note = source.getNote().value;
+        level = source.getLevel().toString();
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
         appointments.addAll(source.getAppointments().stream()
                 .map(JsonAdaptedAppointment::new)
+                .collect(Collectors.toList()));
+        subjects.addAll(source.getSubjects().stream()
+                .map(JsonAdaptedSubject::new)
                 .collect(Collectors.toList()));
     }
 
@@ -84,11 +98,15 @@ class JsonAdaptedPerson {
     public Person toModelType() throws IllegalValueException {
         final List<Tag> personTags = new ArrayList<>();
         final List<Appointment> personAppointments = new ArrayList<>();
+        final List<Subject> personSubjects = new ArrayList<>();
         for (JsonAdaptedTag tag : tags) {
             personTags.add(tag.toModelType());
         }
         for (JsonAdaptedAppointment appointment : appointments) {
             personAppointments.add(appointment.toModelType());
+        }
+        for (JsonAdaptedSubject subject : subjects) {
+            personSubjects.add(subject.toModelType());
         }
 
         if (name == null) {
@@ -137,11 +155,22 @@ class JsonAdaptedPerson {
         }
         final Note modelNote = usedNote;
 
+        Level usedLevel;
+        if (level == null) {
+            usedLevel = new EmptyLevel();
+        } else {
+            usedLevel = new Level(level);
+        }
+        final Level modelLevel = usedLevel;
+
         final Set<Tag> modelTags = new HashSet<>(personTags);
 
         final Set<Appointment> modelAppointments = new HashSet<>(personAppointments);
 
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelNote, modelTags, modelAppointments);
+        final Set<Subject> modelSubjects = new HashSet<>(personSubjects);
+
+        return new Person(modelName, modelPhone, modelEmail, modelAddress,
+        modelNote, modelTags, modelAppointments, modelSubjects, modelLevel);
     }
 
 }

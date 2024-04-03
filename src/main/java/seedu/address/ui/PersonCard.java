@@ -42,6 +42,10 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private FlowPane tags;
     @FXML
+    private FlowPane subjects;
+    @FXML
+    private FlowPane level;
+    @FXML
     private Label note;
     @FXML
     private VBox appointments;
@@ -59,9 +63,13 @@ public class PersonCard extends UiPart<Region> {
         address.setText(person.getAddress().isEmpty() ? "-" : person.getAddress().value);
         email.setText(person.getEmail().isEmpty() ? "-" : person.getEmail().value);
         note.setText(person.getNote().isEmpty() ? "-" : person.getNote().value);
+        level.getChildren().add(new Label(person.getLevel().toString()));
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+        person.getSubjects().stream()
+                .sorted(Comparator.comparing(subject -> subject.getSubject()))
+                .forEach(subject -> subjects.getChildren().add(new Label(subject.getSubject())));
         person.getAppointments().forEach(appointment -> appointments.getChildren().add(new Label(appointment.value)));
     }
 }

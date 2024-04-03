@@ -14,11 +14,14 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmptyAddress;
 import seedu.address.model.person.EmptyEmail;
+import seedu.address.model.person.EmptyLevel;
 import seedu.address.model.person.EmptyNote;
 import seedu.address.model.person.EmptyPhone;
+import seedu.address.model.person.Level;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Subject;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -183,5 +186,45 @@ public class ParserUtil {
             appointmentSet.add(parseAppointment(appointment));
         }
         return appointmentSet;
+    }
+
+    /**
+     * Parses a {@code String subject} into a {@code Subject}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code subject} is invalid.
+     */
+    private static Subject parseSubject(String subject) throws ParseException {
+        requireNonNull(subject);
+        String trimmedSubject = subject.trim();
+        if (!Subject.isValidSubject(trimmedSubject)) {
+            throw new ParseException(Subject.MESSAGE_CONSTRAINTS);
+        }
+        return new Subject(trimmedSubject);
+    }
+
+    /**
+     * Parses {@code Collection<String> subjects} into a {@code Set<Subject>}.
+     */
+    public static Set<Subject> parseSubjects(Collection<String> subjects) throws ParseException {
+        requireNonNull(subjects);
+        final Set<Subject> subjectSet = new HashSet<>();
+        for (String subjectName : subjects) {
+            subjectSet.add(parseSubject(subjectName));
+        }
+        return subjectSet;
+    }
+
+    /**
+     * Parses a {@code String level} into a {@code Level}.
+     */
+    public static Level parseLevel(String level) {
+        if (level == null) {
+            return new EmptyLevel();
+        }
+        if (!Level.isValidLevel(level)) {
+            throw new IllegalArgumentException(Level.MESSAGE_CONSTRAINTS);
+        }
+        return new Level(level);
     }
 }

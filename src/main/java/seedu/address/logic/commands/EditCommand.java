@@ -4,9 +4,11 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_APPOINTMENT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
@@ -26,10 +28,12 @@ import seedu.address.model.Model;
 import seedu.address.model.appointment.Appointment;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Level;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Subject;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -50,6 +54,8 @@ public class EditCommand extends Command {
             + "[" + PREFIX_NOTE + "NOTE]"
             + "[" + PREFIX_APPOINTMENT + "APPOINTMENT]"
             + "[" + PREFIX_TAG + "TAG] ...\n"
+            + "[" + PREFIX_SUBJECT + "SUBJECT] "
+            + "[" + PREFIX_LEVEL + "LEVEL]\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
@@ -108,9 +114,12 @@ public class EditCommand extends Command {
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
         Set<Appointment> updatedAppointments = editPersonDescriptor
                 .getAppointments().orElse(personToEdit.getAppointments());
+        Set<Subject> updatedSubjects = editPersonDescriptor.getSubjects().orElse(personToEdit.getSubjects());
+        Level updatedLevel = editPersonDescriptor.getLevel().orElse(personToEdit.getLevel());
 
         return new Person(
-            updatedName, updatedPhone, updatedEmail, updatedAddress, updatedNote, updatedTags, updatedAppointments
+            updatedName, updatedPhone, updatedEmail, updatedAddress, updatedNote, updatedTags,
+            updatedAppointments, updatedSubjects, updatedLevel
             );
     }
 
@@ -150,6 +159,8 @@ public class EditCommand extends Command {
         private Note note;
         private Set<Tag> tags;
         private Set<Appointment> appointments;
+        private Set<Subject> subjects;
+        private Level level;
 
         public EditPersonDescriptor() {}
 
@@ -165,13 +176,15 @@ public class EditCommand extends Command {
             setNote(toCopy.note);
             setTags(toCopy.tags);
             setAppointments(toCopy.appointments);
+            setSubjects(toCopy.subjects);
+            setLevel(toCopy.level);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, note, tags, appointments);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, note, tags, appointments, subjects, level);
         }
 
         public void setName(Name name) {
@@ -246,6 +259,34 @@ public class EditCommand extends Command {
             return (appointments != null) ? Optional.of(Collections.unmodifiableSet(appointments)) : Optional.empty();
         }
 
+        /**
+         * Sets {@code subjects} to this object's {@code subjects}.
+         * A defensive copy of {@code subjects} is used internally.
+         */
+        public void setSubjects(Set<Subject> subjects) {
+            this.subjects = (subjects != null) ? new HashSet<>(subjects) : null;
+        }
+
+        /**
+         * Returns an unmodifiable subject set, which throws {@code UnsupportedOperationException}
+         * if modification is attempted.
+         * Returns {@code Optional#empty()} if {@code subjects} is null.
+         */
+        public Optional<Set<Subject>> getSubjects() {
+            return (subjects != null) ? Optional.of(Collections.unmodifiableSet(subjects)) : Optional.empty();
+        }
+
+        /**
+         * Sets {@code level} to this object's {@code level}.
+         */
+        public void setLevel(Level level) {
+            this.level = level;
+        }
+
+        public Optional<Level> getLevel() {
+            return Optional.ofNullable(level);
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -264,7 +305,9 @@ public class EditCommand extends Command {
                     && Objects.equals(address, otherEditPersonDescriptor.address)
                     && Objects.equals(note, otherEditPersonDescriptor.note)
                     && Objects.equals(tags, otherEditPersonDescriptor.tags)
-                    && Objects.equals(appointments, otherEditPersonDescriptor.appointments);
+                    && Objects.equals(appointments, otherEditPersonDescriptor.appointments)
+                    && Objects.equals(subjects, otherEditPersonDescriptor.subjects)
+                    && Objects.equals(level, otherEditPersonDescriptor.level);
         }
 
         @Override
@@ -277,6 +320,8 @@ public class EditCommand extends Command {
                     .add("note", note)
                     .add("appointments", appointments)
                     .add("tags", tags)
+                    .add("subjects", subjects)
+                    .add("level", level)
                     .toString();
         }
     }

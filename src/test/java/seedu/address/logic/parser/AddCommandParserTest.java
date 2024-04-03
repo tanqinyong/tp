@@ -13,6 +13,8 @@ import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.LEVEL_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.LEVEL_DESC_CELINE;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_CELINE;
@@ -24,6 +26,10 @@ import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_CELINE;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
+import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_CELINE;
+import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_MATH;
+import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_MT;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
@@ -33,6 +39,10 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NOTE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_SUBJECT_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_SUBJECT_CELINE;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_SUBJECT_MATH;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_SUBJECT_MT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
@@ -70,7 +80,8 @@ public class AddCommandParserTest {
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + NOTE_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
+                + ADDRESS_DESC_BOB + NOTE_DESC_BOB + LEVEL_DESC_BOB
+                + TAG_DESC_FRIEND + SUBJECT_DESC_BOB, new AddCommand(expectedPerson));
 
 
         // multiple tags - all accepted
@@ -78,17 +89,31 @@ public class AddCommandParserTest {
                 .build();
         assertParseSuccess(parser,
                 NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                        + NOTE_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+                        + NOTE_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND
+                        + LEVEL_DESC_BOB + SUBJECT_DESC_MATH,
                 new AddCommand(expectedPersonMultipleTags));
 
         // multiple appointments - all accepted
         Person expectedPersonMultipleAppointments = new PersonBuilder(CELINE)
                 .withAppointments(VALID_APPOINTMENT_FRIDAY, VALID_APPOINTMENT_SUNDAY)
+                .withSubjects(VALID_SUBJECT_CELINE)
                 .build();
         assertParseSuccess(parser,
                 NAME_DESC_CELINE + PHONE_DESC_CELINE + EMAIL_DESC_CELINE + ADDRESS_DESC_CELINE
-                        + NOTE_DESC_CELINE + APPOINTMENT_DESC_FRIDAY + APPOINTMENT_DESC_SUNDAY,
+                        + NOTE_DESC_CELINE + APPOINTMENT_DESC_FRIDAY + APPOINTMENT_DESC_SUNDAY
+                        + LEVEL_DESC_CELINE + SUBJECT_DESC_CELINE,
                 new AddCommand(expectedPersonMultipleAppointments));
+
+        // multiple subjects - all accepted
+        Person expectedPersonMultipleSubjects = new PersonBuilder(BOB)
+                .withTags(VALID_TAG_FRIEND)
+                .withSubjects(VALID_SUBJECT_BOB, VALID_SUBJECT_MT)
+                .build();
+        assertParseSuccess(parser,
+                NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+                        + NOTE_DESC_BOB + TAG_DESC_FRIEND
+                        + LEVEL_DESC_BOB + SUBJECT_DESC_BOB + SUBJECT_DESC_MT,
+                new AddCommand(expectedPersonMultipleSubjects));
 
         // multiple tags AND appointments - all accepted
         Person expectedPersonMultipleAppointmentsAndTags = new PersonBuilder(BOB)
@@ -98,8 +123,22 @@ public class AddCommandParserTest {
         assertParseSuccess(parser,
                 NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
                         + NOTE_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND
-                        + APPOINTMENT_DESC_FRIDAY + APPOINTMENT_DESC_SUNDAY,
+                        + APPOINTMENT_DESC_FRIDAY + APPOINTMENT_DESC_SUNDAY
+                        + SUBJECT_DESC_BOB + LEVEL_DESC_BOB,
                 new AddCommand(expectedPersonMultipleAppointmentsAndTags));
+
+        // multiple tags, appointments AND subjects - all accepted
+        Person expectedPersonMultipleTagsAppointmentsAndSubjects = new PersonBuilder(CELINE)
+                .withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
+                .withAppointments(VALID_APPOINTMENT_FRIDAY, VALID_APPOINTMENT_SUNDAY)
+                .withSubjects(VALID_SUBJECT_CELINE, VALID_SUBJECT_MATH)
+                .build();
+        assertParseSuccess(parser,
+                NAME_DESC_CELINE + PHONE_DESC_CELINE + EMAIL_DESC_CELINE + ADDRESS_DESC_CELINE
+                        + NOTE_DESC_CELINE + TAG_DESC_HUSBAND + TAG_DESC_FRIEND
+                        + APPOINTMENT_DESC_FRIDAY + APPOINTMENT_DESC_SUNDAY
+                        + SUBJECT_DESC_CELINE + SUBJECT_DESC_MATH + LEVEL_DESC_CELINE,
+                new AddCommand(expectedPersonMultipleTagsAppointmentsAndSubjects));
     }
 
     @Test
@@ -161,32 +200,32 @@ public class AddCommandParserTest {
     @Test
     public void parse_optionalFieldsMissing_success() {
         // zero tags
-        Person expectedPerson = new PersonBuilder(AMY).withTags().build();
+        Person expectedPerson = new PersonBuilder(AMY).withTags().removeLevel().build();
         assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY,
                 new AddCommand(expectedPerson));
 
         //No email field
-        Person expectedPersonNoEmail = new PersonBuilder(NO_EMAIL_AMY).withTags().build();
+        Person expectedPersonNoEmail = new PersonBuilder(NO_EMAIL_AMY).withTags().removeLevel().build();
         assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY,
                 new AddCommand(expectedPersonNoEmail));
 
         //No address field
-        Person expectedPersonNoAddress = new PersonBuilder(NO_ADDRESS_AMY).withTags().build();
+        Person expectedPersonNoAddress = new PersonBuilder(NO_ADDRESS_AMY).withTags().removeLevel().build();
         assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + NOTE_DESC_AMY,
                 new AddCommand(expectedPersonNoAddress));
 
         //No phone field
-        Person expectedPersonNoPhone = new PersonBuilder(NO_PHONE_AMY).withTags().build();
+        Person expectedPersonNoPhone = new PersonBuilder(NO_PHONE_AMY).withTags().removeLevel().build();
         assertParseSuccess(parser, NAME_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY,
                 new AddCommand(expectedPersonNoPhone));
 
         //No Note field
-        Person expectedPersonNoNote = new PersonBuilder(NO_NOTE_AMY).withTags().build();
+        Person expectedPersonNoNote = new PersonBuilder(NO_NOTE_AMY).withTags().removeLevel().build();
         assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY,
                 new AddCommand(expectedPersonNoNote));
 
         //Only Name field
-        Person expectedPersonNameOnly = new PersonBuilder(NAME_ONLY_CELINE).withTags().build();
+        Person expectedPersonNameOnly = new PersonBuilder(NAME_ONLY_CELINE).withTags().removeLevel().build();
         assertParseSuccess(parser, NAME_DESC_CELINE, new AddCommand(expectedPersonNameOnly));
     }
 
