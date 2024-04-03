@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.person.Appointment;
+import seedu.address.model.appointment.Appointment;
 import seedu.address.model.tag.Tag;
 
 /**
- * Jackson-friendly version of {@link seedu.address.model.person.Appointment}.
+ * Jackson-friendly version of {@link Appointment}.
  */
 class JsonAdaptedAppointment {
 

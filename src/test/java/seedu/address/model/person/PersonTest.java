@@ -97,6 +97,13 @@ public class PersonTest {
         // different tags -> returns false
         editedAlice = new PersonBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(ALICE.equals(editedAlice));
+
+        // no appointments -> returns false
+        assertFalse(ALICE.hasAppointments());
+
+        // has appointments -> returns true;
+        editedAlice = new PersonBuilder(ALICE).withAppointments("08:00-09:00 SUN").build();
+        assertTrue(editedAlice.hasAppointments());
     }
 
     @Test

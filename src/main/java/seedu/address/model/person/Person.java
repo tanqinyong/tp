@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import seedu.address.commons.util.StringUtil;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.appointment.Appointment;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -74,6 +75,7 @@ public class Person {
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
     }
+
     /**
      * Returns an immutable appointment set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
@@ -116,6 +118,13 @@ public class Person {
         detailList.add("\nNOTES:\n" + (this.getNote().isEmpty() ? "-" : this.getNote().value));
 
         return detailList;
+    }
+
+    /**
+     * Returns a boolean value which indicates whether the person has any appointments.
+     */
+    public boolean hasAppointments() {
+        return !appointments.isEmpty();
     }
 
     /**
