@@ -13,8 +13,12 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BOB;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.util.StringUtil;
 import seedu.address.testutil.PersonBuilder;
 
 public class PersonTest {
@@ -110,5 +114,24 @@ public class PersonTest {
                 + ", appointments=" + ALICE.getAppointments() + ", subjects="
                 + ALICE.getSubjects() + ", level=" + ALICE.getLevel() + "}";
         assertEquals(expected, ALICE.toString());
+    }
+
+    @Test
+    public void getViewDetailsMethod() {
+        List<String> expected = new ArrayList<>();
+        expected.add("ALICE PAULINE\n");
+        expected.add("\nTAGS: [friends]\n");
+        expected.add(StringUtil.SEPARATOR);
+        expected.add("\nDETAILS:\n");
+        expected.add("94351253\n");
+        expected.add("alice@example.com\n");
+        expected.add("123, Jurong West Ave 6, #08-111\n");
+        expected.add(StringUtil.SEPARATOR);
+        expected.add("\nAPPOINTMENTS:\n");
+        expected.add("-\n");
+        expected.add(StringUtil.SEPARATOR);
+        expected.add("\nNOTES:\nShe likes aardvarks.");
+
+        assertEquals(expected.toString(), ALICE.getViewDetails().toString());
     }
 }
