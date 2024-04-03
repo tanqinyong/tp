@@ -8,6 +8,8 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_SUN
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_CELINE;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_LEVEL_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_LEVEL_CELINE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_CELINE;
@@ -17,6 +19,8 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NOTE_CELINE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_CELINE;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_SUBJECT_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_SUBJECT_CELINE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
@@ -81,10 +85,12 @@ public class TypicalPersons {
             .withTags(VALID_TAG_FRIEND).build();
     public static final Person BOB = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
             .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withNote(VALID_NOTE_BOB)
-            .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
+            .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
+            .withSubjects(VALID_SUBJECT_BOB).withLevel(VALID_LEVEL_BOB).build();
     public static final Person CELINE = new PersonBuilder().withName(VALID_NAME_CELINE).withPhone(VALID_PHONE_CELINE)
             .withEmail(VALID_EMAIL_CELINE).withAddress(VALID_ADDRESS_CELINE).withNote(VALID_NOTE_CELINE)
             .withAppointments(VALID_APPOINTMENT_FRIDAY, VALID_APPOINTMENT_SUNDAY)
+            .withSubjects(VALID_SUBJECT_CELINE).withLevel(VALID_LEVEL_CELINE)
             .build();
     public static final Person NO_ADDRESS_AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
             .withEmail(VALID_EMAIL_AMY).withNote(VALID_NOTE_AMY).withTags(VALID_TAG_FRIEND).removeAddress().build();
@@ -96,7 +102,7 @@ public class TypicalPersons {
     public static final Person NO_NOTE_AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
             .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIEND).removeNote().build();
     public static final Person NAME_ONLY_CELINE = new PersonBuilder().withName(VALID_NAME_CELINE)
-            .removeEmail().removeNote().removeAddress().removePhone().build();
+            .removeEmail().removeNote().removeAddress().removePhone().removeLevel().build();
 
     public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER
 
