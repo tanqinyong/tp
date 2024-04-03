@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
@@ -28,7 +29,9 @@ public class ViewAppointmentsCommand extends Command {
 
         // Get all appointments from the last shown list of persons
         List<String> appointments = lastShownList.stream()
-                .flatMap(person -> person.getAppointments().stream())
+                .flatMap(person -> person.hasAppointments()
+                        ? Stream.concat(Stream.of("\n" + person.getName()), person.getAppointments().stream())
+                        : Stream.empty())
                 .map(Object::toString)
                 .collect(Collectors.toList());
 

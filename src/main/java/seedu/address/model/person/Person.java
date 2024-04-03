@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.appointment.Appointment;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -93,6 +94,12 @@ public class Person {
      */
     public Set<Subject> getSubjects() {
         return Collections.unmodifiableSet(subjects);
+
+    /**
+     * Returns a boolean value which indicates whether the person has any appointments.
+     */
+    public boolean hasAppointments() {
+        return !appointments.isEmpty();
     }
 
     /**
