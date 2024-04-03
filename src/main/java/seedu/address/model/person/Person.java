@@ -138,7 +138,9 @@ public class Person {
      */
     public String getSummary() {
         String summaryString = "\n";
-        summaryString += "[" + this.getLevel().toString() + "] ";
+        summaryString += this.getLevel().isEmpty()
+                ? ""
+                :"[" + this.getLevel().toString() + "] ";
         summaryString += this.getSubjects().isEmpty()
                 ? ""
                 : this.getSubjects().stream()
