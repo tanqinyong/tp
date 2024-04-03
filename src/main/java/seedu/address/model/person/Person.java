@@ -110,20 +110,15 @@ public class Person {
 
         assert this.getName() != null;
         detailList.add(this.getName().fullName.toUpperCase() + "\n");
-        detailList.add("\nTAGS: " + (this.getTags().isEmpty()
-                ? "-"
-                : this.getTags().stream()
-                .map(Object::toString)
-                .map(str -> str + " ")
-                .collect(Collectors.joining())
-                .trim()) + "\n"
-        );
+        detailList.add(getSummary());
         detailList.add(StringUtil.SEPARATOR);
+
         detailList.add("\nDETAILS:\n");
         detailList.add(this.getPhone().isEmpty() ? "-" : this.getPhone().value + "\n");
         detailList.add(this.getEmail().isEmpty() ? "-" : this.getEmail().value + "\n");
         detailList.add(this.getAddress().isEmpty() ? "-" : this.getAddress().value + "\n");
         detailList.add(StringUtil.SEPARATOR);
+
         detailList.add("\nAPPOINTMENTS:\n");
         detailList.add(this.getAppointments().isEmpty()
                 ? "-\n"
@@ -132,10 +127,33 @@ public class Person {
                 .map(str -> str + "\n")
                 .collect(Collectors.joining()));
         detailList.add(StringUtil.SEPARATOR);
+
         detailList.add("\nNOTES:\n" + (this.getNote().isEmpty() ? "-" : this.getNote().value));
 
         return detailList;
+    }
 
+    /**
+     * Returns a string containing the level, subject and tags of the person.
+     */
+    public String getSummary() {
+        String summaryString = "\n";
+        summaryString += "[" + this.getLevel().toString() + "] ";
+        summaryString += this.getSubjects().isEmpty()
+                ? ""
+                : this.getSubjects().stream()
+                .map(Object::toString)
+                .map(str -> str + " ")
+                .collect(Collectors.joining());
+        summaryString += this.getTags().isEmpty()
+                ? "\n"
+                : this.getTags().stream()
+                .map(Object::toString)
+                .map(str -> str + " ")
+                .collect(Collectors.joining())
+                .trim() + "\n";
+
+        return summaryString;
     }
 
     /**
