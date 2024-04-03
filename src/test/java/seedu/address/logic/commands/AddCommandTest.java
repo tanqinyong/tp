@@ -10,6 +10,8 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -44,6 +46,27 @@ public class AddCommandTest {
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
 
+    // work on this qy
+    @Test
+    public void execute_nearDuplicatePerson_addNearDuplicateSuccessful() throws Exception {
+        Person nearDuplicate = new PersonBuilder().withName("John Doe").build();
+
+        // Create a Model stub that returns the near duplicate person when findNearDuplicates is called
+        ModelStub modelStub = new ModelStubAcceptingPersonAddedWithNearDuplicate(nearDuplicate);
+
+        // Create the person to be added (similar to the near duplicate)
+        Person personToAdd = new PersonBuilder().withName("john   Doe  ").build();
+
+        // Execute the AddCommand with the person to be added
+        CommandResult commandResult = new AddCommand(personToAdd).execute(modelStub);
+
+        assertEquals(String.format(AddCommand.MESSAGE_NEAR_DUPLICATES, Messages.format(personToAdd),
+                nearDuplicate.getName().toString()), commandResult.getFeedbackToUser());
+
+        assertTrue(modelStub.hasPerson(personToAdd));
+    }
+
+
     @Test
     public void execute_duplicatePerson_throwsCommandException() {
         Person validPerson = new PersonBuilder().build();
@@ -52,6 +75,7 @@ public class AddCommandTest {
 
         assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
     }
+
 
     @Test
     public void equals() {
@@ -85,7 +109,7 @@ public class AddCommandTest {
     }
 
     /**
-     * A default model stub that have all of the methods failing.
+     * A default model stub that have all but one method that add depends on failing.
      */
     private class ModelStub implements Model {
         @Override
@@ -135,6 +159,11 @@ public class AddCommandTest {
 
         @Override
         public boolean hasPerson(Person person) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public List<String> findNearDuplicates(Person person) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -199,6 +228,46 @@ public class AddCommandTest {
         public ReadOnlyAddressBook getAddressBook() {
             return new AddressBook();
         }
+
+        @Override
+        public List<String> findNearDuplicates(Person person) {
+            // Stub implementation, return an empty list
+            return Collections.emptyList();
+        }
     }
+
+    /**
+     * A Model stub that accepts the person added and returns a near duplicate.
+     */
+    private class ModelStubAcceptingPersonAddedWithNearDuplicate extends ModelStub {
+
+        final ArrayList<Person> personsAdded = new ArrayList<>();
+        private final Person nearDuplicate;
+
+        ModelStubAcceptingPersonAddedWithNearDuplicate(Person nearDuplicate) {
+            requireNonNull(nearDuplicate);
+            this.nearDuplicate = nearDuplicate;
+        }
+
+        @Override
+        public boolean hasPerson(Person person) {
+            requireNonNull(person);
+            return personsAdded.stream().anyMatch(person::isSamePerson);
+        }
+
+        @Override
+        public void addPerson(Person person) {
+            requireNonNull(person);
+            personsAdded.add(person);
+        }
+
+        @Override
+        public List<String> findNearDuplicates(Person person) {
+            requireNonNull(person);
+            // Return the name of the near duplicate
+            return Collections.singletonList(nearDuplicate.getName().toString());
+        }
+    }
+
 
 }

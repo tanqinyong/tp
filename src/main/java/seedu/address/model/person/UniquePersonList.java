@@ -3,8 +3,10 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,6 +36,41 @@ public class UniquePersonList implements Iterable<Person> {
     public boolean contains(Person toCheck) {
         requireNonNull(toCheck);
         return internalList.stream().anyMatch(toCheck::isSamePerson);
+    }
+
+    /**
+     * Returns list of names similar to the given person's name.
+     */
+    public List<String> findNearDuplicates(Person toCheck) {
+        requireNonNull(toCheck);
+        String toCheckName = normalizeName(toCheck.getName().toString());
+
+        List<String> nearDuplicates = new ArrayList<>();
+        for (String name : getAllNames()) {
+            String normalizedCurrentName = normalizeName(name);
+            if (toCheckName.equals(normalizedCurrentName)) {
+                // Add the "original" duplicate name
+                nearDuplicates.add(name);
+            }
+        }
+        return nearDuplicates;
+    }
+
+    /**
+     * Retrieves the names of all persons in the list.
+     */
+    public List<String> getAllNames() {
+        return internalList.stream()
+                .map(person -> person.getName().toString())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Normalizes names by removing unnecessary whitespaces and lowering the case.
+     */
+    public String normalizeName(String name) {
+        requireNonNull(name);
+        return name.trim().replaceAll("\\s+", "").toLowerCase();
     }
 
     /**

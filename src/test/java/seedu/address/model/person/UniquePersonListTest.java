@@ -48,6 +48,18 @@ public class UniquePersonListTest {
     }
 
     @Test
+    public void findNearDuplicates_personWithSimilarName_returnsNearDuplicates() {
+        uniquePersonList.add(ALICE);
+
+        Person editedAlice = new PersonBuilder(ALICE)
+                .withName(ALICE.getName().toString().toLowerCase() + " ").build();
+
+        List<String> nearDuplicates = uniquePersonList.findNearDuplicates(editedAlice);
+        assertEquals(1, nearDuplicates.size());
+        assertTrue(nearDuplicates.contains(ALICE.getName().toString()));
+    }
+
+    @Test
     public void add_nullPerson_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> uniquePersonList.add(null));
     }
