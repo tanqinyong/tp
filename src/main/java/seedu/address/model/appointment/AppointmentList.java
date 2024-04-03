@@ -19,7 +19,7 @@ public class AppointmentList {
     /**
      * Returns true if the list contains an appointment overlapping wth the given argument.
      */
-    public boolean hasOverlappingAppointment(Appointment toCheck) {
+    public boolean overlaps(Appointment toCheck) {
         requireNonNull(toCheck);
         return internalList.stream().anyMatch(toCheck::overlapsWith);
     }
@@ -30,7 +30,7 @@ public class AppointmentList {
      */
     public void add(Appointment toAdd) {
         requireNonNull(toAdd);
-        if (hasOverlappingAppointment(toAdd)) {
+        if (overlaps(toAdd)) {
             throw new OverlappingAppointmentException();
         }
         internalList.add(toAdd);
@@ -49,7 +49,7 @@ public class AppointmentList {
             throw new AppointmentNotFoundException();
         }
 
-        if (hasOverlappingAppointment(editedAppointment)) {
+        if (overlaps(editedAppointment)) {
             throw new OverlappingAppointmentException();
         }
 
