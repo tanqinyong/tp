@@ -3,9 +3,11 @@ package seedu.address.model.appointment;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seedu.address.model.appointment.exceptions.AppointmentNotFoundException;
 import seedu.address.model.appointment.exceptions.OverlappingAppointmentException;
 
@@ -13,8 +15,10 @@ import seedu.address.model.appointment.exceptions.OverlappingAppointmentExceptio
  * A list of appointments that enforces no overlapping between its elements and does not allow nulls.
  * Supports a minimal set of list operations.
  */
-public class AppointmentList {
-    private List<Appointment> internalList = new ArrayList<Appointment>();
+public class AppointmentList implements Iterable<Appointment> {
+    private final ObservableList<Appointment> internalList = FXCollections.observableArrayList();
+    private final ObservableList<Appointment> internalUnmodifiableList =
+            FXCollections.unmodifiableObservableList(internalList);
 
     /**
      * Returns true if the list contains an appointment overlapping wth the given argument.
@@ -72,7 +76,7 @@ public class AppointmentList {
      */
     public void setAppointments(AppointmentList replacement) {
         requireNonNull(replacement);
-        internalList = replacement.internalList;
+        internalList.setAll(replacement.internalList);
     }
 
     /**
@@ -85,7 +89,14 @@ public class AppointmentList {
             throw new OverlappingAppointmentException();
         }
 
-        internalList = appointments;
+        internalList.setAll(appointments);
+    }
+
+    /**
+     * Returns the backing list as an unmodifiable {@code ObservableList}.
+     */
+    public ObservableList<Appointment> asUnmodifiableObservableList() {
+        return internalUnmodifiableList;
     }
 
     private boolean appointmentsDoNotOverlap(List<Appointment> appointments) {
@@ -125,5 +136,10 @@ public class AppointmentList {
     public boolean contains(Appointment toCheck) {
         requireNonNull(toCheck);
         return internalList.stream().anyMatch(toCheck::equals);
+    }
+
+    @Override
+    public Iterator<Appointment> iterator() {
+        return internalList.iterator();
     }
 }

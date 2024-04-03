@@ -40,7 +40,7 @@ public class AppointmentListTest {
     @Test
     public void contains_overlappingAppointment_returnsTrue() {
         appointmentList.add(sundayAppointment);
-        assertTrue(appointmentList.hasOverlappingAppointment(sundayOverlappingAppointment));
+        assertTrue(appointmentList.overlaps(sundayOverlappingAppointment));
     }
 
     @Test
