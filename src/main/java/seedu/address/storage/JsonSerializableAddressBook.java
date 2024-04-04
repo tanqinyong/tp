@@ -76,9 +76,23 @@ class JsonSerializableAddressBook {
         for (JsonAdaptedPerson jsonAdaptedPerson : persons) {
             Person person = jsonAdaptedPerson.toModelType();
 
+            // check for uniqueness among persons
             if (addressBook.hasPerson(person)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
             }
+
+            // check for overlapping appointments among persons
+            for (Appointment ap : person.getAppointments()) {
+                if (addressBook.appointmentsOverlap(ap)) {
+                    throw new IllegalValueException(MESSAGE_OVERLAPPING_APPOINTMENT);
+                }
+            }
+
+            // check for overlapping appointments of a person
+            if (person.getAppointments().isOverlapping()) {
+                throw new IllegalValueException(MESSAGE_OVERLAPPING_APPOINTMENT);
+            }
+
             addressBook.addPerson(person);
         }
 
