@@ -51,8 +51,17 @@ public class Messages {
         }
         builder.append("; Tags: ");
         person.getTags().forEach(builder::append);
+
         builder.append("; Appointments: ");
         person.getAppointments().forEach(builder::append);
+
+        builder.append("; Subjects: ");
+        person.getSubjects().forEach(builder::append);
+
+        if (!person.getLevel().isEmpty()) {
+            builder.append("; Level: ").append(person.getLevel());
+        }
+
         return builder.toString();
     }
 
