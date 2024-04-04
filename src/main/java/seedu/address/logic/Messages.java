@@ -58,7 +58,7 @@ public class Messages {
         builder.append("; Subjects: ");
         person.getSubjects().forEach(builder::append);
 
-        if (!person.getNote().isEmpty()) {
+        if (!person.getLevel().isEmpty()) {
             builder.append("; Level: ").append(person.getLevel());
         }
 
