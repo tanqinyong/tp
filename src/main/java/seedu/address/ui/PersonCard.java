@@ -57,7 +57,9 @@ public class PersonCard extends UiPart<Region> {
         email.setText(person.getEmail().isEmpty() ? "-" : person.getEmail().value);
 
         String level = person.getLevel().toString();
-        summary.getChildren().add(createSummaryLabel(level, level));
+        if (level != null) {
+            summary.getChildren().add(createSummaryLabel(level, level));
+        }
 
         person.getSubjects().stream()
                 .sorted(Comparator.comparing(Subject::getSubject))
