@@ -87,7 +87,7 @@ Below lists the requirements for each to be a valid field.
 - `Phone`: Must only contain numbers
   - `999`, `12341234` are valid.
   - `123Phone`, `aeiou` are not valid.
-- `Email`: contains two parts, in the format `local-part@domain`
+- `Email`: Contains two parts, in the format `local-part@domain`
   - `local-part` must adhere to the following restrictions:
     - Contain only alphanumeric characters
     - May contain the following special characters `+_.-`
@@ -99,9 +99,9 @@ Below lists the requirements for each to be a valid field.
   - With these restrictions in mind, the following are some valid and invalid commands:
     - `alex@example.com`, `jorge@website.site.com`, `jack_jane.john@example.com` are valid.
     - `alex@@example.com`, `jorge@website.site.com-`, `jack&jane*john@example.com` are not valid.
-- `Address`: must not be blank or contain only spaces.
+- `Address`: Must not be blank or contain only spaces.
   - Note that entering an address which is blank or has spaces will instead treat a person as having no address. Valid addresses are still only those which do not violate the above criteria.
-- `Note`: must not be blank or contain only spaces
+- `Note`: Must not be blank or contain only spaces
   - See above.
 - `Tag`: Must not contain any spaces.
 - `Subject`: Must be `MATH`, `SCIENCE`, `ENGLISH` or `MT`.
@@ -130,7 +130,7 @@ Adds a person to the address book.
 Format: `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A person can have any number of tags, and any number of appointments (including 0)
+A person can have any number of tags, and any number of appointments (including 0).
 </div>
 
 Examples:
@@ -138,13 +138,19 @@ Examples:
 * `add n/Monica Chng e/mc@example.com a/Dempsey Hill p/81888818 ap/10:00-12:00 FRI l/P6`
 * `add n/Abel nt/exstudent ap/12:00-15:00 SUN ap/18:00-22:00 TUE`
 
-Only the "Name" field is mandatory. If you do not wish to have the other fields to have values, you can add the person in without the corresponding tag, or leaving the tag blank.
+Only the "Name" field is mandatory. If you do not wish to have the other fields to have values, you can add the person
+in without the corresponding tag, or leaving the tag blank.
 
 For example:
 * `add n/John`
 * `add n/John a/`
 
-Will both create the same person in the address book (i.e. a person named "John" with no address). The same logic applies to all other fields.
+Both create the same person in the address book (i.e. a person named "John" with no address).
+The same logic applies to the other fields.
+
+<div markdown="span" class="alert alert-primary">:warning: **Note:**
+New appointments **must not overlap with each other** and should not overlap with existing appointments. 
+</div>
 
 ### Listing all persons : `list`
 
@@ -154,11 +160,12 @@ Format: `list`
 
 ### Viewing a person : `view`
 
-Displays all information of a person.
+Displays all information of a person on the side window.
 
 Format: `view INDEX`
 
-* Displays all information of the person at the specified index. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, ...
+* Displays all information of the person at the specified index. The index refers to the index number shown in the displayed person list.
+The index **must be a positive integer** 1, 2, 3, ...
 
 ### Editing a person : `edit`
 
@@ -166,7 +173,8 @@ Edits an existing person in the address book.
 
 Format: `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​`
 
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list.
+The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
@@ -190,22 +198,22 @@ Format: `note INDEX NOTE`
 Examples:
 *  `note 1 nt/This is a note` Edits the note of the 1st person to be `This is a note`.
 
-### Locating persons by name: `find`
+### Locating persons by name : `find`
 
 Finds persons whose names contain any of the given keywords.
 
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
+* The search is case-insensitive. e.g `hans` will match `Hans`.
+* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`.
 * Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
+* Only full words will be matched e.g. `Han` will not match `Hans`.
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`.
 
 Examples:
-* `find Jun` returns `jun` and `Jun Jie`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
+* `find Jun` returns `jun` and `Jun Jie`.
+* `find alex david` returns `Alex Yeoh`, `David Li`.<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
 ### Deleting a person : `delete`
@@ -285,5 +293,6 @@ Action | Format, Examples
 **List** | `list`
 **Note** | `note INDEX NOTE`<br> e.g. `note 1 nt/This is a note`
 **View** | `view INDEX`
+**View Appointments** | `appointments`
 **Help** | `help`
 **Exit** | `exit`
