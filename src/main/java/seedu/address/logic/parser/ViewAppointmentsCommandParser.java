@@ -32,15 +32,22 @@ public class ViewAppointmentsCommandParser implements Parser<ViewAppointmentsCom
             return new ViewAppointmentsCommand(new AppointmentIsDayOfWeekPredicate(defaultDayOfWeeks));
         }
 
-        try {
-            String[] days = trimmedArgs.split("\\s+");
-            List<DayOfWeek> dayOfWeeks = Stream.of(days).map(String::toUpperCase)
-                    .map(Appointment.DAY_TO_DAY_OF_WEEK::get)
-                    .collect(Collectors.toList());
-            return new ViewAppointmentsCommand(new AppointmentIsDayOfWeekPredicate(dayOfWeeks));
-        } catch (IllegalArgumentException e) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewAppointmentsCommand.MESSAGE_USAGE));
+        String[] days = trimmedArgs.split("\\s+");
+        List<String> dayList = Stream.of(days).map(String::toUpperCase).collect(Collectors.toList());
+
+        // check that all day in dayList are valid day of the week
+        for (String day : dayList) {
+            if (!Appointment.DAY_TO_DAY_OF_WEEK.containsKey(day)) {
+                throw new ParseException(
+                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewAppointmentsCommand.MESSAGE_USAGE));
+            }
         }
+
+        List<DayOfWeek> dayOfWeekList = dayList.stream()
+                .map(Appointment.DAY_TO_DAY_OF_WEEK::get)
+                .distinct()
+                .collect(Collectors.toList());
+
+        return new ViewAppointmentsCommand(new AppointmentIsDayOfWeekPredicate(dayOfWeekList));
     }
 }
