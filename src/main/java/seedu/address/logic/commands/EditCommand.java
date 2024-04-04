@@ -64,6 +64,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_NEAR_DUPLICATES = "Edited Person: %1$s \nPossible duplicate contacts: %2$s";
     public static final String MESSAGE_OVERLAPPING_APPOINTMENT =
             "This person's appointments clash with an existing appointment";
     private final Index index;
@@ -97,6 +98,9 @@ public class EditCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
+        // Duplicate Detection feature
+        List<String> duplicateNames = model.findNearDuplicates(editedPerson);
+
         // Overlapping appointment detection
         if (editedPerson.getAppointments().isOverlapping()) {
             throw new CommandException(MESSAGE_OVERLAPPING_APPOINTMENT);
@@ -115,6 +119,16 @@ public class EditCommand extends Command {
 
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+
+        // If there are near duplicate names
+        if (!duplicateNames.isEmpty()) {
+            // remove the old name as it will be detected
+            duplicateNames.remove(personToEdit.getName().toString());
+            return new CommandResult(String.format(MESSAGE_NEAR_DUPLICATES,
+                    Messages.format(editedPerson),
+                    String.join(", ", duplicateNames)));
+        }
+
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
     }
 
