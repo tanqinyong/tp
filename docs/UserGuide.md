@@ -27,7 +27,7 @@ TutorRec is a **desktop app for home tutors to manage student contacts, optimize
 
    * `list` : Lists all contacts.
 
-   * `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01 nt/Weak at Maths t/Has a brother ap/10:00-12:00 SAT s/MATH l/P1` : Adds a contact named `Jun Jie` to the address book.
+   * `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01 nt/Weak at Maths t/referral ap/10:00-12:00 SAT s/MATH l/P1` : Adds a contact named `Jun Jie` to the address book.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
@@ -38,6 +38,7 @@ TutorRec is a **desktop app for home tutors to manage student contacts, optimize
 1. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## Features
 
@@ -100,7 +101,7 @@ Below lists the requirements for each to be a valid field.
   - Note that entering an address which is blank or has spaces will instead treat a person as having no address. Valid addresses are still only those which do not violate the above criteria.
 - `Note`: must not be blank or contain only spaces
   - See above.
-- `Tag`: No restrictions
+- `Tag`: Must not contain any spaces.
 - `Subject`: Must be `MATH`, `SCIENCE`, `ENGLISH` or `MT`.
 - `Level`: Must be `P1`, `P2`, `P3`, `P4`, `P5` or `P6`.
 - `Appointment`: Must be in the format `START_TIME-END_TIME DAY`
@@ -132,7 +133,7 @@ A person can have any number of tags, and any number of appointments (including 
 Examples:
 * `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01 s/MATH`
 * `add n/Monica Chng e/mc@example.com a/Dempsey Hill p/81888818 ap/10:00-12:00 FRI l/P6`
-* `add n/Abel nt/Has a brother ap/12:00-15:00 SUN ap/18:00-22:00 TUE`
+* `add n/Abel nt/exstudent ap/12:00-15:00 SUN ap/18:00-22:00 TUE`
 
 Only the "Name" field is mandatory. If you do not wish to have the other fields to have values, you can add the person in without the corresponding tag, or leaving the tag blank.
 
@@ -184,7 +185,7 @@ Format: `note INDEX NOTE`
 * Edits the note of the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-*  `note 1 This is a note` Edits the note of the 1st person to be `This is a note`.
+*  `note 1 nt/This is a note` Edits the note of the 1st person to be `This is a note`.
 
 ### Locating persons by name: `find`
 
@@ -279,7 +280,7 @@ Action | Format, Examples
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
-**Note** | `note INDEX NOTE`<br> e.g. `note 1 This is a note`
+**Note** | `note INDEX NOTE`<br> e.g. `note 1 nt/This is a note`
 **View** | `view INDEX`
 **Help** | `help`
 **Exit** | `exit`
