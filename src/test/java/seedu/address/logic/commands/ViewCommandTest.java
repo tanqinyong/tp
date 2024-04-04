@@ -37,7 +37,7 @@ public class ViewCommandTest {
     public void execute_validIndexUnfilteredList_success() {
         List<String> expected = new ArrayList<>();
         expected.add("ALICE PAULINE\n");
-        expected.add("\nTAGS: [friends]\n");
+        expected.add("\n[P1] [friends]\n");
         expected.add(StringUtil.SEPARATOR);
         expected.add("\nDETAILS:\n");
         expected.add("94351253\n");
@@ -73,7 +73,7 @@ public class ViewCommandTest {
 
         List<String> expected = new ArrayList<>();
         expected.add("BENSON MEIER\n");
-        expected.add("\nTAGS: [owesMoney] [friends]\n");
+        expected.add("\n[P1] [MATH] [owesMoney] [friends]\n");
         expected.add(StringUtil.SEPARATOR);
         expected.add("\nDETAILS:\n");
         expected.add("98765432\n");
