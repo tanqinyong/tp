@@ -27,7 +27,7 @@ public class Appointment implements Comparable<Appointment> {
     private static final String MINUTE = "[\\d]{2}";
     private static final String START_TIME = HOUR + ":" + MINUTE;
     private static final String END_TIME = HOUR + ":" + MINUTE;
-    private static final String DAY = "[A-Z]{3}";
+    private static final String DAY = "[A-z]{3}";
     public static final String VALIDATION_REGEX = START_TIME + "-" + END_TIME + "[\\s]+" + DAY;
 
     private static final HashMap<String, DayOfWeek> dayToDayOfWeek;
@@ -68,7 +68,7 @@ public class Appointment implements Comparable<Appointment> {
         requireNonNull(appointment);
         checkArgument(isValidAppointment(appointment), MESSAGE_CONSTRAINTS);
 
-        value = appointment;
+        value = appointment.toUpperCase();
         startTime = LocalTime.parse(extractStartTime(appointment));
         endTime = LocalTime.parse(extractEndTime(appointment));
         day = dayToDayOfWeek.get(extractDay(appointment));
@@ -138,7 +138,7 @@ public class Appointment implements Comparable<Appointment> {
     }
 
     private static String extractDay(String appointment) {
-        return appointment.substring(12).trim();
+        return appointment.substring(12).trim().toUpperCase();
     }
 
     @Override
