@@ -30,7 +30,9 @@ public class ViewAppointmentsCommand extends Command {
         // Get all appointments from the last shown list of persons
         List<String> appointments = lastShownList.stream()
                 .flatMap(person -> person.hasAppointments()
-                        ? Stream.concat(Stream.of("\n" + person.getName()), person.getAppointments().stream())
+                        ? Stream.concat(
+                                Stream.of("\n" + person.getName()), person.getAppointments()
+                                .asUnmodifiableObservableList().stream())
                         : Stream.empty())
                 .map(Object::toString)
                 .collect(Collectors.toList());

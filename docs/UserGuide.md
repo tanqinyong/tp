@@ -19,15 +19,15 @@ TutorRec is a **desktop app for home tutors to manage student contacts, optimize
 1. Copy the file to the folder you want to use as the _home folder_ for TutorRec.
 
 1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar tutorrec.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
+   A GUI similar to the one below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+1. Type a command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * `list` : Lists all contacts.
 
-   * `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01` : Adds a contact named `John Doe` to the address book.
+   * `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01 nt/Weak at Maths t/referral ap/10:00-12:00 SAT s/MATH l/P1` : Adds a contact named `Jun Jie` to the address book.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
@@ -38,6 +38,7 @@ TutorRec is a **desktop app for home tutors to manage student contacts, optimize
 1. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## Features
 
@@ -71,6 +72,8 @@ TutorRec is a **desktop app for home tutors to manage student contacts, optimize
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
+<div style="page-break-after: always;"></div>
+
 ### Formatting fields for a person
 
 A person has the following fields: `Name`, `Phone`, `Email`, `Address`, `Note`, `Tag`, `Appointment`,
@@ -100,14 +103,15 @@ Below lists the requirements for each to be a valid field.
   - Note that entering an address which is blank or has spaces will instead treat a person as having no address. Valid addresses are still only those which do not violate the above criteria.
 - `Note`: Must not be blank or contain only spaces
   - See above.
-- `Tag`: No restrictions.
-- `Subject`: Must be "MATH", "SCIENCE", "ENGLISH" or "MT".
-- `Level`: Must be "P1", "P2", "P3", "P4", "P5" or "P6".
+- `Tag`: Must not contain any spaces.
+- `Subject`: Must be `MATH`, `SCIENCE`, `ENGLISH` or `MT`.
+- `Level`: Must be `P1`, `P2`, `P3`, `P4`, `P5` or `P6`.
 - `Appointment`: Must be in the format `START_TIME-END_TIME DAY`
-  - `START_TIME` and `END-TIME` are in the format `HH-MM`. The time of `START_TIME` must strictly be smaller than `END_TIME`
+  - `START_TIME` and `END-TIME` are in the 24-hour format of `HH:MM`. The time of `START_TIME` must strictly be smaller than `END_TIME`
   - `DAY` must be one of the following: `MON`, `TUE`, `WED`, `THU`, `FRI`, `SAT`,`SUN`.
     - Respectively, these represent Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, and Sunday.
-  - `12:00-13:00 MON`, `16:59-22:00 SUN` are valid.
+    - These are not case-sensitive
+  - `12:00-13:00 MON`, `16:59-22:00 sun` are valid.
   - `13:00-11:00 MON`, `16:0000-19:1234 MON`, `16:00-17:00 SUNDAY` are not valid.
 
 ### Viewing help : `help`
@@ -132,7 +136,7 @@ A person can have any number of tags, and any number of appointments (including 
 Examples:
 * `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01 s/MATH`
 * `add n/Monica Chng e/mc@example.com a/Dempsey Hill p/81888818 ap/10:00-12:00 FRI l/P6`
-* `add n/Abel nt/Has a brother ap/12:00-15:00 SUN ap/18:00-22:00 TUE`
+* `add n/Abel nt/exstudent ap/12:00-15:00 SUN ap/18:00-22:00 TUE`
 
 Only the "Name" field is mandatory. If you do not wish to have the other fields to have values, you can add the person
 in without the corresponding tag, or leaving the tag blank.
@@ -167,7 +171,7 @@ The index **must be a positive integer** 1, 2, 3, ...
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ap/APPOINTMENT] [t/TAG]…​`
+Format: `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​`
 
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list.
 The index **must be a positive integer** 1, 2, 3, …​
@@ -176,23 +180,23 @@ The index **must be a positive integer** 1, 2, 3, …​
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
 * You can remove all the person’s tags by typing `t/` without
     specifying any tags after it. Appointments work similarly (i.e. typing `ap/` with no appointments after it clears all appointments)
-* You can remove fields (except for name) by typing the tag for the relevant field and leaving it blank
+* You can remove fields (except for name) by typing the tag for the relevant field and leaving it blank.
 
 Examples:
 *  `edit 1 p/91234567 e/jj@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `jj@example.com` respectively.
 *  `edit 2 n/Monica Chng t/` Edits the name of the 2nd person to be `Monica Chng` and clears all existing tags.
 *  `edit 3 n/Bobby Brown p/` Edits the name of the 3rd person to be `Bobby Brown` and removes the `phone` field.
 
-### Edits a note to a person : `note`
+### Edit a note of a person : `note`
 
-Edits a note to an existing person in the address book.
+Edits a note of an existing person in the address book.
 
 Format: `note INDEX NOTE`
 
 * Edits the note of the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-*  `note 1 This is a note` Edits the note of the 1st person to be `This is a note`.
+*  `note 1 nt/This is a note` Edits the note of the 1st person to be `This is a note`.
 
 ### Locating persons by name : `find`
 
@@ -228,11 +232,9 @@ Examples:
 
 ### Viewing all appointments : `appointments`
 
-Displays all current appointments across all users from the address book.
+Displays all appointments of persons currently displayed in the list, along with the persons involved.
 
 Format: `appointments`
-
-* Displays all current appointments along with the persons involved.
 
 ### Clearing all entries : `clear`
 
@@ -248,15 +250,15 @@ Format: `exit`
 
 ### Saving the data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+TutorRec data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-AddressBook data is saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+TutorRec data is saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If you changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, TutorRec will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause TutorRec to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
 ### Archiving data files `[coming in v2.0]`
@@ -268,7 +270,7 @@ _Details coming soon ..._
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the data file it creates with the file that contains the data in your previous TutorRec home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -282,12 +284,15 @@ _Details coming soon ..._
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Add** | `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​` <br> e.g., `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01 s/MATH`
+**View** | `appointments`
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
+**Note** | `note INDEX NOTE`<br> e.g. `note 1 nt/This is a note`
 **View** | `view INDEX`
 **View Appointments** | `appointments`
 **Help** | `help`
+**Exit** | `exit`

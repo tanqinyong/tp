@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.appointment.Appointment;
+import seedu.address.model.appointment.AppointmentList;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Level;
@@ -55,7 +55,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).orElse(null));
         Note note = ParserUtil.parseNote(argMultimap.getValue(PREFIX_NOTE).orElse(null));
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-        Set<Appointment> appointmentList = ParserUtil.parseAppointments(argMultimap.getAllValues(PREFIX_APPOINTMENT));
+        AppointmentList appointmentList = ParserUtil.parseAppointments(argMultimap.getAllValues(PREFIX_APPOINTMENT));
         Set<Subject> subjectList = ParserUtil.parseSubjects(argMultimap.getAllValues(PREFIX_SUBJECT));
         Level level = ParserUtil.parseLevel(argMultimap.getValue(PREFIX_LEVEL).orElse(null));
 

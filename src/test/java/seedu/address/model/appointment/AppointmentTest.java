@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.junit.jupiter.api.Test;
 
 public class AppointmentTest {
@@ -31,7 +34,6 @@ public class AppointmentTest {
         assertFalse(Appointment.isValidAppointment("23:15-23:16")); // day missing
         assertFalse(Appointment.isValidAppointment("3:15-4:30 FRI")); // H digit missing
         assertFalse(Appointment.isValidAppointment("3:15-04:30 FRI")); // H digit missing
-        assertFalse(Appointment.isValidAppointment("03:15-04:30 fri")); // DAY not capitalised
         assertFalse(Appointment.isValidAppointment("12:34-13:33 FOB")); // not a day of the week
         assertFalse(Appointment.isValidAppointment("00:00-00:12FRI")); // no space between times and day
         assertFalse(Appointment.isValidAppointment("0000-1234 FRI")); // no colon between hour and minute
@@ -48,6 +50,10 @@ public class AppointmentTest {
         assertTrue(Appointment.isValidAppointment("02:00-03:00 THU")); // matches HH:mm DAY
         assertTrue(Appointment.isValidAppointment("12:00-13:00 FRI")); // matches HH:mm DAY
         assertTrue(Appointment.isValidAppointment("13:30-14:00 SUN")); // matches HH:mm DAY
+        assertTrue(Appointment.isValidAppointment("03:15-04:30 fri")); // DAY can be in lower case
+        assertTrue(Appointment.isValidAppointment("03:15-04:30 fRI")); // DAY can be in lower and upper case
+        assertTrue(Appointment.isValidAppointment("03:15-04:30 Fri")); // DAY can be in lower and upper case
+        assertTrue(Appointment.isValidAppointment("03:15-04:30 fRi")); // DAY can be in lower and upper case
 
     }
 
@@ -108,4 +114,26 @@ public class AppointmentTest {
         assertFalse(notOverlappingAppointment.overlapsWith(appointment));
 
     }
+
+    @Test
+    public void hasOverlapping_noOverlappingAppointments_returnsFalse() {
+        // Create a collection of non-overlapping appointments
+        Collection<Appointment> appointments = new ArrayList<>();
+        appointments.add(new Appointment("10:00-11:00 MON"));
+        appointments.add(new Appointment("12:00-13:00 MON"));
+        appointments.add(new Appointment("14:00-15:00 MON"));
+
+        // Check if there are any overlapping appointments
+        assertFalse(Appointment.hasOverlapping(appointments));
+    }
+
+    @Test
+    public void hasOverlapping_emptyCollection_returnsFalse() {
+        // Create an empty collection of appointments
+        Collection<Appointment> appointments = new ArrayList<>();
+
+        // Check if there are any overlapping appointments
+        assertFalse(Appointment.hasOverlapping(appointments));
+    }
+
 }

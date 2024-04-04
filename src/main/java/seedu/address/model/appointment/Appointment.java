@@ -5,13 +5,16 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Represents a Person's appointment in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidAppointment(String)}
  */
-public class Appointment {
+public class Appointment implements Comparable<Appointment> {
     public static final String MESSAGE_CONSTRAINTS = "Appointment should be of the format 'HH:MM-HH:MM DAY' "
             + "and adhere to the following constraints:\n"
             + "1. HH:MM follows 24 hour time; "
@@ -24,21 +27,31 @@ public class Appointment {
     private static final String MINUTE = "[\\d]{2}";
     private static final String START_TIME = HOUR + ":" + MINUTE;
     private static final String END_TIME = HOUR + ":" + MINUTE;
-    private static final String DAY = "[A-Z]{3}";
+    private static final String DAY = "[A-z]{3}";
     public static final String VALIDATION_REGEX = START_TIME + "-" + END_TIME + "[\\s]+" + DAY;
 
     private static final HashMap<String, DayOfWeek> dayToDayOfWeek;
+    private static final HashMap<DayOfWeek, Integer> dayOfWeekToNum;
 
     // initialize map from String to DayOfWeek
     static {
         dayToDayOfWeek = new HashMap<>();
-        dayToDayOfWeek.put("SUN", DayOfWeek.SUNDAY);
         dayToDayOfWeek.put("MON", DayOfWeek.MONDAY);
         dayToDayOfWeek.put("TUE", DayOfWeek.TUESDAY);
         dayToDayOfWeek.put("WED", DayOfWeek.WEDNESDAY);
         dayToDayOfWeek.put("THU", DayOfWeek.THURSDAY);
         dayToDayOfWeek.put("FRI", DayOfWeek.FRIDAY);
         dayToDayOfWeek.put("SAT", DayOfWeek.SATURDAY);
+        dayToDayOfWeek.put("SUN", DayOfWeek.SUNDAY);
+
+        dayOfWeekToNum = new HashMap<>();
+        dayOfWeekToNum.put(DayOfWeek.MONDAY, 1);
+        dayOfWeekToNum.put(DayOfWeek.TUESDAY, 2);
+        dayOfWeekToNum.put(DayOfWeek.WEDNESDAY, 3);
+        dayOfWeekToNum.put(DayOfWeek.THURSDAY, 4);
+        dayOfWeekToNum.put(DayOfWeek.FRIDAY, 5);
+        dayOfWeekToNum.put(DayOfWeek.SATURDAY, 6);
+        dayOfWeekToNum.put(DayOfWeek.SUNDAY, 7);
     }
 
     public final String value;
@@ -55,10 +68,28 @@ public class Appointment {
         requireNonNull(appointment);
         checkArgument(isValidAppointment(appointment), MESSAGE_CONSTRAINTS);
 
-        value = appointment;
+        value = appointment.toUpperCase();
         startTime = LocalTime.parse(extractStartTime(appointment));
         endTime = LocalTime.parse(extractEndTime(appointment));
         day = dayToDayOfWeek.get(extractDay(appointment));
+    }
+
+    /**
+     * Returns true if a given collection of appointments overlap.
+     */
+    public static boolean hasOverlapping(Collection<Appointment> appointments) {
+        List<Appointment> appointmentList = new ArrayList<>(appointments);
+        int size = appointmentList.size();
+        for (int i = 0; i < size - 1; i += 1) {
+            for (int j = i + 1; j < size; j += 1) {
+                Appointment appointment = appointmentList.get(i);
+                Appointment other = appointmentList.get(j);
+                if (appointment.overlapsWith(other)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -107,7 +138,7 @@ public class Appointment {
     }
 
     private static String extractDay(String appointment) {
-        return appointment.substring(12).trim();
+        return appointment.substring(12).trim().toUpperCase();
     }
 
     @Override
@@ -154,4 +185,14 @@ public class Appointment {
         return value.hashCode();
     }
 
+    @Override
+    public int compareTo(Appointment o) {
+        if (dayOfWeekToNum.get(this.day) < dayOfWeekToNum.get(o.day)) {
+            return -1;
+        } else if (dayOfWeekToNum.get(this.day) > dayOfWeekToNum.get(o.day)) {
+            return 1;
+        } else {
+            return this.startTime.compareTo(o.startTime);
+        }
+    }
 }

@@ -38,7 +38,7 @@ public class NoteCommand extends Command {
 
     /**
      * @param index of the person in the filtered person list to edit the note
-     * @param note of the person to be updated to
+     * @param remark of the person to be updated to
      */
     public NoteCommand(Index index, Note remark) {
         requireAllNonNull(index, remark);
