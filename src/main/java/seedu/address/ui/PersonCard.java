@@ -7,8 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Subject;
 
 /**
  * An UI component that displays information of a {@code Person}.
@@ -36,19 +36,13 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label phone;
     @FXML
-    private Label address;
-    @FXML
     private Label email;
     @FXML
-    private FlowPane tags;
+    private FlowPane summary;
     @FXML
     private FlowPane subjects;
     @FXML
     private FlowPane level;
-    @FXML
-    private Label note;
-    @FXML
-    private VBox appointments;
 
 
     /**
@@ -60,16 +54,29 @@ public class PersonCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().isEmpty() ? "-" : person.getPhone().value);
-        address.setText(person.getAddress().isEmpty() ? "-" : person.getAddress().value);
         email.setText(person.getEmail().isEmpty() ? "-" : person.getEmail().value);
-        note.setText(person.getNote().isEmpty() ? "-" : person.getNote().value);
-        level.getChildren().add(new Label(person.getLevel().toString()));
+
+        String level = person.getLevel().toString();
+        summary.getChildren().add(createSummaryLabel(level, level));
+
+        person.getSubjects().stream()
+                .sorted(Comparator.comparing(Subject::getSubject))
+                .forEach(subject -> summary.getChildren()
+                        .add(createSummaryLabel(subject.getSubject(), subject.getSubject())));
+
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
-                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-        person.getSubjects().stream()
-                .sorted(Comparator.comparing(subject -> subject.getSubject()))
-                .forEach(subject -> subjects.getChildren().add(new Label(subject.getSubject())));
-        person.getAppointments().forEach(appointment -> appointments.getChildren().add(new Label(appointment.value)));
+                .forEach(tag -> summary.getChildren().add(createSummaryLabel(tag.tagName, "tag")));
+
+    }
+
+    /**
+     * Returns a Label object that is used in the summary FlowPane containing the specified text content
+     * and style class.
+     */
+    private Label createSummaryLabel(String content, String classToAdd) {
+        Label customLabel = new Label(content);
+        customLabel.getStyleClass().add(classToAdd);
+        return customLabel;
     }
 }
