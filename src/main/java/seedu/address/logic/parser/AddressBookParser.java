@@ -81,7 +81,7 @@ public class AddressBookParser {
             return new HelpCommand();
 
         case ViewAppointmentsCommand.COMMAND_WORD:
-            return new ViewAppointmentsCommand();
+            return new ViewAppointmentsCommandParser().parse(arguments);
 
         case NoteCommand.COMMAND_WORD:
             return new NoteCommandParser().parse(arguments);
