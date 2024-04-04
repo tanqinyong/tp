@@ -126,7 +126,8 @@ How the parsing works:
 
 The `Model` component,
 
-* stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
+* stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object)
+and all associated `Appointment` objects (which are contained in a `DisjointAppointmentList`).
 * stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
@@ -163,17 +164,22 @@ This section describes some noteworthy details on how certain features are imple
 
 #### Implementation
 
-One of the features of TutorRec is the capability of adding appointments to a user. They are added as a field (`/ap`) when doing an `add` or `edit` command, so something similar to:
+One of the features of TutorRec is the ability to add appointments to a contact.
+They are added as a field (`/ap`) when doing an `add` or `edit` command, for example:
 
-- `edit 1 /ap 12:00-13:00 MON` will edit the person on index 1 to have an appointment on Monday from 12:00 to 13:00
+- `edit 1 /ap 12:00-13:00 MON` will edit the person on index 1 to have an appointment on Monday from 12:00 to 13:00.
 
-The example shown below will describe the process for an appointment given during an `add` command, though the process is similar to that of an `edit` command.
+The example shown below will describe the process for a valid appointment given during an `add` command, though the process is similar to that of an `edit` command.
 
 ![AddSequenceDiagramAppointment](images/AddSequenceDiagramAppointment.png)
 
 ![AddSequenceDiagramRefFrame](images/AddSequenceDiagramRefFrame.png)
 
-It can be seen here that each appointment, after being parsed, will be added to the list of appointments to each person.
+Here, each appointment, after being parsed, will be added to the list of appointments in each `Person`.
+This is implemented as an `AppointmentList` field.
+To prevent appointment overlap, we check in two ways:
+1.  `Appointment` overlap within `Person`'s `AppointmentList` and
+2. `Appointment` overlap between `AppointmentList` and the `DisjointAppointmentList`.
 
 Note that certain details, such as other fields in a `Person` have been omitted for brevity.
 

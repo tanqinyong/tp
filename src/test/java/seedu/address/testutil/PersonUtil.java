@@ -14,7 +14,7 @@ import java.util.Set;
 
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
-import seedu.address.model.appointment.Appointment;
+import seedu.address.model.appointment.AppointmentList;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
@@ -44,7 +44,7 @@ public class PersonUtil {
         person.getTags().stream().forEach(
             s -> sb.append(PREFIX_TAG + s.tagName + " ")
         );
-        person.getAppointments().stream().forEach(
+        person.getAppointments().asUnmodifiableObservableList().forEach(
                 s -> sb.append(PREFIX_APPOINTMENT + s.value + " ")
         );
         person.getSubjects().stream().forEach(
@@ -73,7 +73,7 @@ public class PersonUtil {
         }
         if (descriptor.getAppointments().isPresent()) {
             sb.append(" ");
-            Set<Appointment> appointments = descriptor.getAppointments().get();
+            AppointmentList appointments = descriptor.getAppointments().get();
             if (appointments.isEmpty()) {
                 sb.append(PREFIX_APPOINTMENT);
             } else {
