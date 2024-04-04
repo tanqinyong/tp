@@ -348,16 +348,62 @@
     -fx-border-width: 2;
 }
 
-#tags {
-    -fx-hgap: 7;
+#summary {
+    -fx-hgap: 5;
     -fx-vgap: 3;
+    -fx-padding: 2 0 2 0;
 }
 
-#tags .label {
+#summary .label {
     -fx-text-fill: white;
     -fx-background-color: #3e7b91;
-    -fx-padding: 1 3 1 3;
-    -fx-border-radius: 2;
-    -fx-background-radius: 2;
-    -fx-font-size: 11;
+    -fx-padding: 2 8 2 8;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+}
+
+#summary .tag {
+    -fx-background-color: #3e7b91;
+}
+
+#summary .P1 {
+    -fx-background-color: #9340f7;
+}
+
+#summary .P2 {
+    -fx-background-color: #bd40f7;
+}
+
+#summary .P3 {
+    -fx-background-color: #e540f7;
+}
+
+#summary .P4 {
+    -fx-background-color: #f740c7;
+}
+
+#summary .P5 {
+    -fx-background-color: #f74083;
+}
+
+#summary .P6 {
+    -fx-background-color: #f74040;
+}
+
+#summary .ENGLISH {
+    -fx-background-color: #4c49fc;
+}
+
+#summary .MATH {
+    -fx-background-color: #94622c;
+}
+
+#summary .SCIENCE {
+    -fx-background-color: #298028;
+}
+
+#summary .MT {
+    -fx-background-color: #808028;
 }

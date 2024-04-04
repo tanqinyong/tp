@@ -11,6 +11,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.BENSON;
 import static seedu.address.testutil.TypicalPersons.BOB;
 
 import java.util.ArrayList;
@@ -120,7 +121,7 @@ public class PersonTest {
     public void getViewDetailsMethod() {
         List<String> expected = new ArrayList<>();
         expected.add("ALICE PAULINE\n");
-        expected.add("\nTAGS: [friends]\n");
+        expected.add("\n[P2] [friends]\n");
         expected.add(StringUtil.SEPARATOR);
         expected.add("\nDETAILS:\n");
         expected.add("94351253\n");
@@ -132,6 +133,15 @@ public class PersonTest {
         expected.add(StringUtil.SEPARATOR);
         expected.add("\nNOTES:\nShe likes aardvarks.");
 
-        assertEquals(expected.toString(), ALICE.getViewDetails().toString());
+        assertEquals(expected.toString(), new PersonBuilder(ALICE).withLevel("P2").build()
+                .getViewDetails().toString());
+    }
+
+    @Test
+    public void getSummaryMethod() {
+        String expected = "\n[P6] [MATH] [owesMoney] [friends]\n";
+        String actual = new PersonBuilder(BENSON).withLevel("P6").build().getSummary();
+
+        assertEquals(expected, actual);
     }
 }

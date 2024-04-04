@@ -22,7 +22,8 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.appointment.Appointment;
+import seedu.address.model.appointment.AppointmentList;
+import seedu.address.model.appointment.exceptions.OverlappingAppointmentException;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -102,12 +103,13 @@ public class EditCommandParser implements Parser<EditCommand> {
         return Optional.of(ParserUtil.parseTags(tagSet));
     }
     /**
-     * Parses {@code Collection<String> appointments} into a {@code Set<Appointment>}
+     * Parses {@code Collection<String> appointments} into an {@code AppointmentList}
      * if {@code appointments} is non-empty.
      * If {@code appointments} contain only one element which is an empty string, it will be parsed into a
-     * {@code Set<Appointment>} containing zero tags.
+     * {@code AppointmentList} containing zero appointments.
      */
-    private Optional<Set<Appointment>> parseAppointmentsForEdit(Collection<String> appointments) throws ParseException {
+    private Optional<AppointmentList> parseAppointmentsForEdit(Collection<String> appointments) throws ParseException,
+            OverlappingAppointmentException {
         assert appointments != null;
 
         if (appointments.isEmpty()) {

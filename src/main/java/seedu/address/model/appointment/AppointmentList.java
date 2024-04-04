@@ -3,26 +3,21 @@ package seedu.address.model.appointment;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.Iterator;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seedu.address.model.appointment.exceptions.AppointmentNotFoundException;
-import seedu.address.model.appointment.exceptions.OverlappingAppointmentException;
 
 /**
- * A list of appointments that enforces no overlapping between its elements and does not allow nulls.
+ * A list of appointments that does not allow nulls.
  * Supports a minimal set of list operations.
  */
-public class AppointmentList {
-    private List<Appointment> internalList = new ArrayList<Appointment>();
-
-    /**
-     * Returns true if the list contains an appointment overlapping wth the given argument.
-     */
-    public boolean hasOverlappingAppointment(Appointment toCheck) {
-        requireNonNull(toCheck);
-        return internalList.stream().anyMatch(toCheck::overlapsWith);
-    }
+public class AppointmentList implements Iterable<Appointment> {
+    protected final ObservableList<Appointment> internalList = FXCollections.observableArrayList();
+    protected final ObservableList<Appointment> internalUnmodifiableList =
+            FXCollections.unmodifiableObservableList(internalList);
 
     /**
      * Adds an appointment to the list.
@@ -30,16 +25,12 @@ public class AppointmentList {
      */
     public void add(Appointment toAdd) {
         requireNonNull(toAdd);
-        if (hasOverlappingAppointment(toAdd)) {
-            throw new OverlappingAppointmentException();
-        }
         internalList.add(toAdd);
     }
 
     /**
      * Replaces the appointment {@code target} in the list with {@code editedAppointment}.
      * {@code target} must exist in the appointment list.
-     * {@code editedAppointment} must not overlap with another existing appointment in the list.
      */
     public void setAppointment(Appointment target, Appointment editedAppointment) {
         requireAllNonNull(target, editedAppointment);
@@ -47,10 +38,6 @@ public class AppointmentList {
         int index = internalList.indexOf(target);
         if (index == -1) {
             throw new AppointmentNotFoundException();
-        }
-
-        if (hasOverlappingAppointment(editedAppointment)) {
-            throw new OverlappingAppointmentException();
         }
 
         internalList.set(index, editedAppointment);
@@ -72,31 +59,29 @@ public class AppointmentList {
      */
     public void setAppointments(AppointmentList replacement) {
         requireNonNull(replacement);
-        internalList = replacement.internalList;
+        internalList.setAll(replacement.internalList);
     }
 
     /**
      * Replaces the contents of this list with {@code appointments}.
-     * {@code appointments} must not contain overlapping appointments.
      */
-    public void setAppointments(List<Appointment> appointments) {
+    public void setAppointments(Collection<Appointment> appointments) {
         requireAllNonNull(appointments);
-        if (!appointmentsDoNotOverlap(appointments)) {
-            throw new OverlappingAppointmentException();
-        }
-
-        internalList = appointments;
+        internalList.setAll(appointments);
     }
 
-    private boolean appointmentsDoNotOverlap(List<Appointment> appointments) {
-        for (int i = 0; i < appointments.size() - 1; i++) {
-            for (int j = i + 1; j < appointments.size(); j++) {
-                if (appointments.get(i).overlapsWith(appointments.get(j))) {
-                    return false;
-                }
-            }
-        }
-        return true;
+    /**
+     * Sorts the appointment list by the appointment's natural comparator.
+     */
+    public void sort() {
+        internalList.sort(null);
+    }
+
+    /**
+     * Returns the backing list as an unmodifiable {@code ObservableList}.
+     */
+    public ObservableList<Appointment> asUnmodifiableObservableList() {
+        return internalUnmodifiableList;
     }
 
     @Override
@@ -125,5 +110,31 @@ public class AppointmentList {
     public boolean contains(Appointment toCheck) {
         requireNonNull(toCheck);
         return internalList.stream().anyMatch(toCheck::equals);
+    }
+
+    /**
+     * Returns true if the list has overlap between appointments.
+     */
+    public boolean isOverlapping() {
+        return Appointment.hasOverlapping(internalList);
+    }
+
+    /**
+     * Add all appointments in {@code appointments} to the list.
+     */
+    public void addAll(Collection<Appointment> appointments) {
+        internalList.addAll(appointments);
+    }
+
+    /**
+     * Returns true if there are no appointments in the list.
+     */
+    public boolean isEmpty() {
+        return internalList.isEmpty();
+    }
+
+    @Override
+    public Iterator<Appointment> iterator() {
+        return internalList.iterator();
     }
 }

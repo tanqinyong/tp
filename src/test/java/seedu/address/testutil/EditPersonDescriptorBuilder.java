@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.model.appointment.Appointment;
+import seedu.address.model.appointment.AppointmentList;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Level;
@@ -104,12 +105,13 @@ public class EditPersonDescriptorBuilder {
     }
 
     /**
-     * Parses the {@code appointments} into a {@code Set<Appointment>} and set it to the {@code EditPersonDescriptor}
+     * Parses the {@code appointments} into a {@code AppointmentList} and set it to the {@code EditPersonDescriptor}
      * that we are building.
      */
     public EditPersonDescriptorBuilder withAppointments(String... appointments) {
-        Set<Appointment> appointmentSet = Stream.of(appointments).map(Appointment::new).collect(Collectors.toSet());
-        descriptor.setAppointments(appointmentSet);
+        AppointmentList appointmentList = new AppointmentList();
+        appointmentList.addAll(Stream.of(appointments).map(Appointment::new).collect(Collectors.toList()));
+        descriptor.setAppointments(appointmentList);
         return this;
     }
 

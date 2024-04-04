@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 import seedu.address.commons.util.StringUtil;
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.appointment.Appointment;
+import seedu.address.model.appointment.AppointmentList;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -30,7 +30,7 @@ public class Person {
     // Data fields
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
-    private final Set<Appointment> appointments = new HashSet<>();
+    private final AppointmentList appointments;
     private final Set<Subject> subjects = new HashSet<>();
     private final Level level;
 
@@ -39,7 +39,7 @@ public class Person {
      */
     public Person(
         Name name, Phone phone, Email email, Address address, Note note,
-        Set<Tag> tags, Set<Appointment> appointments, Set<Subject> subjects, Level level
+        Set<Tag> tags, AppointmentList appointments, Set<Subject> subjects, Level level
     ) {
         requireAllNonNull(name, phone, email, address, tags, appointments, subjects, level);
         this.name = name;
@@ -48,7 +48,7 @@ public class Person {
         this.address = address;
         this.note = note;
         this.tags.addAll(tags);
-        this.appointments.addAll(appointments);
+        this.appointments = appointments;
         this.subjects.addAll(subjects);
         this.level = level;
     }
@@ -85,12 +85,8 @@ public class Person {
         return Collections.unmodifiableSet(tags);
     }
 
-    /**
-     * Returns an immutable appointment set, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
-     */
-    public Set<Appointment> getAppointments() {
-        return Collections.unmodifiableSet(appointments);
+    public AppointmentList getAppointments() {
+        return appointments;
     }
 
     /**
@@ -110,32 +106,54 @@ public class Person {
 
         assert this.getName() != null;
         detailList.add(this.getName().fullName.toUpperCase() + "\n");
-        detailList.add("\nTAGS: " + (this.getTags().isEmpty()
-                ? "-"
-                : this.getTags().stream()
-                .map(Object::toString)
-                .map(str -> str + " ")
-                .collect(Collectors.joining())
-                .trim()) + "\n"
-        );
+        detailList.add(getSummary());
         detailList.add(StringUtil.SEPARATOR);
+
         detailList.add("\nDETAILS:\n");
         detailList.add(this.getPhone().isEmpty() ? "-" : this.getPhone().value + "\n");
         detailList.add(this.getEmail().isEmpty() ? "-" : this.getEmail().value + "\n");
         detailList.add(this.getAddress().isEmpty() ? "-" : this.getAddress().value + "\n");
         detailList.add(StringUtil.SEPARATOR);
+
         detailList.add("\nAPPOINTMENTS:\n");
         detailList.add(this.getAppointments().isEmpty()
                 ? "-\n"
-                : this.getAppointments().stream()
+                : this.getAppointments()
+                .asUnmodifiableObservableList()
+                .stream()
                 .map(Object::toString)
                 .map(str -> str + "\n")
                 .collect(Collectors.joining()));
         detailList.add(StringUtil.SEPARATOR);
+
         detailList.add("\nNOTES:\n" + (this.getNote().isEmpty() ? "-" : this.getNote().value));
 
         return detailList;
+    }
 
+    /**
+     * Returns a string containing the level, subject and tags of the person.
+     */
+    public String getSummary() {
+        String summaryString = "\n";
+        summaryString += this.getLevel().isEmpty()
+                ? ""
+                : "[" + this.getLevel().toString() + "] ";
+        summaryString += this.getSubjects().isEmpty()
+                ? ""
+                : this.getSubjects().stream()
+                .map(Object::toString)
+                .map(str -> str + " ")
+                .collect(Collectors.joining());
+        summaryString += this.getTags().isEmpty()
+                ? "\n"
+                : this.getTags().stream()
+                .map(Object::toString)
+                .map(str -> str + " ")
+                .collect(Collectors.joining())
+                .trim() + "\n";
+
+        return summaryString;
     }
 
     /**
@@ -207,7 +225,8 @@ public class Person {
         if (!note.isEmpty()) {
             returnedString.add("note", note);
         }
-        returnedString.add("tags", tags).add("appointments", appointments);
+        returnedString.add("tags", tags);
+        returnedString.add("appointments", appointments);
         returnedString.add("subjects", subjects);
 
         if (!level.isEmpty()) {

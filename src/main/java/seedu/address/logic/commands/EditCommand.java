@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
@@ -25,7 +26,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.appointment.Appointment;
+import seedu.address.model.appointment.AppointmentList;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Level;
@@ -64,7 +65,8 @@ public class EditCommand extends Command {
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
     public static final String MESSAGE_NEAR_DUPLICATES = "Edited Person: %1$s \nPossible duplicate contacts: %2$s";
-
+    public static final String MESSAGE_OVERLAPPING_APPOINTMENT =
+            "This person's appointments clash with an existing appointment";
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
 
@@ -99,6 +101,22 @@ public class EditCommand extends Command {
         // Duplicate Detection feature
         List<String> duplicateNames = model.findNearDuplicates(editedPerson);
 
+        // Overlapping appointment detection
+        if (editedPerson.getAppointments().isOverlapping()) {
+            throw new CommandException(MESSAGE_OVERLAPPING_APPOINTMENT);
+        }
+
+        AppointmentList editedAppointmentList = new AppointmentList();
+        editedAppointmentList.setAppointments(editedPerson.getAppointments());
+        editedAppointmentList.addAll(model.getFilteredAppointmentList()
+                .stream()
+                .filter(appointment -> !(personToEdit.getAppointments().contains(appointment)))
+                .collect(Collectors.toList()));
+
+        if (editedAppointmentList.isOverlapping()) {
+            throw new CommandException(MESSAGE_OVERLAPPING_APPOINTMENT);
+        }
+
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
@@ -127,7 +145,7 @@ public class EditCommand extends Command {
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Note updatedNote = editPersonDescriptor.getNote().orElse(personToEdit.getNote());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
-        Set<Appointment> updatedAppointments = editPersonDescriptor
+        AppointmentList updatedAppointments = editPersonDescriptor
                 .getAppointments().orElse(personToEdit.getAppointments());
         Set<Subject> updatedSubjects = editPersonDescriptor.getSubjects().orElse(personToEdit.getSubjects());
         Level updatedLevel = editPersonDescriptor.getLevel().orElse(personToEdit.getLevel());
@@ -173,7 +191,7 @@ public class EditCommand extends Command {
         private Address address;
         private Note note;
         private Set<Tag> tags;
-        private Set<Appointment> appointments;
+        private AppointmentList appointments;
         private Set<Subject> subjects;
         private Level level;
 
@@ -262,16 +280,26 @@ public class EditCommand extends Command {
          * Sets {@code appointments} to this object's {@code appointments}.
          * A defensive copy of {@code appointments} is used internally.
          */
-        public void setAppointments(Set<Appointment> appointments) {
-            this.appointments = (appointments != null) ? new HashSet<>(appointments) : null;
+        public void setAppointments(AppointmentList appointments) {
+            if (appointments == null) {
+                this.appointments = null;
+                return;
+            }
+            this.appointments = new AppointmentList();
+            this.appointments.addAll(appointments.asUnmodifiableObservableList());
         }
         /**
          * Returns an unmodifiable appointment set, which throws {@code UnsupportedOperationException}
          * if modification is attempted.
          * Returns {@code Optional#empty()} if {@code appointments} is null.
          */
-        public Optional<Set<Appointment>> getAppointments() {
-            return (appointments != null) ? Optional.of(Collections.unmodifiableSet(appointments)) : Optional.empty();
+        public Optional<AppointmentList> getAppointments() {
+            if (appointments == null) {
+                return Optional.empty();
+            }
+            AppointmentList defensiveCopy = new AppointmentList();
+            defensiveCopy.addAll(appointments.asUnmodifiableObservableList());
+            return Optional.of(defensiveCopy);
         }
 
         /**

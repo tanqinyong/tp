@@ -27,7 +27,7 @@ TutorRec is a **desktop app for home tutors to manage student contacts, optimize
 
    * `list` : Lists all contacts.
 
-   * `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01` : Adds a contact named `John Doe` to the address book.
+   * `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01 nt/Weak at Maths t/Has a brother ap/10:00-12:00 SAT s/MATH l/P1` : Adds a contact named `Jun Jie` to the address book.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
@@ -59,6 +59,14 @@ TutorRec is a **desktop app for home tutors to manage student contacts, optimize
 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+
+* Prefixes are adjusted to accept slightly incorrect variations and **minor** typos, e.g., `phon/`, `addr/`, `subj/`, `lvl/`.
+
+    * You may choose to use short form or long form of prefixes, e.g., `n/` or `name/`, which are interchangeable.
+
+* TutorRec does not allow for duplicate contacts, and contacts are differentiated by their unique names.
+
+    * Names are not case-sensitive, `John Doe` is the same name as `JOhn dOE`, however, whitespaces do differentiate names apart, e.g., `Mary Anne` is a different name (and person) from `Maryanne`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
@@ -93,8 +101,8 @@ Below lists the requirements for each to be a valid field.
 - `Note`: must not be blank or contain only spaces
   - See above.
 - `Tag`: No restrictions
-- `Subject`: Must be "MATH", "SCIENCE", "ENGLISH" or "MT".
-- `Level`: Must be "P1", "P2", "P3", "P4", "P5" or "P6".
+- `Subject`: Must be `MATH`, `SCIENCE`, `ENGLISH` or `MT`.
+- `Level`: Must be `P1`, `P2`, `P3`, `P4`, `P5` or `P6`.
 - `Appointment`: Must be in the format `START_TIME-END_TIME DAY`
   - `START_TIME` and `END-TIME` are in the format `HH-MM`. The time of `START_TIME` must strictly be smaller than `END_TIME`
   - `DAY` must be one of the following: `MON`, `TUE`, `WED`, `THU`, `FRI`, `SAT`,`SUN`.
@@ -140,11 +148,19 @@ Shows a list of all persons in the address book.
 
 Format: `list`
 
+### Viewing a person : `view`
+
+Displays all information of a person.
+
+Format: `view INDEX`
+
+* Displays all information of the person at the specified index. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, ...
+
 ### Editing a person : `edit`
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ap/APPOINTMENT] [t/TAG]…​`
+Format: `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​`
 
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
@@ -152,12 +168,12 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ap/APPOINTMENT] [t
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
 * You can remove all the person’s tags by typing `t/` without
     specifying any tags after it. Appointments work similarly (i.e. typing `ap/` with no appointments after it clears all appointments)
-* You can remove fields (except for name) by typing the tag for the relevant field and leaving it blank
+* You can remove fields (except for name) by typing the tag for the relevant field and leaving it blank.
 
 Examples:
 *  `edit 1 p/91234567 e/jj@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `jj@example.com` respectively.
 *  `edit 2 n/Monica Chng t/` Edits the name of the 2nd person to be `Monica Chng` and clears all existing tags.
-*  `edit 3 n/Bobby Brown p/` Edits the name of the 3rd person to be `Bobby Brown` and removes the `phone` field
+*  `edit 3 n/Bobby Brown p/` Edits the name of the 3rd person to be `Bobby Brown` and removes the `phone` field.
 
 ### Edits a note to a person : `note`
 
@@ -208,6 +224,8 @@ Displays all current appointments across all users from the address book.
 
 Format: `appointments`
 
+* Displays all current appointments along with the persons involved.
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
@@ -256,10 +274,14 @@ _Details coming soon ..._
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Add** | `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​` <br> e.g., `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01 s/MATH`
+**Appointments** | `appointments`
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
+**Note** | `note INDEX NOTE`<br> e.g. `note 1 This is a note`
+**View** | `view INDEX`
 **Help** | `help`
+**Exit** | `exit`

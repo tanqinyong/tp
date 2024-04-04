@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.junit.jupiter.api.Test;
 
 public class AppointmentTest {
@@ -108,4 +111,26 @@ public class AppointmentTest {
         assertFalse(notOverlappingAppointment.overlapsWith(appointment));
 
     }
+
+    @Test
+    public void hasOverlapping_noOverlappingAppointments_returnsFalse() {
+        // Create a collection of non-overlapping appointments
+        Collection<Appointment> appointments = new ArrayList<>();
+        appointments.add(new Appointment("10:00-11:00 MON"));
+        appointments.add(new Appointment("12:00-13:00 MON"));
+        appointments.add(new Appointment("14:00-15:00 MON"));
+
+        // Check if there are any overlapping appointments
+        assertFalse(Appointment.hasOverlapping(appointments));
+    }
+
+    @Test
+    public void hasOverlapping_emptyCollection_returnsFalse() {
+        // Create an empty collection of appointments
+        Collection<Appointment> appointments = new ArrayList<>();
+
+        // Check if there are any overlapping appointments
+        assertFalse(Appointment.hasOverlapping(appointments));
+    }
+
 }

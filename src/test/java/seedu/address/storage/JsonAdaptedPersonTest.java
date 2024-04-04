@@ -40,7 +40,9 @@ public class JsonAdaptedPersonTest {
     private static final List<JsonAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
             .map(JsonAdaptedTag::new)
             .collect(Collectors.toList());
-    private static final List<JsonAdaptedAppointment> VALID_APPOINTMENTS = BENSON.getAppointments().stream()
+    private static final List<JsonAdaptedAppointment> VALID_APPOINTMENTS = BENSON.getAppointments()
+            .asUnmodifiableObservableList()
+            .stream()
             .map(JsonAdaptedAppointment::new)
             .collect(Collectors.toList());
     private static final List<JsonAdaptedSubject> VALID_SUBJECTS = BENSON.getSubjects().stream()
