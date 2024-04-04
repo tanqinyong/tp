@@ -19,10 +19,10 @@ TutorRec is a **desktop app for home tutors to manage student contacts, optimize
 1. Copy the file to the folder you want to use as the _home folder_ for TutorRec.
 
 1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar tutorrec.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
+   A GUI similar to the one below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+1. Type a command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * `list` : Lists all contacts.
@@ -104,7 +104,7 @@ Below lists the requirements for each to be a valid field.
 - `Subject`: Must be `MATH`, `SCIENCE`, `ENGLISH` or `MT`.
 - `Level`: Must be `P1`, `P2`, `P3`, `P4`, `P5` or `P6`.
 - `Appointment`: Must be in the format `START_TIME-END_TIME DAY`
-  - `START_TIME` and `END-TIME` are in the format `HH-MM`. The time of `START_TIME` must strictly be smaller than `END_TIME`
+  - `START_TIME` and `END-TIME` are in the 24-hour format of `HH:MM`. The time of `START_TIME` must strictly be smaller than `END_TIME`
   - `DAY` must be one of the following: `MON`, `TUE`, `WED`, `THU`, `FRI`, `SAT`,`SUN`.
     - Respectively, these represent Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, and Sunday.
   - `12:00-13:00 MON`, `16:59-22:00 SUN` are valid.
@@ -112,7 +112,7 @@ Below lists the requirements for each to be a valid field.
 
 ### Viewing help : `help`
 
-Shows a message explaning how to access the help page.
+Shows a message explaining how to access the help page.
 
 ![help message](images/helpMessage.png)
 
@@ -175,9 +175,9 @@ Examples:
 *  `edit 2 n/Monica Chng t/` Edits the name of the 2nd person to be `Monica Chng` and clears all existing tags.
 *  `edit 3 n/Bobby Brown p/` Edits the name of the 3rd person to be `Bobby Brown` and removes the `phone` field.
 
-### Edits a note to a person : `note`
+### Edit a note of a person : `note`
 
-Edits a note to an existing person in the address book.
+Edits a note of an existing person in the address book.
 
 Format: `note INDEX NOTE`
 
@@ -220,11 +220,9 @@ Examples:
 
 ### Viewing all appointments : `appointments`
 
-Displays all current appointments across all users from the address book.
+Displays all appointments of persons currently displayed in the list, along with the persons involved.
 
 Format: `appointments`
-
-* Displays all current appointments along with the persons involved.
 
 ### Clearing all entries : `clear`
 
@@ -240,15 +238,15 @@ Format: `exit`
 
 ### Saving the data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+TutorRec data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+TutorRec data is saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, TutorRec will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause TutorRec to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
 ### Archiving data files `[coming in v2.0]`
@@ -260,7 +258,7 @@ _Details coming soon ..._
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the data file it creates with the file that contains the data in your previous TutorRec home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -275,7 +273,7 @@ _Details coming soon ..._
 Action | Format, Examples
 --------|------------------
 **Add** | `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​` <br> e.g., `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01 s/MATH`
-**Appointments** | `appointments`
+**View** | `appointments`
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
