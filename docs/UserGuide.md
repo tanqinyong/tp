@@ -293,6 +293,5 @@ Action | Format, Examples
 **List** | `list`
 **Note** | `note INDEX NOTE`<br> e.g. `note 1 nt/This is a note`
 **View** | `view INDEX`
-**View Appointments** | `appointments`
 **Help** | `help`
 **Exit** | `exit`
