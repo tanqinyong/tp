@@ -186,7 +186,7 @@ Format: `note INDEX NOTE`
 Examples:
 *  `note 1 This is a note` Edits the note of the 1st person to be `This is a note`.
 
-### Locating persons by name:  `find`
+### Locating persons by name : `find`
 
 Finds persons whose names contain any of the given keywords.
 
