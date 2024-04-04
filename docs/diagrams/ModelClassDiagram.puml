@@ -13,6 +13,8 @@ Class ModelManager
 Class UserPrefs
 
 Class UniquePersonList
+Class DisjointAppointmentList
+Class AppointmentList
 Class Person
 Class Address
 Class Email
@@ -37,25 +39,28 @@ ModelManager -left-> "1" AddressBook
 ModelManager -right-> "1" UserPrefs
 UserPrefs .up.|> ReadOnlyUserPrefs
 
-AddressBook *--> "1" UniquePersonList
+AddressBook *-down-> "1" DisjointAppointmentList
+DisjointAppointmentList -[hidden]r-> UniquePersonList
+AddressBook *-down-> "1" UniquePersonList
 UniquePersonList --> "~* all" Person
 Person *--> Name
 Person *--> Phone
 Person *--> Email
 Person *--> Address
 Person *--> "*" Tag
-Person *--> "*" Appointment
 Person *--> "*" Note
 
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I
 
+Person *-left-> "1" AppointmentList
+AppointmentList -up-> "*" Appointment
+DisjointAppointmentList --> "~* all" Appointment
+
 Name -[hidden]right-> Phone
 Phone -[hidden]right-> Address
 Address -[hidden]right-> Email
 Email -[hidden]right-> Tag
-Tag -[hidden]right-> Appointment
-Appointment -[hidden]right-> Note
 
 ModelManager --> "~* filtered" Person
 @enduml
