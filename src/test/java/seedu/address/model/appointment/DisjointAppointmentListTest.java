@@ -5,16 +5,18 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.appointment.exceptions.AppointmentNotFoundException;
+import seedu.address.model.appointment.exceptions.OverlappingAppointmentException;
 
-public class AppointmentListTest {
+public class DisjointAppointmentListTest {
 
-    private final AppointmentList appointmentList = new AppointmentList();
+    private final DisjointAppointmentList appointmentList = new DisjointAppointmentList();
     private final Appointment fridayAppointment = new Appointment("10:00-12:00 FRI");
     private final Appointment sundayAppointment = new Appointment("10:00-12:00 SUN");
     private final Appointment sundayOverlappingAppointment = new Appointment("11:00-12:00 SUN");
@@ -33,13 +35,6 @@ public class AppointmentListTest {
     public void contains_appointmentInList_returnsTrue() {
         appointmentList.add(fridayAppointment);
         assertTrue(appointmentList.contains(fridayAppointment));
-    }
-
-    @Test
-    public void contains_overlappingAppointment_returnsTrue() {
-        appointmentList.add(sundayAppointment);
-        appointmentList.add(sundayOverlappingAppointment);
-        assertTrue(appointmentList.isOverlapping());
     }
 
     @Test
@@ -119,6 +114,29 @@ public class AppointmentListTest {
         AppointmentList expectedAppointmentList = new AppointmentList();
         expectedAppointmentList.add(fridayAppointment);
         assertEquals(expectedAppointmentList, appointmentList);
+    }
+
+    @Test
+    public void add_overlappingAppointment_throwsOverlappingAppointmentException() {
+        appointmentList.add(sundayAppointment); // Add an initial appointment
+        assertThrows(OverlappingAppointmentException.class, () -> appointmentList
+                .add(sundayOverlappingAppointment));
+    }
+
+    @Test
+    public void setAppointment_overlappingAppointment_throwsOverlappingAppointmentException() {
+        appointmentList.add(sundayAppointment);
+        appointmentList.add(new Appointment("12:00-14:00 SUN")); // Add an initial appointment
+        assertThrows(OverlappingAppointmentException.class, () -> appointmentList
+                .setAppointment(sundayAppointment, sundayOverlappingAppointment));
+    }
+
+    @Test
+    public void setAppointments_overlappingAppointment_throwsOverlappingAppointmentException() {
+        // Create a list with an overlapping appointment
+        List<Appointment> appointments = Arrays.asList(sundayAppointment, sundayOverlappingAppointment);
+        assertThrows(OverlappingAppointmentException.class, () -> appointmentList
+                .setAppointments(appointments));
     }
 
 }

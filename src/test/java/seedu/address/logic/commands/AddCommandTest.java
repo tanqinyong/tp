@@ -27,7 +27,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.appointment.Appointment;
-import seedu.address.model.appointment.AppointmentList;
+import seedu.address.model.appointment.DisjointAppointmentList;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
 
@@ -88,7 +88,7 @@ public class AddCommandTest {
         ModelStub modelStub = new ModelStubWithAppointment(SUN_APPOINTMENT_10_TO_12);
 
         assertThrows(CommandException.class,
-                AppointmentList.MESSAGE_CONSTRAINTS, () -> addCommand.execute(modelStub));
+                DisjointAppointmentList.MESSAGE_CONSTRAINTS, () -> addCommand.execute(modelStub));
     }
 
     @Test

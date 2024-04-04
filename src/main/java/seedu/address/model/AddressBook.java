@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.appointment.Appointment;
-import seedu.address.model.appointment.AppointmentList;
+import seedu.address.model.appointment.DisjointAppointmentList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 
@@ -19,7 +19,7 @@ import seedu.address.model.person.UniquePersonList;
  */
 public class AddressBook implements ReadOnlyAddressBook {
 
-    private final AppointmentList appointments;
+    private final DisjointAppointmentList appointments;
     private final UniquePersonList persons;
 
     /*
@@ -31,7 +31,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         persons = new UniquePersonList();
-        appointments = new AppointmentList();
+        appointments = new DisjointAppointmentList();
     }
 
     public AddressBook() {}
@@ -59,6 +59,7 @@ public class AddressBook implements ReadOnlyAddressBook {
                         .asUnmodifiableObservableList()
                         .stream())
                 .collect(Collectors.toList()));
+        this.appointments.sort();
     }
 
     /**
@@ -67,6 +68,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
         setPersons(newData.getPersonList());
+        this.appointments.sort();
     }
 
     //// person-level operations
@@ -96,6 +98,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         for (Appointment appointment : p.getAppointments()) {
             addAppointment(appointment);
         }
+        this.appointments.sort();
     }
 
     /**
@@ -115,8 +118,9 @@ public class AddressBook implements ReadOnlyAddressBook {
 
         // add editedPerson's appointments
         for (Appointment appointment : editedPerson.getAppointments()) {
-            appointments.add(appointment);
+            addAppointment(appointment);
         }
+        this.appointments.sort();
     }
 
     /**
@@ -125,6 +129,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void removePerson(Person key) {
         persons.remove(key);
+        this.appointments.sort();
     }
 
     //// appointment-level operations
@@ -134,6 +139,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void addAppointment(Appointment appointment) {
         appointments.add(appointment);
+        this.appointments.sort();
     }
 
     /**
@@ -145,6 +151,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(editedAppointment);
 
         appointments.setAppointment(target, editedAppointment);
+        this.appointments.sort();
     }
 
     /**

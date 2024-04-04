@@ -1,9 +1,7 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -14,6 +12,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.appointment.Appointment;
+import seedu.address.model.appointment.AppointmentList;
 import seedu.address.model.person.Person;
 
 /**
@@ -64,13 +63,13 @@ class JsonSerializableAddressBook {
     public AddressBook toModelType() throws IllegalValueException {
         AddressBook addressBook = new AddressBook();
 
-        Set<Appointment> temp = new HashSet<>();
+        AppointmentList temp = new AppointmentList();
         for (JsonAdaptedAppointment jsonAdaptedAppointment : appointments) {
             Appointment appointment = jsonAdaptedAppointment.toModelType();
             temp.add(appointment);
         }
 
-        if (Appointment.hasOverlapping(temp)) {
+        if (temp.isOverlapping()) {
             throw new IllegalValueException(MESSAGE_OVERLAPPING_APPOINTMENT);
         }
 
@@ -83,7 +82,7 @@ class JsonSerializableAddressBook {
             addressBook.addPerson(person);
         }
 
-        if (!temp.equals(new HashSet<>(addressBook.getAppointmentList()))) {
+        if (!temp.asUnmodifiableObservableList().equals(addressBook.getAppointmentList())) {
             throw new IllegalValueException(MESSAGE_APPOINTMENTS_PERSONS_MISMATCH);
         }
 

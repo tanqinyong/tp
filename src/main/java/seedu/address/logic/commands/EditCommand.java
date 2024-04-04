@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
@@ -94,6 +95,22 @@ public class EditCommand extends Command {
 
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        }
+
+        // Overlapping appointment detection
+        if (editedPerson.getAppointments().isOverlapping()) {
+            throw new CommandException(MESSAGE_OVERLAPPING_APPOINTMENT);
+        }
+
+        AppointmentList editedAppointmentList = new AppointmentList();
+        editedAppointmentList.setAppointments(editedPerson.getAppointments());
+        editedAppointmentList.addAll(model.getFilteredAppointmentList()
+                .stream()
+                .filter(appointment -> !(personToEdit.getAppointments().contains(appointment)))
+                .collect(Collectors.toList()));
+
+        if (editedAppointmentList.isOverlapping()) {
+            throw new CommandException(MESSAGE_OVERLAPPING_APPOINTMENT);
         }
 
         model.setPerson(personToEdit, editedPerson);

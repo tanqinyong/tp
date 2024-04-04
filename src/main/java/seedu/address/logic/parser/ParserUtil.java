@@ -185,9 +185,9 @@ public class ParserUtil {
         final AppointmentList appointmentList = new AppointmentList();
         for (String ap : appointments) {
             Appointment appointment = parseAppointment(ap);
-            if (appointmentList.overlaps(appointment)) {
-                throw new ParseException(AppointmentList.MESSAGE_CONSTRAINTS);
-            }
+            /*if (appointmentList.overlaps(appointment)) {
+                throw new ParseException(DisjointAppointmentList.MESSAGE_CONSTRAINTS);
+            }*/
             appointmentList.add(appointment);
         }
         return appointmentList;

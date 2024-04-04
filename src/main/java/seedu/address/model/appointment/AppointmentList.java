@@ -9,27 +9,15 @@ import java.util.Iterator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.appointment.exceptions.AppointmentNotFoundException;
-import seedu.address.model.appointment.exceptions.OverlappingAppointmentException;
 
 /**
- * A list of appointments that enforces no overlapping between its elements and does not allow nulls.
+ * A list of appointments that does not allow nulls.
  * Supports a minimal set of list operations.
  */
 public class AppointmentList implements Iterable<Appointment> {
-    public static final String MESSAGE_CONSTRAINTS =
-            "This person's appointments clash with an existing appointment";
-
-    private final ObservableList<Appointment> internalList = FXCollections.observableArrayList();
-    private final ObservableList<Appointment> internalUnmodifiableList =
+    protected final ObservableList<Appointment> internalList = FXCollections.observableArrayList();
+    protected final ObservableList<Appointment> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
-
-    /**
-     * Returns true if the list contains an appointment overlapping wth the given argument.
-     */
-    public boolean overlaps(Appointment toCheck) {
-        requireNonNull(toCheck);
-        return internalList.stream().anyMatch(toCheck::overlapsWith);
-    }
 
     /**
      * Adds an appointment to the list.
@@ -37,16 +25,12 @@ public class AppointmentList implements Iterable<Appointment> {
      */
     public void add(Appointment toAdd) {
         requireNonNull(toAdd);
-        if (overlaps(toAdd)) {
-            throw new OverlappingAppointmentException();
-        }
         internalList.add(toAdd);
     }
 
     /**
      * Replaces the appointment {@code target} in the list with {@code editedAppointment}.
      * {@code target} must exist in the appointment list.
-     * {@code editedAppointment} must not overlap with another existing appointment in the list.
      */
     public void setAppointment(Appointment target, Appointment editedAppointment) {
         requireAllNonNull(target, editedAppointment);
@@ -54,10 +38,6 @@ public class AppointmentList implements Iterable<Appointment> {
         int index = internalList.indexOf(target);
         if (index == -1) {
             throw new AppointmentNotFoundException();
-        }
-
-        if (overlaps(editedAppointment)) {
-            throw new OverlappingAppointmentException();
         }
 
         internalList.set(index, editedAppointment);
@@ -84,15 +64,17 @@ public class AppointmentList implements Iterable<Appointment> {
 
     /**
      * Replaces the contents of this list with {@code appointments}.
-     * {@code appointments} must not contain overlapping appointments.
      */
     public void setAppointments(Collection<Appointment> appointments) {
         requireAllNonNull(appointments);
-        if (Appointment.hasOverlapping(appointments)) {
-            throw new OverlappingAppointmentException();
-        }
-
         internalList.setAll(appointments);
+    }
+
+    /**
+     * Sorts the appointment list by the appointment's natural comparator.
+     */
+    public void sort() {
+        internalList.sort(null);
     }
 
     /**
@@ -130,10 +112,23 @@ public class AppointmentList implements Iterable<Appointment> {
         return internalList.stream().anyMatch(toCheck::equals);
     }
 
+    /**
+     * Returns true if the list has overlap between appointments.
+     */
+    public boolean isOverlapping() {
+        return Appointment.hasOverlapping(internalList);
+    }
+
+    /**
+     * Add all appointments in {@code appointments} to the list.
+     */
     public void addAll(Collection<Appointment> appointments) {
         internalList.addAll(appointments);
     }
 
+    /**
+     * Returns true if there are no appointments in the list.
+     */
     public boolean isEmpty() {
         return internalList.isEmpty();
     }
