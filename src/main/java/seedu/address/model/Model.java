@@ -95,13 +95,6 @@ public interface Model {
      */
     boolean appointmentsOverlap(Appointment appointment);
 
-    /**
-     * Replaces the given appointment {@code target} with {@code editedAppointment}.
-     * {@code target} must exist in the address book.
-     * The appointment {@code editedAppointment} must not overlap with an existing appointment in the address book.
-     */
-    void setAppointment(Appointment target, Appointment editedAppointment);
-
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
 
