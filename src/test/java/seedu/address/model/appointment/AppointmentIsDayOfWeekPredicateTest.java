@@ -18,14 +18,17 @@ public class AppointmentIsDayOfWeekPredicateTest {
         List<DayOfWeek> firstPredicateDayOfWeekList = Collections.singletonList(DayOfWeek.MONDAY);
         List<DayOfWeek> secondPredicateDayOfWeekList = Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY);
 
-        AppointmentIsDayOfWeekPredicate firstPredicate = new AppointmentIsDayOfWeekPredicate(firstPredicateDayOfWeekList);
-        AppointmentIsDayOfWeekPredicate secondPredicate = new AppointmentIsDayOfWeekPredicate(secondPredicateDayOfWeekList);
+        AppointmentIsDayOfWeekPredicate firstPredicate =
+                new AppointmentIsDayOfWeekPredicate(firstPredicateDayOfWeekList);
+        AppointmentIsDayOfWeekPredicate secondPredicate =
+                new AppointmentIsDayOfWeekPredicate(secondPredicateDayOfWeekList);
 
         // same object -> returns true
         assertTrue(firstPredicate.equals(firstPredicate));
 
         // same values -> returns true
-        AppointmentIsDayOfWeekPredicate firstPredicateCopy = new AppointmentIsDayOfWeekPredicate(firstPredicateDayOfWeekList);
+        AppointmentIsDayOfWeekPredicate firstPredicateCopy =
+                new AppointmentIsDayOfWeekPredicate(firstPredicateDayOfWeekList);
         assertTrue(firstPredicate.equals(firstPredicateCopy));
 
         // different types -> returns false
@@ -41,7 +44,8 @@ public class AppointmentIsDayOfWeekPredicateTest {
     @Test
     public void test_dayOfWeekMatches_returnsTrue() {
         // Single day match
-        AppointmentIsDayOfWeekPredicate predicate = new AppointmentIsDayOfWeekPredicate(Collections.singletonList(DayOfWeek.MONDAY));
+        AppointmentIsDayOfWeekPredicate predicate =
+                new AppointmentIsDayOfWeekPredicate(Collections.singletonList(DayOfWeek.MONDAY));
         assertTrue(predicate.test(new Appointment("09:00-10:00 MON")));
 
         // Multiple days match
@@ -56,7 +60,8 @@ public class AppointmentIsDayOfWeekPredicateTest {
     @Test
     public void test_dayOfWeekDoesNotMatch_returnsFalse() {
         // No day match
-        AppointmentIsDayOfWeekPredicate predicate = new AppointmentIsDayOfWeekPredicate(Collections.singletonList(DayOfWeek.MONDAY));
+        AppointmentIsDayOfWeekPredicate predicate =
+                new AppointmentIsDayOfWeekPredicate(Collections.singletonList(DayOfWeek.MONDAY));
         assertFalse(predicate.test(new Appointment("09:00-10:00 TUE")));
 
         // Different day match
