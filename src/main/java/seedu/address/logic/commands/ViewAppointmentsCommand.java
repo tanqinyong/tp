@@ -62,4 +62,19 @@ public class ViewAppointmentsCommand extends Command {
 
         return new CommandResult(sb.toString().trim());
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof ViewAppointmentsCommand)) {
+            return false;
+        }
+
+        ViewAppointmentsCommand otherCommand = (ViewAppointmentsCommand) other;
+        return predicate.equals(otherCommand.predicate);
+    }
 }
