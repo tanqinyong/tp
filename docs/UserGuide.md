@@ -289,4 +289,5 @@ Action | Format, Examples
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
 **View** | `view INDEX`
+**View Appointments** | `appointments`
 **Help** | `help`
