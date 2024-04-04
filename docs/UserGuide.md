@@ -72,6 +72,8 @@ TutorRec is a **desktop app for home tutors to manage student contacts, optimize
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
+<div style="page-break-after: always;"></div>
+
 ### Formatting fields for a person
 
 A person has the following fields: `Name`, `Phone`, `Email`, `Address`, `Note`, `Tag`, `Appointment`,
