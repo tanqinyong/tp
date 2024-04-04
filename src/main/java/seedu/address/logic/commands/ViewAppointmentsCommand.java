@@ -22,7 +22,10 @@ public class ViewAppointmentsCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Lists all appointments of persons displayed.\n"
-            + "Example: " + COMMAND_WORD;
+            + "Example: " + COMMAND_WORD + "\n"
+            + "or\n"
+            + COMMAND_WORD + " [DAY_OF_WEEK]: Lists all appointments on the days of the week specified.\n"
+            + "Example: " + COMMAND_WORD + " MON\n, " + COMMAND_WORD + " MON TUE\n";
 
     private final AppointmentIsDayOfWeekPredicate predicate;
 
