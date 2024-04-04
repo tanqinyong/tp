@@ -10,7 +10,6 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -53,7 +52,7 @@ public class AddressBookTest {
                 .withAppointments(VALID_APPOINTMENT_FRIDAY)
                 .build();
         List<Person> newPersons = Arrays.asList(ALICE, editedAlice);
-        List<Appointment> newAppointments = new ArrayList<>(editedAlice.getAppointments());
+        List<Appointment> newAppointments = editedAlice.getAppointments().asUnmodifiableObservableList();
         AddressBookStub newData = new AddressBookStub(newPersons, newAppointments);
 
         assertThrows(DuplicatePersonException.class, () -> addressBook.resetData(newData));

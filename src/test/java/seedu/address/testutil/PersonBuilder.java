@@ -3,7 +3,7 @@ package seedu.address.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.address.model.appointment.Appointment;
+import seedu.address.model.appointment.AppointmentList;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmptyAddress;
@@ -38,7 +38,7 @@ public class PersonBuilder {
     private Address address;
     private Note note;
     private Set<Tag> tags;
-    private Set<Appointment> appointments;
+    private AppointmentList appointments;
     private Set<Subject> subjects;
     private Level level;
 
@@ -52,7 +52,7 @@ public class PersonBuilder {
         address = new Address(DEFAULT_ADDRESS);
         note = new Note(DEFAULT_NOTE);
         tags = new HashSet<>();
-        appointments = new HashSet<>();
+        appointments = new AppointmentList();
         subjects = new HashSet<>();
         level = new Level(DEFAULT_LEVEL);
     }
@@ -67,7 +67,7 @@ public class PersonBuilder {
         address = personToCopy.getAddress();
         note = personToCopy.getNote();
         tags = new HashSet<>(personToCopy.getTags());
-        appointments = new HashSet<>(personToCopy.getAppointments());
+        appointments = personToCopy.getAppointments();
         subjects = new HashSet<>(personToCopy.getSubjects());
         level = personToCopy.getLevel();
     }
@@ -89,11 +89,11 @@ public class PersonBuilder {
     }
 
     /**
-     * Parses the {@code appointments} into a {@code Set<Appointment>}
+     * Parses the {@code appointments} into a {@code AppointmentList}
      * and set it to the {@code Person} that we are building.
      */
     public PersonBuilder withAppointments(String ... appointments) {
-        this.appointments = SampleDataUtil.getAppointmentSet(appointments);
+        this.appointments = SampleDataUtil.getAppointmentList(appointments);
         return this;
     }
 

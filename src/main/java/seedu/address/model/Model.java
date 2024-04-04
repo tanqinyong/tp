@@ -1,8 +1,8 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -88,7 +88,7 @@ public interface Model {
     /**
      * Returns true if an existing appointment overlaps with any appointment in {@code appointments}.
      */
-    boolean appointmentsOverlap(Set<Appointment> appointments);
+    boolean appointmentsOverlap(Collection<Appointment> appointments);
 
     /**
      * Returns true if an existing appointment overlaps with {@code appointment}.

@@ -55,7 +55,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.persons.setPersons(persons);
         this.appointments.setAppointments(persons
                 .stream()
-                .flatMap(person -> person.getAppointments().stream())
+                .flatMap(person -> person.getAppointments()
+                        .asUnmodifiableObservableList()
+                        .stream())
                 .collect(Collectors.toList()));
     }
 
@@ -107,9 +109,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.setPerson(target, editedPerson);
 
         // remove target's appointments
-         for (Appointment appointment : target.getAppointments()) {
-             appointments.remove(appointment);
-         }
+        for (Appointment appointment : target.getAppointments()) {
+            appointments.remove(appointment);
+        }
 
         // add editedPerson's appointments
         for (Appointment appointment : editedPerson.getAppointments()) {

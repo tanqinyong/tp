@@ -10,6 +10,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.appointment.Appointment;
+import seedu.address.model.appointment.AppointmentList;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmptyAddress;
@@ -177,15 +178,19 @@ public class ParserUtil {
         return new Appointment(trimmedAppointment);
     }
     /**
-     * Parses {@code Collection<String> appointment} into a {@code Set<Appointment>}.
+     * Parses {@code Collection<String> appointment} into an {@code AppointmentList}.
      */
-    public static Set<Appointment> parseAppointments(Collection<String> appointments) throws ParseException {
+    public static AppointmentList parseAppointments(Collection<String> appointments) throws ParseException {
         requireNonNull(appointments);
-        final Set<Appointment> appointmentSet = new HashSet<>();
-        for (String appointment : appointments) {
-            appointmentSet.add(parseAppointment(appointment));
+        final AppointmentList appointmentList = new AppointmentList();
+        for (String ap : appointments) {
+            Appointment appointment = parseAppointment(ap);
+            if (appointmentList.overlaps(appointment)) {
+                throw new ParseException(AppointmentList.MESSAGE_CONSTRAINTS);
+            }
+            appointmentList.add(appointment);
         }
-        return appointmentSet;
+        return appointmentList;
     }
 
     /**

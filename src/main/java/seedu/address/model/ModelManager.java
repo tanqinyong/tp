@@ -4,8 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -134,7 +134,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public boolean appointmentsOverlap(Set<Appointment> appointments) {
+    public boolean appointmentsOverlap(Collection<Appointment> appointments) {
         requireNonNull(appointments);
         return addressBook.appointmentsOverlap(appointments);
     }

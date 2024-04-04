@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.appointment.Appointment;
+import seedu.address.model.appointment.AppointmentList;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmptyAddress;
@@ -227,9 +228,10 @@ public class ParserUtilTest {
 
     @Test
     public void parseAppointments_collectionWithValidAppointments_returnsAppointmentSet() throws Exception {
-        Set<Appointment> actualAppointmentSet = ParserUtil
+        AppointmentList actualAppointmentSet = ParserUtil
                 .parseAppointments(Arrays.asList(VALID_APPOINTMENT_1, VALID_APPOINTMENT_2));
-        Set<Appointment> expectedAppointmentSet = new HashSet<Appointment>(Arrays
+        AppointmentList expectedAppointmentSet = new AppointmentList();
+        expectedAppointmentSet.addAll(Arrays
                 .asList(new Appointment(VALID_APPOINTMENT_1), new Appointment(VALID_APPOINTMENT_2)));
 
         assertEquals(expectedAppointmentSet, actualAppointmentSet);

@@ -16,6 +16,9 @@ import seedu.address.model.appointment.exceptions.OverlappingAppointmentExceptio
  * Supports a minimal set of list operations.
  */
 public class AppointmentList implements Iterable<Appointment> {
+    public static final String MESSAGE_CONSTRAINTS =
+            "This person's appointments clash with an existing appointment";
+
     private final ObservableList<Appointment> internalList = FXCollections.observableArrayList();
     private final ObservableList<Appointment> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
@@ -125,6 +128,14 @@ public class AppointmentList implements Iterable<Appointment> {
     public boolean contains(Appointment toCheck) {
         requireNonNull(toCheck);
         return internalList.stream().anyMatch(toCheck::equals);
+    }
+
+    public void addAll(Collection<Appointment> appointments) {
+        internalList.addAll(appointments);
+    }
+
+    public boolean isEmpty() {
+        return internalList.isEmpty();
     }
 
     @Override

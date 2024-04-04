@@ -11,9 +11,9 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -27,6 +27,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.appointment.Appointment;
+import seedu.address.model.appointment.AppointmentList;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
 
@@ -87,7 +88,7 @@ public class AddCommandTest {
         ModelStub modelStub = new ModelStubWithAppointment(SUN_APPOINTMENT_10_TO_12);
 
         assertThrows(CommandException.class,
-                AddCommand.MESSAGE_OVERLAPPING_APPOINTMENT, () -> addCommand.execute(modelStub));
+                AppointmentList.MESSAGE_CONSTRAINTS, () -> addCommand.execute(modelStub));
     }
 
     @Test
@@ -216,7 +217,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public boolean appointmentsOverlap(Set<Appointment> appointments) {
+        public boolean appointmentsOverlap(Collection<Appointment> appointments) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -242,6 +243,16 @@ public class AddCommandTest {
             requireNonNull(person);
             return this.person.isSamePerson(person);
         }
+
+        @Override
+        public boolean appointmentsOverlap(Appointment appointment) {
+            return false;
+        }
+
+        @Override
+        public boolean appointmentsOverlap(Collection<Appointment> appointments) {
+            return false;
+        }
     }
 
     /**
@@ -264,6 +275,17 @@ public class AddCommandTest {
         public boolean appointmentsOverlap(Appointment appointment) {
             requireNonNull(appointment);
             return this.appointment.overlapsWith(appointment);
+        }
+
+        @Override
+        public boolean appointmentsOverlap(Collection<Appointment> appointments) {
+            requireNonNull(appointments);
+            for (Appointment ap : appointments) {
+                if (this.appointment.overlapsWith(ap)) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
@@ -294,6 +316,16 @@ public class AddCommandTest {
         public List<String> findNearDuplicates(Person person) {
             // Stub implementation, return an empty list
             return Collections.emptyList();
+        }
+
+        @Override
+        public boolean appointmentsOverlap(Appointment appointment) {
+            return false;
+        }
+
+        @Override
+        public boolean appointmentsOverlap(Collection<Appointment> appointments) {
+            return false;
         }
     }
 
@@ -327,6 +359,16 @@ public class AddCommandTest {
             requireNonNull(person);
             // Return the name of the near duplicate
             return Collections.singletonList(nearDuplicate.getName().toString());
+        }
+
+        @Override
+        public boolean appointmentsOverlap(Appointment appointment) {
+            return false;
+        }
+
+        @Override
+        public boolean appointmentsOverlap(Collection<Appointment> appointments) {
+            return false;
         }
     }
 

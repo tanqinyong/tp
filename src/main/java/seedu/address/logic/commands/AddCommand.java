@@ -15,7 +15,6 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.appointment.Appointment;
 import seedu.address.model.appointment.AppointmentList;
 import seedu.address.model.person.Person;
 
@@ -48,10 +47,6 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
-    public static final String MESSAGE_OVERLAPPING_APPOINTMENT =
-            "This person's appointments clash with an existing appointment";
-    public static final String MESSAGE_OVERLAPPING_APPOINTMENT_ARGUMENTS =
-            "This person's appointments clash with each other";
     public static final String MESSAGE_NEAR_DUPLICATES = "New person added: %1$s \nPossible duplicate contacts: %2$s";
 
     private final Person toAdd;
@@ -72,11 +67,8 @@ public class AddCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
-        if (model.appointmentsOverlap(toAdd.getAppointments())) {
-            throw new CommandException(MESSAGE_OVERLAPPING_APPOINTMENT);
-        }
-        if (Appointment.hasOverlapping(toAdd.getAppointments())) {
-            throw new CommandException(MESSAGE_OVERLAPPING_APPOINTMENT_ARGUMENTS);
+        if (model.appointmentsOverlap(toAdd.getAppointments().asUnmodifiableObservableList())) {
+            throw new CommandException(AppointmentList.MESSAGE_CONSTRAINTS);
         }
 
         // Duplicate Detection feature

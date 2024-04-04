@@ -70,7 +70,6 @@ class JsonSerializableAddressBook {
             temp.add(appointment);
         }
 
-
         if (Appointment.hasOverlapping(temp)) {
             throw new IllegalValueException(MESSAGE_OVERLAPPING_APPOINTMENT);
         }
