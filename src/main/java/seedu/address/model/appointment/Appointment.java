@@ -22,6 +22,8 @@ public class Appointment implements Comparable<Appointment> {
             + "MM is from 00 to 59.\n"
             + "2. This is followed by a DAY. "
             + "DAY must be one of: 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT','SUN'\n";
+    public static final HashMap<String, DayOfWeek> DAY_TO_DAY_OF_WEEK;
+    public static final HashMap<DayOfWeek, Integer> DAY_OF_WEEK_TO_NUM;
     // alphanumeric and special characters
     private static final String HOUR = "[\\d]{2}";
     private static final String MINUTE = "[\\d]{2}";
@@ -30,28 +32,25 @@ public class Appointment implements Comparable<Appointment> {
     private static final String DAY = "[A-z]{3}";
     public static final String VALIDATION_REGEX = START_TIME + "-" + END_TIME + "[\\s]+" + DAY;
 
-    private static final HashMap<String, DayOfWeek> dayToDayOfWeek;
-    private static final HashMap<DayOfWeek, Integer> dayOfWeekToNum;
-
     // initialize map from String to DayOfWeek
     static {
-        dayToDayOfWeek = new HashMap<>();
-        dayToDayOfWeek.put("MON", DayOfWeek.MONDAY);
-        dayToDayOfWeek.put("TUE", DayOfWeek.TUESDAY);
-        dayToDayOfWeek.put("WED", DayOfWeek.WEDNESDAY);
-        dayToDayOfWeek.put("THU", DayOfWeek.THURSDAY);
-        dayToDayOfWeek.put("FRI", DayOfWeek.FRIDAY);
-        dayToDayOfWeek.put("SAT", DayOfWeek.SATURDAY);
-        dayToDayOfWeek.put("SUN", DayOfWeek.SUNDAY);
+        DAY_TO_DAY_OF_WEEK = new HashMap<>();
+        DAY_TO_DAY_OF_WEEK.put("MON", DayOfWeek.MONDAY);
+        DAY_TO_DAY_OF_WEEK.put("TUE", DayOfWeek.TUESDAY);
+        DAY_TO_DAY_OF_WEEK.put("WED", DayOfWeek.WEDNESDAY);
+        DAY_TO_DAY_OF_WEEK.put("THU", DayOfWeek.THURSDAY);
+        DAY_TO_DAY_OF_WEEK.put("FRI", DayOfWeek.FRIDAY);
+        DAY_TO_DAY_OF_WEEK.put("SAT", DayOfWeek.SATURDAY);
+        DAY_TO_DAY_OF_WEEK.put("SUN", DayOfWeek.SUNDAY);
 
-        dayOfWeekToNum = new HashMap<>();
-        dayOfWeekToNum.put(DayOfWeek.MONDAY, 1);
-        dayOfWeekToNum.put(DayOfWeek.TUESDAY, 2);
-        dayOfWeekToNum.put(DayOfWeek.WEDNESDAY, 3);
-        dayOfWeekToNum.put(DayOfWeek.THURSDAY, 4);
-        dayOfWeekToNum.put(DayOfWeek.FRIDAY, 5);
-        dayOfWeekToNum.put(DayOfWeek.SATURDAY, 6);
-        dayOfWeekToNum.put(DayOfWeek.SUNDAY, 7);
+        DAY_OF_WEEK_TO_NUM = new HashMap<>();
+        DAY_OF_WEEK_TO_NUM.put(DayOfWeek.MONDAY, 1);
+        DAY_OF_WEEK_TO_NUM.put(DayOfWeek.TUESDAY, 2);
+        DAY_OF_WEEK_TO_NUM.put(DayOfWeek.WEDNESDAY, 3);
+        DAY_OF_WEEK_TO_NUM.put(DayOfWeek.THURSDAY, 4);
+        DAY_OF_WEEK_TO_NUM.put(DayOfWeek.FRIDAY, 5);
+        DAY_OF_WEEK_TO_NUM.put(DayOfWeek.SATURDAY, 6);
+        DAY_OF_WEEK_TO_NUM.put(DayOfWeek.SUNDAY, 7);
     }
 
     public final String value;
@@ -71,7 +70,7 @@ public class Appointment implements Comparable<Appointment> {
         value = appointment.toUpperCase();
         startTime = LocalTime.parse(extractStartTime(appointment));
         endTime = LocalTime.parse(extractEndTime(appointment));
-        day = dayToDayOfWeek.get(extractDay(appointment));
+        day = DAY_TO_DAY_OF_WEEK.get(extractDay(appointment));
     }
 
     /**
@@ -112,7 +111,7 @@ public class Appointment implements Comparable<Appointment> {
         boolean isStartTimeBeforeEndTime = startTime.isBefore(endTime);
 
         String day = extractDay(test);
-        boolean isDayValid = dayToDayOfWeek.containsKey(day);
+        boolean isDayValid = DAY_TO_DAY_OF_WEEK.containsKey(day);
 
         return isStartTimeBeforeEndTime && isDayValid;
     }
@@ -139,6 +138,18 @@ public class Appointment implements Comparable<Appointment> {
 
     private static String extractDay(String appointment) {
         return appointment.substring(12).trim().toUpperCase();
+    }
+
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    public DayOfWeek getDay() {
+        return day;
     }
 
     @Override
@@ -187,9 +198,9 @@ public class Appointment implements Comparable<Appointment> {
 
     @Override
     public int compareTo(Appointment o) {
-        if (dayOfWeekToNum.get(this.day) < dayOfWeekToNum.get(o.day)) {
+        if (DAY_OF_WEEK_TO_NUM.get(this.day) < DAY_OF_WEEK_TO_NUM.get(o.day)) {
             return -1;
-        } else if (dayOfWeekToNum.get(this.day) > dayOfWeekToNum.get(o.day)) {
+        } else if (DAY_OF_WEEK_TO_NUM.get(this.day) > DAY_OF_WEEK_TO_NUM.get(o.day)) {
             return 1;
         } else {
             return this.startTime.compareTo(o.startTime);

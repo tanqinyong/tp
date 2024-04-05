@@ -232,9 +232,18 @@ Examples:
 
 ### Viewing all appointments : `appointments`
 
-Displays all appointments of persons currently displayed in the list, along with the persons involved.
+Displays all appointments of persons currently displayed in the list, sorted, along with the persons involved. 
+Optionally, you may specify a `DAY` or multiple `DAY`s to further restrict the appointments displayed.
 
-Format: `appointments`
+Format: `appointments [DAY]`
+
+* `DAY` must be one of `MON`, `TUE`, ..., `SUN`.
+* `[DAY]` may be empty.
+
+Examples:
+* `appointments` returns all appointments among the displayed persons.
+* `appointments MON` returns all appointments among the displayed persons on Monday.
+* `appointments MON TUE` returns all appointments among the displayed persons on Monday and Tuesday.
 
 ### Clearing all entries : `clear`
 

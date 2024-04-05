@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javafx.util.Pair;
 import seedu.address.model.Model;
+import seedu.address.model.appointment.AppointmentIsDayOfWeekPredicate;
 import seedu.address.model.person.Person;
 
 /**
@@ -19,8 +21,17 @@ public class ViewAppointmentsCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Listed all appointments";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Lists all appointments with everyone in the address book.\n"
-            + "Example: " + COMMAND_WORD;
+            + ": Lists all appointments of persons displayed.\n"
+            + "Example: " + COMMAND_WORD + "\n"
+            + "or\n"
+            + COMMAND_WORD + " [DAY_OF_WEEK]: Lists all appointments on the days of the week specified.\n"
+            + "Example: " + COMMAND_WORD + " MON\n, " + COMMAND_WORD + " MON TUE\n";
+
+    private final AppointmentIsDayOfWeekPredicate predicate;
+
+    public ViewAppointmentsCommand(AppointmentIsDayOfWeekPredicate predicate) {
+        this.predicate = predicate;
+    }
 
     @Override
     public CommandResult execute(Model model) {
@@ -30,11 +41,13 @@ public class ViewAppointmentsCommand extends Command {
         // Get all appointments from the last shown list of persons
         List<String> appointments = lastShownList.stream()
                 .flatMap(person -> person.hasAppointments()
-                        ? Stream.concat(
-                                Stream.of("\n" + person.getName()), person.getAppointments()
-                                .asUnmodifiableObservableList().stream())
+                        ? person.getAppointments()
+                        .asUnmodifiableObservableList().stream()
+                        .filter(predicate)
+                        .map(appointment -> new Pair<>(appointment, person.getName().toString()))
                         : Stream.empty())
-                .map(Object::toString)
+                .sorted((o1, o2) -> o1.getKey().compareTo(o2.getKey())) // comparing by appointment only
+                .map(pair -> pair.getValue() + ": " + pair.getKey().toString())
                 .collect(Collectors.toList());
 
         StringBuilder sb = new StringBuilder();
@@ -43,6 +56,25 @@ public class ViewAppointmentsCommand extends Command {
             sb.append(appointment).append("\n");
         }
 
+        if (appointments.isEmpty()) {
+            sb.append("There are no appointments to show!");
+        }
+
         return new CommandResult(sb.toString().trim());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof ViewAppointmentsCommand)) {
+            return false;
+        }
+
+        ViewAppointmentsCommand otherCommand = (ViewAppointmentsCommand) other;
+        return predicate.equals(otherCommand.predicate);
     }
 }
