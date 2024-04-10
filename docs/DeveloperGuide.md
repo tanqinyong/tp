@@ -190,10 +190,6 @@ TutorRec is able to add notes to each student. They are added as a field (`/nt`)
 
 `edit 1 /nt "This student is very good at math, but struggles with English."` will edit the person on index 1 to have the note "This student is very good at math, but struggles with English."
 
-The class diagram below shows the classes involved in the implementation of the NoteCommand.
-
-![NotesClassDiagram](images/NotesClassDiagram.png)
-
 ### Listing Students
 
 #### Implementation
