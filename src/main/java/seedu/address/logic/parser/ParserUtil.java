@@ -223,12 +223,12 @@ public class ParserUtil {
     /**
      * Parses a {@code String level} into a {@code Level}.
      */
-    public static Level parseLevel(String level) {
+    public static Level parseLevel(String level) throws ParseException {
         if (level == null) {
             return new EmptyLevel();
         }
         if (!Level.isValidLevel(level)) {
-            throw new IllegalArgumentException(Level.MESSAGE_CONSTRAINTS);
+            throw new ParseException(Level.MESSAGE_CONSTRAINTS);
         }
         return new Level(level);
     }
