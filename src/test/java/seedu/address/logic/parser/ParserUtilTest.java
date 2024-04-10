@@ -20,6 +20,7 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmptyAddress;
 import seedu.address.model.person.EmptyEmail;
+import seedu.address.model.person.EmptyLevel;
 import seedu.address.model.person.EmptyNote;
 import seedu.address.model.person.EmptyPhone;
 import seedu.address.model.person.Name;
@@ -254,5 +255,15 @@ public class ParserUtilTest {
         //Creating empty Notes
         assertEquals(ParserUtil.parseNote(""), new EmptyNote());
         assertEquals(ParserUtil.parseNote(null), new EmptyNote());
+
+        //Creating empty Subjects
+        assertEquals(ParserUtil.parseSubjects(Collections.emptyList()), new HashSet<>());
+        assertEquals(ParserUtil.parseSubjects(Arrays.asList("")), new HashSet<>());
+        assertEquals(ParserUtil.parseSubjects(Arrays.asList(" ")), new HashSet<>());
+        assertEquals(ParserUtil.parseSubjects(Arrays.asList("", " ")), new HashSet<>());
+
+        //Creating empty Levels
+        assertEquals(ParserUtil.parseLevel(""), new EmptyLevel());
+        assertEquals(ParserUtil.parseLevel(null), new EmptyLevel());
     }
 }
