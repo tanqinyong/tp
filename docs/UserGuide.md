@@ -107,7 +107,7 @@ Below lists the requirements for each to be a valid field.
 - `Subject`: Must be `MATH`, `SCIENCE`, `ENGLISH` or `MT`.
 - `Level`: Must be `P1`, `P2`, `P3`, `P4`, `P5` or `P6`.
 - `Appointment`: Must be in the format `START_TIME-END_TIME DAY`
-  - `START_TIME` and `END-TIME` are in the 24-hour format of `HH:MM`. The time of `START_TIME` must strictly be smaller than `END_TIME`
+  - `START_TIME` and `END_TIME` are in the 24-hour format of `HH:MM`. The time of `START_TIME` must strictly be smaller than `END_TIME`
   - `DAY` must be one of the following: `MON`, `TUE`, `WED`, `THU`, `FRI`, `SAT`,`SUN`.
     - Respectively, these represent Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, and Sunday.
     - These are not case-sensitive
