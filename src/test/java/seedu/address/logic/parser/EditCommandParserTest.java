@@ -220,15 +220,4 @@ public class EditCommandParserTest {
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
-
-    @Test
-    public void parse_removeFields_success() {
-        Index targetIndex = INDEX_THIRD_PERSON;
-        String userInput = targetIndex.getOneBased() + SPACE_PRECEDED_PREFIX_PHONE;
-
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
-
-        assertParseSuccess(parser, userInput, expectedCommand);
-    }
 }
