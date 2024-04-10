@@ -19,6 +19,8 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.appointment.Appointment;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.testutil.AddressBookBuilder;
 
 public class ModelManagerTest {
@@ -95,6 +97,21 @@ public class ModelManagerTest {
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredPersonList().remove(0));
+    }
+
+    @Test
+    public void deletePerson_personInAddressBook_success() {
+        modelManager.addPerson(BENSON);
+        modelManager.deletePerson(BENSON);
+        assertFalse(modelManager.hasPerson(BENSON));
+        assertTrue(modelManager.getFilteredAppointmentList().isEmpty());
+    }
+
+    @Test
+    public void deletePerson_personNotInAddressBook_failure() {
+        modelManager.addPerson(BENSON);
+        assertTrue(modelManager.hasPerson(BENSON));
+        assertThrows(PersonNotFoundException.class, () -> modelManager.deletePerson(ALICE));
     }
 
     //// tests for appointment
