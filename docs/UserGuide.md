@@ -210,17 +210,6 @@ Examples:
 *  `edit 2 n/Monica Chng t/` Edits the name of the 2nd person to be `Monica Chng` and clears all existing tags.
 *  `edit 3 n/Bobby Brown p/` Edits the name of the 3rd person to be `Bobby Brown` and removes the `phone` field.
 
-### Edit a note of a person : `note`
-
-Edits a note of an existing person in the address book.
-
-Format: `note INDEX NOTE`
-
-* Edits the note of the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
-
-Examples:
-*  `note 1 nt/This is a note` Edits the note of the 1st person to be `This is a note`.
-
 ### Locating persons by name : `find`
 
 Finds persons whose names contain any of the given keywords.
@@ -323,7 +312,6 @@ Action | Format, Examples
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
-**Note** | `note INDEX NOTE`<br> e.g. `note 1 nt/This is a note`
 **View** | `view INDEX`
 **Help** | `help`
 **Exit** | `exit`
