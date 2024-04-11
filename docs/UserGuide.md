@@ -61,13 +61,23 @@ TutorRec is a **desktop app for home tutors to manage student contacts, optimize
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
-* Prefixes are adjusted to accept slightly incorrect variations and **minor** typos, e.g., `phon/`, `addr/`, `subj/`, `lvl/`.
+* Prefixes are adjusted to accept predefined convenient short forms, 
+  e.g., `hp/`, `addr/`, `subj/`, `lvl/`.
 
     * You may choose to use short form or long form of prefixes, e.g., `n/` or `name/`, which are interchangeable.
 
-* TutorRec does not allow for duplicate contacts, and contacts are differentiated by their unique names.
-
-    * Names are not case-sensitive, `John Doe` is the same name as `JOhn dOE`, however, whitespaces do differentiate names apart, e.g., `Mary Anne` is a different name (and person) from `Maryanne`.
+    * Prefixes are also adjusted to accept some predefined slightly incorrect variations, in case of user typos. 
+      The full list of accepted typos and short forms are listed below:
+      * `n/`: `name/` `nae/` `nam/`
+      * `p/`: `phone/` `phon/` `hp/` `handphone/`
+      * `e/`: `email/` `emai/` `em/` `ema/`
+      * `a/`: `address/` `addr/` `add/` `ad/` `addres/` `adress/`
+      * `p/`: `phone/` `phon/` `hp/` `handphone/`
+      * `nt/`: `note/` `not/` `nt/` 
+      * `t/`: `tag/` `ta/` `tg/` 
+      * `ap/`: `appointment/` `appt/` `appoint/` `appointmen/`
+      * `s/`: `subject/` `subj/` `sub/` `subjec/` `subje/`
+      * `l/`: `level/` `lvl/` `leve/` `lv/` `lev/` `lvel/` `evel/`
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
@@ -113,6 +123,19 @@ Below lists the requirements for each to be a valid field.
     - These are not case-sensitive
   - `12:00-13:00 MON`, `16:59-22:00 sun` are valid.
   - `13:00-11:00 MON`, `16:0000-19:1234 MON`, `16:00-17:00 SUNDAY` are not valid.
+
+### Duplicate detection  for names
+
+* TutorRec does not allow for duplicate contacts, and contacts are differentiated by their unique names.
+  
+    * Names are not case-sensitive, `John Doe` is the same name as `JOhn dOE`
+  
+    * Whitespaces do differentiate names apart, e.g., `Mary Anne` is a different name (and person) from `Maryanne`.
+
+* TutorRec's duplicate detection system ignores case and extra whitespace when comparing names.
+
+  * When adding or editing a contact, if a similar name is detected, regardless of case or whitespace differences, users 
+    are warned about potential duplicates.
 
 ### Viewing help : `help`
 
