@@ -8,6 +8,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_FRI
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.BENSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.Arrays;
@@ -22,6 +23,7 @@ import javafx.collections.ObservableList;
 import seedu.address.model.appointment.Appointment;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddressBookTest {
@@ -81,6 +83,40 @@ public class AddressBookTest {
                 .build();
         assertTrue(addressBook.hasPerson(editedAlice));
     }
+
+    @Test
+    public void addPerson_personInAddressBook_throwDuplicatePersonException() {
+        addressBook.addPerson(ALICE);
+        assertThrows(DuplicatePersonException.class, () -> addressBook.addPerson(ALICE));
+    }
+
+    @Test
+    public void addPerson_personNotInAddressBook_success() {
+        assertFalse(addressBook.hasPerson(BENSON));
+        assertTrue(addressBook.getAppointmentList().isEmpty());
+        addressBook.addPerson(BENSON);
+        assertTrue(addressBook.hasPerson(BENSON));
+        assertFalse(BENSON.getAppointments().isEmpty());
+        assertFalse(addressBook.getAppointmentList().isEmpty());
+    }
+
+    @Test
+    public void removePerson_personInAddressBook_success() {
+        addressBook.addPerson(BENSON);
+        assertFalse(addressBook.getAppointmentList().isEmpty());
+
+        addressBook.removePerson(BENSON);
+        assertFalse(addressBook.hasPerson(BENSON));
+        assertTrue(addressBook.getAppointmentList().isEmpty());
+    }
+
+    @Test
+    public void removePerson_personNotInAddressBook_throwPersonNotFoundException() {
+        addressBook.addPerson(BENSON);
+        assertTrue(addressBook.hasPerson(BENSON));
+        assertThrows(PersonNotFoundException.class, () -> addressBook.removePerson(ALICE));
+    }
+
 
     @Test
     public void getPersonList_modifyList_throwsUnsupportedOperationException() {
