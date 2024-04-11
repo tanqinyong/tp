@@ -701,8 +701,8 @@ testers are expected to do more *exploratory* testing.
 
 Team Size: 5
 
-1. 
-2. 
+1. **Standardize display of person's contact details with other fields when missing information:** Currently when a person is missing contact information such as phone number, email and address, the view command shows '---' instead of just '-' like other fields when there's no information. This will be changed in a future version to show the same '-' as other fields when information is missing.
+2. **Improve UI to handle extremely long tags going out of UI bounds:** Currently when a tag contains a string that is extremely long, it will stretch beyond the boundary of the person list. This will be improved in a future version to allow the tag to wrap around to display the full tag.
 3. 
 4. 
 5. 

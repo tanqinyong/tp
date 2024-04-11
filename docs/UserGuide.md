@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-TutorRec is a **desktop app for home tutors to manage student contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TutorRec can get your contact management tasks done faster than traditional GUI apps.
+TutorRec is a **desktop app for 1-to-1 home tutors to manage student contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TutorRec can get your contact management tasks done faster than traditional GUI apps.
 
 * Table of Contents
 {:toc}
@@ -103,7 +103,7 @@ Below lists the requirements for each to be a valid field.
   - Note that entering an address which is blank or has spaces will instead treat a person as having no address. Valid addresses are still only those which do not violate the above criteria.
 - `Note`: Must not be blank or contain only spaces
   - See above.
-- `Tag`: Must not contain any spaces.
+- `Tag`: Should be alphanumeric: [a-zA-Z0-9]
 - `Subject`: Must be `MATH`, `SCIENCE`, `ENGLISH` or `MT`.
 - `Level`: Must be `P1`, `P2`, `P3`, `P4`, `P5` or `P6`.
 - `Appointment`: Must be in the format `START_TIME-END_TIME DAY`
@@ -113,6 +113,7 @@ Below lists the requirements for each to be a valid field.
     - These are not case-sensitive
   - `12:00-13:00 MON`, `16:59-22:00 sun` are valid.
   - `13:00-11:00 MON`, `16:0000-19:1234 MON`, `16:00-17:00 SUNDAY` are not valid.
+  - Overlapping appointments between students are strictly not allowed as TutorRec is for tutors who provide 1-to-1 tutoring.
 
 ### Viewing help : `help`
 
@@ -294,13 +295,13 @@ _Details coming soon ..._
 Action | Format, Examples
 --------|------------------
 **Add** | `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​` <br> e.g., `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01 s/MATH`
-**View** | `appointments`
+**View appointments** | `appointments [DAY]`
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
 **Note** | `note INDEX NOTE`<br> e.g. `note 1 nt/This is a note`
-**View** | `view INDEX`
+**View person details** | `view INDEX`
 **Help** | `help`
 **Exit** | `exit`
