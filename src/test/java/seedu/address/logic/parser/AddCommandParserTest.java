@@ -27,11 +27,13 @@ import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_CELINE;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
 import static seedu.address.logic.commands.CommandTestUtil.SPACE_PRECEDED_PREFIX_ADDRESS;
+import static seedu.address.logic.commands.CommandTestUtil.SPACE_PRECEDED_PREFIX_APPOINTMENT;
 import static seedu.address.logic.commands.CommandTestUtil.SPACE_PRECEDED_PREFIX_EMAIL;
 import static seedu.address.logic.commands.CommandTestUtil.SPACE_PRECEDED_PREFIX_LEVEL;
 import static seedu.address.logic.commands.CommandTestUtil.SPACE_PRECEDED_PREFIX_NOTE;
 import static seedu.address.logic.commands.CommandTestUtil.SPACE_PRECEDED_PREFIX_PHONE;
 import static seedu.address.logic.commands.CommandTestUtil.SPACE_PRECEDED_PREFIX_SUBJECT;
+import static seedu.address.logic.commands.CommandTestUtil.SPACE_PRECEDED_PREFIX_TAG;
 import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_CELINE;
 import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_MATH;
@@ -213,10 +215,15 @@ public class AddCommandParserTest {
         assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY
                 + SPACE_PRECEDED_PREFIX_SUBJECT,
                 new AddCommand(expectedPerson));
-        // empty tag prefix value - FAILING - uncomment when fixed
-        // assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY
-        //         + SPACE_PRECEDED_PREFIX_TAG,
-        //         new AddCommand(expectedPerson));
+        // empty tag prefix value
+        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY
+                + SPACE_PRECEDED_PREFIX_TAG,
+                new AddCommand(expectedPerson));
+        // empty appointment prefix value
+        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY
+                + SPACE_PRECEDED_PREFIX_APPOINTMENT,
+                new AddCommand(expectedPerson));
+
         //No email field
         Person expectedPersonNoEmail = new PersonBuilder(NO_EMAIL_AMY).withTags().removeLevel().build();
         //No prefix
