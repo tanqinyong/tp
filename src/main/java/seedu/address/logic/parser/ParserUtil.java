@@ -159,6 +159,9 @@ public class ParserUtil {
         requireNonNull(tags);
         final Set<Tag> tagSet = new HashSet<>();
         for (String tagName : tags) {
+            if (tagName.isEmpty()) {
+                continue;
+            }
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
@@ -184,6 +187,9 @@ public class ParserUtil {
         requireNonNull(appointments);
         final AppointmentList appointmentList = new AppointmentList();
         for (String ap : appointments) {
+            if (ap.isEmpty()) {
+                continue;
+            }
             Appointment appointment = parseAppointment(ap);
             /*if (appointmentList.overlaps(appointment)) {
                 throw new ParseException(DisjointAppointmentList.MESSAGE_CONSTRAINTS);
