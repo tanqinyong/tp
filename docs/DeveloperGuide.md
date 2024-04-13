@@ -699,11 +699,14 @@ Team Size: 5
 
 1. **Standardize display of person's contact details with other fields when missing information:** Currently when a person is missing contact information such as phone number, email and address, the view command shows '---' instead of just '-' like other fields when there's no information. This will be changed in a future version to show the same '-' as other fields when information is missing.
 2. **Improve UI to handle extremely long tags going out of UI bounds:** Currently when a tag contains a string that is extremely long, it will stretch beyond the boundary of the person list. This will be improved in a future version to allow the tag to wrap around to display the full tag.
-3. 
-4. 
-5. 
-6. 
-7. 
-8. 
-9. 
+3. **Set a limit to the length of a name:** Currently TutorRec is capable of accepting a name of any length. This causes issues when the name entered is excessively long, resulting in it being not displayed properly in the UI. Setting a limit on the length of a name will prevent it from being cut-off in the UI.
+4. **Fix the `find` command to be reflective of the current list:** Currently, the `find` command properly filters the user list when the command is typed, but does not respond to `delete` commands properly. For example, if a person "David" is searched for in the list, and `find David` is used, then it currently will properly display a filtered list with "David" in it. Suppose David has index 1.
+   - If `delete 1` is used, the filtered list will incorrectly still list David as still being in the list of contacts.
+   - If `edit 1 [some edits]` is used, the filtered list will incorrectly completely reset to show the entire full list, with or without David.
+   - In either case, any command to modify the list should properly interact with the previous `find` command, so it should remove David as part of the contact list if `delete` is used, or continue showing the filtered list if `edit` is used, and so forth.
+5. **Improve error message handling:** Currently, there are certain user-inputted errors which are not properly reflected in TutorRec. For example, typing `edit 1 n/` is properly identified as an invalid command (as a person **must not** have their name removed), but the feedback given by TutorRec is that names should only be alphanumeric, and should not be blank - which is technically correct, but does not communicate sufficiently with the user that the `Name` field cannot be removed in `edit`.
+6. **Improve appointment conflict detection:** Currently, TutorRec disallows conflicting appointments, that is to say, appointments that overlap at a particular time on a particular day. This however, does not account for special cases where the timing of an appointment is different for two days but on the same day, (For example, two appointments, one on the current Sunday, and one on the next Sunday, the former from 1400-1700 and the latter at 1500-1800 is marked as a conflict.) and so an improvement to TutorRec's way of detecting conflicting appointments could improve user experience.
+7. **Allow special characters as part of names:** Currently, TutorRec strictly allows **only** alphanumeric characters to be part of a name. However, this does not account for people with special characters as part of their legal names, such as the use of `s/o` and `-`. This improvement would allow for accurate recording of names.
+8. **Improve ease of adding appointments:** Currently, the way to modify the list of appointments is to use `edit /ap[appointment]`. However, because typing any amount of appointments completely clears the appointments a person has, this can result in frustration from the user's end. A potential solution would be the implementation of a particular command to add or remove particular appointments for a person, so as to reduce the need to re-type all the appointments this person previously had.
+9. **Enable resizing of TutorRec:** Currently, TutorRec is not resizable as a window. This change would improve user experience.
 10. 
