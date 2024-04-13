@@ -157,7 +157,7 @@ New appointments **must not overlap with each other** and should not overlap wit
 When it comes to notes and levels, TutorRec will only consider the final prefix in cases where there are multiple prefixes.
 </div>
 
-For example, with the command: `add n/John l/p1 l/p2`, TutorRec will only consider l/p2.
+For example, with the command: `add n/John l/p1 l/p2`, TutorRec will only consider `l/p2`.
 
 ### Listing all persons : `list`
 
@@ -193,6 +193,12 @@ Examples:
 *  `edit 1 p/91234567 e/jj@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `jj@example.com` respectively.
 *  `edit 2 n/Monica Chng t/` Edits the name of the 2nd person to be `Monica Chng` and clears all existing tags.
 *  `edit 3 n/Bobby Brown p/` Edits the name of the 3rd person to be `Bobby Brown` and removes the `phone` field.
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+When it comes to notes and levels, TutorRec will only consider the final prefix in cases where there are multiple prefixes.
+</div>
+
+For example, with the command: `edit 1 l/p1 l/p2`, TutorRec will only consider `l/p2`.
 
 ### Edit a note of a person : `note`
 
