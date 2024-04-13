@@ -127,7 +127,7 @@ Format: `help`
 
 Adds a person to the address book.
 
-Format: `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​`
+Format: `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG]… [s/SUBJECT]… [l/LEVEL]​`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A person can have any number of tags, and any number of appointments (including 0).
@@ -148,9 +148,16 @@ For example:
 Both create the same person in the address book (i.e. a person named "John" with no address).
 The same logic applies to the other fields.
 
+
 <div markdown="span" class="alert alert-primary">:warning: **Note:**
 New appointments **must not overlap with each other** and should not overlap with existing appointments. 
 </div>
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+When it comes to notes and levels, TutorRec will only consider the final prefix in cases where there are multiple prefixes.
+</div>
+
+For example, with the command: `add n/John l/p1 l/p2`, TutorRec will only consider l/p2.
 
 ### Listing all persons : `list`
 
