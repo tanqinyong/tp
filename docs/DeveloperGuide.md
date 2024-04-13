@@ -710,4 +710,4 @@ Team Size: 5
 7. 
 8. 
 9. 
-10. 
+10. **Improve duplicate name detection in TutorRec:** Presently, TutorRec permits additional white spaces between names, such as **'John &nbsp; &nbsp; Doe'**, which is distinguished as a separate name from **'John Doe'**. We can refine duplicate name detection by devising a more robust algorithm to address this issue and efficiently identify near matches.
