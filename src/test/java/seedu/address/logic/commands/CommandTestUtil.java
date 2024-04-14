@@ -99,6 +99,7 @@ public class CommandTestUtil {
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
     public static final String INVALID_APPOINTMENT_DESC = " " + PREFIX_APPOINTMENT + "aaaaaaaa"; // not in date format
     public static final String INVALID_SUBJECT_DESC = " " + PREFIX_SUBJECT + "Gaming"; // not a valid subject
+    public static final String INVALID_LEVEL_DESC = " " + PREFIX_LEVEL + "P10"; // not a valid level
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
