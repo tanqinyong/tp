@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-TutorRec is a **desktop app for home tutors to manage student contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TutorRec can get your contact management tasks done faster than traditional GUI apps.
+TutorRec is a **desktop app for 1-to-1 home tutors to manage student contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TutorRec can get your contact management tasks done faster than traditional GUI apps.
 
 * Table of Contents
 {:toc}
@@ -61,13 +61,25 @@ TutorRec is a **desktop app for home tutors to manage student contacts, optimize
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
-* Prefixes are adjusted to accept slightly incorrect variations and **minor** typos, e.g., `phon/`, `addr/`, `subj/`, `lvl/`.
+* Prefixes are adjusted to accept predefined convenient short forms, 
+  e.g., `hp/`, `addr/`, `subj/`, `lvl/`.
 
     * You may choose to use short form or long form of prefixes, e.g., `n/` or `name/`, which are interchangeable.
 
-* TutorRec does not allow for duplicate contacts, and contacts are differentiated by their unique names.
+    * Prefixes are also adjusted to accept some predefined slightly incorrect variations, in case of user typos. 
+      The full list of accepted typos and short forms are listed below:
+      * `n/`: `name/` `nae/` `nam/`
+      * `p/`: `phone/` `phon/` `hp/` `handphone/`
+      * `e/`: `email/` `emai/` `em/` `ema/`
+      * `a/`: `address/` `addr/` `add/` `ad/` `addres/` `adress/`
+      * `p/`: `phone/` `phon/` `hp/` `handphone/`
+      * `nt/`: `note/` `not/` `nt/` 
+      * `t/`: `tag/` `ta/` `tg/` 
+      * `ap/`: `appointment/` `appt/` `appoint/` `appointmen/`
+      * `s/`: `subject/` `subj/` `sub/` `subjec/` `subje/`
+      * `l/`: `level/` `lvl/` `leve/` `lv/` `lev/` `lvel/` `evel/`
 
-    * Names are not case-sensitive, `John Doe` is the same name as `JOhn dOE`, however, whitespaces do differentiate names apart, e.g., `Mary Anne` is a different name (and person) from `Maryanne`.
+* TutorRec is currently **not** resizable
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
@@ -93,17 +105,22 @@ Below lists the requirements for each to be a valid field.
     - May contain the following special characters `+_.-`
     - May not begin with the above mentioned special characters
   - `domain` must adhere to the following restrictions:
-    - end with a valid label which is at least two characters long
-    - domain start and end labels which start and end with alphanumeric characters
-    - domain start and end labels which are separated by hyphens only, if applicable
-  - With these restrictions in mind, the following are some valid and invalid commands:
+      - contain only letters, numbers, and dashes (`-`), note that hyphens **cannot** be the first or last characters of the domain
+      - the final part of the domain:
+          - is defined by a `.` to separate it from other parts of the domain
+          - is defined by the entire domain if no `.` is present
+          - must be at least two characters long
+      - ergo, the following are examples of domains which are valid and invalid:
+          - `cc`, `test.com`, `name-separator.gov` are valid
+          - `a`, `t*.ab`, `invalid.sep-` are not valid
+  - With these restrictions in mind, the following are some valid and invalid emails:
     - `alex@example.com`, `jorge@website.site.com`, `jack_jane.john@example.com` are valid.
     - `alex@@example.com`, `jorge@website.site.com-`, `jack&jane*john@example.com` are not valid.
 - `Address`: Must not be blank or contain only spaces.
   - Note that entering an address which is blank or has spaces will instead treat a person as having no address. Valid addresses are still only those which do not violate the above criteria.
 - `Note`: Must not be blank or contain only spaces
   - See above.
-- `Tag`: Must not contain any spaces.
+- `Tag`: Should be alphanumeric: [a-zA-Z0-9]
 - `Subject`: Must be `MATH`, `SCIENCE`, `ENGLISH` or `MT`.
 - `Level`: Must be `P1`, `P2`, `P3`, `P4`, `P5` or `P6`.
 - `Appointment`: Must be in the format `START_TIME-END_TIME DAY`
@@ -113,6 +130,20 @@ Below lists the requirements for each to be a valid field.
     - These are not case-sensitive
   - `12:00-13:00 MON`, `16:59-22:00 sun` are valid.
   - `13:00-11:00 MON`, `16:0000-19:1234 MON`, `16:00-17:00 SUNDAY` are not valid.
+  - Overlapping appointments between students are strictly not allowed as TutorRec is for tutors who provide 1-to-1 tutoring.
+
+### Duplicate detection  for names
+
+* TutorRec does not allow for duplicate contacts, and contacts are differentiated by their unique names.
+  
+    * Names are not case-sensitive, `John Doe` is the same name as `JOhn dOE`
+  
+    * Whitespaces do differentiate names apart, e.g., `Mary Anne` is a different name (and person) from `Maryanne`.
+
+* TutorRec's duplicate detection system ignores case and extra whitespace when comparing names.
+
+  * When adding or editing a contact, if a similar name is detected, regardless of case or whitespace differences, users 
+    are warned about potential duplicates.
 
 ### Viewing help : `help`
 
@@ -139,7 +170,7 @@ Examples:
 * `add n/Abel nt/exstudent ap/12:00-15:00 SUN ap/18:00-22:00 TUE`
 
 Only the "Name" field is mandatory. If you do not wish to have the other fields to have values, you can add the person
-in without the corresponding tag, or leaving the tag blank.
+in without the corresponding prefix, or leaving the prefix blank.
 
 For example:
 * `add n/John`
@@ -180,23 +211,12 @@ The index **must be a positive integer** 1, 2, 3, …​
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
 * You can remove all the person’s tags by typing `t/` without
     specifying any tags after it. Appointments work similarly (i.e. typing `ap/` with no appointments after it clears all appointments)
-* You can remove fields (except for name) by typing the tag for the relevant field and leaving it blank.
+* You can remove fields (except for name) by typing the prefix for the relevant field and leaving it blank.
 
 Examples:
 *  `edit 1 p/91234567 e/jj@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `jj@example.com` respectively.
 *  `edit 2 n/Monica Chng t/` Edits the name of the 2nd person to be `Monica Chng` and clears all existing tags.
 *  `edit 3 n/Bobby Brown p/` Edits the name of the 3rd person to be `Bobby Brown` and removes the `phone` field.
-
-### Edit a note of a person : `note`
-
-Edits a note of an existing person in the address book.
-
-Format: `note INDEX NOTE`
-
-* Edits the note of the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
-
-Examples:
-*  `note 1 nt/This is a note` Edits the note of the 1st person to be `This is a note`.
 
 ### Locating persons by name : `find`
 
@@ -294,13 +314,12 @@ _Details coming soon ..._
 Action | Format, Examples
 --------|------------------
 **Add** | `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​` <br> e.g., `add n/Jun Jie p/98765432 e/jj@example.com a/Clementi Ave 3, block 442, #06-01 s/MATH`
-**View** | `appointments`
+**View appointments** | `appointments [DAY]`
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTE] [ap/APPOINTMENT] [t/TAG] [s/SUBJECT] [l/LEVEL]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
-**Note** | `note INDEX NOTE`<br> e.g. `note 1 nt/This is a note`
-**View** | `view INDEX`
+**View person details** | `view INDEX`
 **Help** | `help`
 **Exit** | `exit`

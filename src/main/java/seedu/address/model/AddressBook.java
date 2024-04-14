@@ -129,6 +129,12 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void removePerson(Person key) {
         persons.remove(key);
+
+        // remove key's appointments
+        for (Appointment appointment : key.getAppointments()) {
+            appointments.remove(appointment);
+        }
+
         this.appointments.sort();
     }
 

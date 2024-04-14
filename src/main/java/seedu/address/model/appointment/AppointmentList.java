@@ -5,6 +5,8 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -101,7 +103,10 @@ public class AppointmentList implements Iterable<Appointment> {
 
     @Override
     public String toString() {
-        return internalList.toString();
+        List<String> appointmentStrings = internalList.stream()
+                .map(Appointment::toString).collect(Collectors.toList());
+        return String.join(", ", appointmentStrings);
+
     }
 
     /**

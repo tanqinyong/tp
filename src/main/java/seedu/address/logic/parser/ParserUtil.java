@@ -159,6 +159,9 @@ public class ParserUtil {
         requireNonNull(tags);
         final Set<Tag> tagSet = new HashSet<>();
         for (String tagName : tags) {
+            if (tagName.isEmpty()) {
+                continue;
+            }
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
@@ -184,6 +187,9 @@ public class ParserUtil {
         requireNonNull(appointments);
         final AppointmentList appointmentList = new AppointmentList();
         for (String ap : appointments) {
+            if (ap.isEmpty()) {
+                continue;
+            }
             Appointment appointment = parseAppointment(ap);
             /*if (appointmentList.overlaps(appointment)) {
                 throw new ParseException(DisjointAppointmentList.MESSAGE_CONSTRAINTS);
@@ -200,8 +206,13 @@ public class ParserUtil {
      * @throws ParseException if the given {@code subject} is invalid.
      */
     private static Subject parseSubject(String subject) throws ParseException {
-        requireNonNull(subject);
+        if (subject == null) {
+            return null;
+        }
         String trimmedSubject = subject.trim();
+        if (trimmedSubject.equals("")) {
+            return null;
+        }
         if (!Subject.isValidSubject(trimmedSubject)) {
             throw new ParseException(Subject.MESSAGE_CONSTRAINTS);
         }
@@ -215,7 +226,11 @@ public class ParserUtil {
         requireNonNull(subjects);
         final Set<Subject> subjectSet = new HashSet<>();
         for (String subjectName : subjects) {
-            subjectSet.add(parseSubject(subjectName));
+            Subject s = parseSubject(subjectName);
+            if (s == null) {
+                continue;
+            }
+            subjectSet.add(s);
         }
         return subjectSet;
     }
@@ -223,12 +238,16 @@ public class ParserUtil {
     /**
      * Parses a {@code String level} into a {@code Level}.
      */
-    public static Level parseLevel(String level) {
+    public static Level parseLevel(String level) throws ParseException {
         if (level == null) {
             return new EmptyLevel();
         }
+        String trimmedLevel = level.trim();
+        if (trimmedLevel.equals("")) {
+            return new EmptyLevel();
+        }
         if (!Level.isValidLevel(level)) {
-            throw new IllegalArgumentException(Level.MESSAGE_CONSTRAINTS);
+            throw new ParseException(Level.MESSAGE_CONSTRAINTS);
         }
         return new Level(level);
     }
