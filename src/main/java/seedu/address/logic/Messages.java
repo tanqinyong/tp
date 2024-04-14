@@ -53,7 +53,7 @@ public class Messages {
         person.getTags().forEach(builder::append);
 
         builder.append("; Appointments: ");
-        person.getAppointments().forEach(builder::append);
+        builder.append(person.getAppointments());
 
         builder.append("; Subjects: ");
         person.getSubjects().forEach(builder::append);

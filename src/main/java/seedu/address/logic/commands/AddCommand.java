@@ -15,6 +15,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.appointment.Appointment;
 import seedu.address.model.appointment.DisjointAppointmentList;
 import seedu.address.model.person.Person;
 
@@ -68,7 +69,13 @@ public class AddCommand extends Command {
         }
 
         // Overlapping appointment detection
+        // between appointments to be added and existing appointments
         if (model.appointmentsOverlap(toAdd.getAppointments().asUnmodifiableObservableList())) {
+            throw new CommandException(DisjointAppointmentList.MESSAGE_CONSTRAINTS);
+        }
+
+        // between two appointments to be added
+        if (Appointment.hasOverlapping(toAdd.getAppointments().asUnmodifiableObservableList())) {
             throw new CommandException(DisjointAppointmentList.MESSAGE_CONSTRAINTS);
         }
 

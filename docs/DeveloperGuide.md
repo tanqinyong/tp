@@ -190,10 +190,6 @@ TutorRec is able to add notes to each student. They are added as a field (`/nt`)
 
 `edit 1 /nt "This student is very good at math, but struggles with English."` will edit the person on index 1 to have the note "This student is very good at math, but struggles with English."
 
-The class diagram below shows the classes involved in the implementation of the NoteCommand.
-
-![NotesClassDiagram](images/NotesClassDiagram.png)
-
 ### Listing Students
 
 #### Implementation
@@ -701,8 +697,8 @@ testers are expected to do more *exploratory* testing.
 
 Team Size: 5
 
-1. 
-2. 
+1. **Standardize display of person's contact details with other fields when missing information:** Currently when a person is missing contact information such as phone number, email and address, the view command shows '---' instead of just '-' like other fields when there's no information. This will be changed in a future version to show the same '-' as other fields when information is missing.
+2. **Improve UI to handle extremely long tags going out of UI bounds:** Currently when a tag contains a string that is extremely long, it will stretch beyond the boundary of the person list. This will be improved in a future version to allow the tag to wrap around to display the full tag.
 3. 
 4. 
 5. 

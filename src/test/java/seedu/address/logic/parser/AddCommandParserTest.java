@@ -26,6 +26,14 @@ import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_CELINE;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
+import static seedu.address.logic.commands.CommandTestUtil.SPACE_PRECEDED_PREFIX_ADDRESS;
+import static seedu.address.logic.commands.CommandTestUtil.SPACE_PRECEDED_PREFIX_APPOINTMENT;
+import static seedu.address.logic.commands.CommandTestUtil.SPACE_PRECEDED_PREFIX_EMAIL;
+import static seedu.address.logic.commands.CommandTestUtil.SPACE_PRECEDED_PREFIX_LEVEL;
+import static seedu.address.logic.commands.CommandTestUtil.SPACE_PRECEDED_PREFIX_NOTE;
+import static seedu.address.logic.commands.CommandTestUtil.SPACE_PRECEDED_PREFIX_PHONE;
+import static seedu.address.logic.commands.CommandTestUtil.SPACE_PRECEDED_PREFIX_SUBJECT;
+import static seedu.address.logic.commands.CommandTestUtil.SPACE_PRECEDED_PREFIX_TAG;
 import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_CELINE;
 import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_MATH;
@@ -199,30 +207,81 @@ public class AddCommandParserTest {
 
     @Test
     public void parse_optionalFieldsMissing_success() {
-        // zero tags
+        // zero tags or subjects
         Person expectedPerson = new PersonBuilder(AMY).withTags().removeLevel().build();
         assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY,
+                new AddCommand(expectedPerson));
+        // empty subject prefix value
+        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY
+                + SPACE_PRECEDED_PREFIX_SUBJECT,
+                new AddCommand(expectedPerson));
+        // empty tag prefix value
+        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY
+                + SPACE_PRECEDED_PREFIX_TAG,
+                new AddCommand(expectedPerson));
+        // empty appointment prefix value
+        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY
+                + SPACE_PRECEDED_PREFIX_APPOINTMENT,
                 new AddCommand(expectedPerson));
 
         //No email field
         Person expectedPersonNoEmail = new PersonBuilder(NO_EMAIL_AMY).withTags().removeLevel().build();
+        //No prefix
         assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY,
+                new AddCommand(expectedPersonNoEmail));
+        //Empty prefix value
+        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY
+                + SPACE_PRECEDED_PREFIX_EMAIL,
                 new AddCommand(expectedPersonNoEmail));
 
         //No address field
         Person expectedPersonNoAddress = new PersonBuilder(NO_ADDRESS_AMY).withTags().removeLevel().build();
+        //No prefix
         assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + NOTE_DESC_AMY,
+                new AddCommand(expectedPersonNoAddress));
+        //Empty prefix value
+        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + NOTE_DESC_AMY
+                + SPACE_PRECEDED_PREFIX_ADDRESS,
                 new AddCommand(expectedPersonNoAddress));
 
         //No phone field
         Person expectedPersonNoPhone = new PersonBuilder(NO_PHONE_AMY).withTags().removeLevel().build();
+        //No prefix
         assertParseSuccess(parser, NAME_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY,
+                new AddCommand(expectedPersonNoPhone));
+        //Empty prefix value
+        assertParseSuccess(parser, NAME_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NOTE_DESC_AMY
+                + SPACE_PRECEDED_PREFIX_PHONE,
                 new AddCommand(expectedPersonNoPhone));
 
         //No Note field
         Person expectedPersonNoNote = new PersonBuilder(NO_NOTE_AMY).withTags().removeLevel().build();
+        //No prefix
         assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY,
                 new AddCommand(expectedPersonNoNote));
+        //Empty prefix value
+        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+                + SPACE_PRECEDED_PREFIX_NOTE,
+                new AddCommand(expectedPersonNoNote));
+        //Multiple empty prefix values
+        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+                + SPACE_PRECEDED_PREFIX_NOTE + SPACE_PRECEDED_PREFIX_NOTE,
+                new AddCommand(expectedPersonNoNote));
+
+        //No Level field
+        Person expectedPersonNoLevel = new PersonBuilder(AMY).withTags().removeLevel().build();
+        //No prefix
+        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+                + NOTE_DESC_AMY,
+                new AddCommand(expectedPersonNoLevel));
+        //Empty prefix value
+        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+                + NOTE_DESC_AMY + SPACE_PRECEDED_PREFIX_LEVEL,
+                new AddCommand(expectedPersonNoLevel));
+        //Multiple empty prefix values
+        assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+                + NOTE_DESC_AMY + SPACE_PRECEDED_PREFIX_LEVEL + SPACE_PRECEDED_PREFIX_LEVEL,
+                new AddCommand(expectedPersonNoLevel));
 
         //Only Name field
         Person expectedPersonNameOnly = new PersonBuilder(NAME_ONLY_CELINE).withTags().removeLevel().build();

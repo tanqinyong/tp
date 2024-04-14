@@ -15,19 +15,26 @@ import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_MATH;
+import static seedu.address.logic.commands.CommandTestUtil.SUBJECT_DESC_MT;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_FRIDAY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_SUNDAY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_SUBJECT_MATH;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_SUBJECT_MT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_APPOINTMENT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SUBJECT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -52,6 +59,7 @@ public class EditCommandParserTest {
 
     private static final String TAG_EMPTY = " " + PREFIX_TAG;
     private static final String APPOINTMENT_EMPTY = " " + PREFIX_APPOINTMENT;
+    private static final String SUBJECT_EMPTY = " " + PREFIX_SUBJECT;
 
     private static final String MESSAGE_INVALID_FORMAT =
             String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
@@ -97,24 +105,52 @@ public class EditCommandParserTest {
         // invalid phone followed by valid email
         assertParseFailure(parser, "1" + INVALID_PHONE_DESC + EMAIL_DESC_AMY, Phone.MESSAGE_CONSTRAINTS);
 
-        // while parsing {@code PREFIX_TAG} alone will reset the tags of the {@code Person} being edited,
-        // parsing it together with a valid tag results in error
-        assertParseFailure(parser, "1" + TAG_DESC_FRIEND + TAG_DESC_HUSBAND + TAG_EMPTY, Tag.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, "1" + TAG_DESC_FRIEND + TAG_EMPTY + TAG_DESC_HUSBAND, Tag.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, "1" + TAG_EMPTY + TAG_DESC_FRIEND + TAG_DESC_HUSBAND, Tag.MESSAGE_CONSTRAINTS);
-
-        // similarly, parsing {@code PREFIX_APPOINTMENT} alone will reset the appointment
-        // of the {@code Person} being edited, parsing it together with a valid appointment results in error
-        assertParseFailure(parser, "1" + APPOINTMENT_DESC_FRIDAY
-                + APPOINTMENT_DESC_SUNDAY + APPOINTMENT_EMPTY, Appointment.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, "1" + APPOINTMENT_DESC_FRIDAY
-                + APPOINTMENT_EMPTY + APPOINTMENT_DESC_SUNDAY, Appointment.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, "1" + APPOINTMENT_EMPTY
-                + APPOINTMENT_DESC_FRIDAY + APPOINTMENT_DESC_SUNDAY, Appointment.MESSAGE_CONSTRAINTS);
-
         // multiple invalid values, but only the first invalid value is captured
         assertParseFailure(parser, "1" + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_ADDRESS_AMY + VALID_PHONE_AMY,
                 Name.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_multipleEmptyAndFilledValues_success() {
+        // Parser should allow any combination of empty fields and filled fields for fields containing multiple values
+        Index targetIndex = INDEX_FIRST_PERSON;
+
+        // Tags
+        EditPersonDescriptor personWithTags = new EditPersonDescriptorBuilder()
+                .withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND).build();
+        EditCommand expectedCommandTags = new EditCommand(targetIndex, personWithTags);
+        assertParseSuccess(parser, "1" + TAG_DESC_FRIEND + TAG_DESC_HUSBAND + TAG_EMPTY, expectedCommandTags);
+        assertParseSuccess(parser, "1" + TAG_DESC_FRIEND + TAG_EMPTY + TAG_DESC_HUSBAND, expectedCommandTags);
+        assertParseSuccess(parser, "1" + TAG_EMPTY + TAG_DESC_FRIEND + TAG_DESC_HUSBAND, expectedCommandTags);
+        assertParseSuccess(parser, "1" + TAG_EMPTY + TAG_DESC_FRIEND + TAG_EMPTY + TAG_DESC_HUSBAND
+                + TAG_EMPTY, expectedCommandTags);
+
+        // Appointments
+        EditPersonDescriptor personWithAppointments = new EditPersonDescriptorBuilder()
+                .withAppointments(VALID_APPOINTMENT_FRIDAY, VALID_APPOINTMENT_SUNDAY).build();
+        EditCommand expectedCommandAppointments = new EditCommand(targetIndex, personWithAppointments);
+        assertParseSuccess(parser, "1" + APPOINTMENT_DESC_FRIDAY
+                + APPOINTMENT_DESC_SUNDAY + APPOINTMENT_EMPTY, expectedCommandAppointments);
+        assertParseSuccess(parser, "1" + APPOINTMENT_DESC_FRIDAY
+                + APPOINTMENT_EMPTY + APPOINTMENT_DESC_SUNDAY, expectedCommandAppointments);
+        assertParseSuccess(parser, "1" + APPOINTMENT_EMPTY
+                + APPOINTMENT_DESC_FRIDAY + APPOINTMENT_DESC_SUNDAY, expectedCommandAppointments);
+        assertParseSuccess(parser, "1" + APPOINTMENT_EMPTY
+                + APPOINTMENT_DESC_FRIDAY + APPOINTMENT_EMPTY + APPOINTMENT_DESC_SUNDAY
+                + APPOINTMENT_EMPTY, expectedCommandAppointments);
+
+        // Subjects
+        EditPersonDescriptor personWithSubjects = new EditPersonDescriptorBuilder()
+                .withSubjects(VALID_SUBJECT_MT, VALID_SUBJECT_MATH).build();
+        EditCommand expectedCommandSubjects = new EditCommand(targetIndex, personWithSubjects);
+        assertParseSuccess(parser, "1" + SUBJECT_DESC_MATH
+                + SUBJECT_DESC_MT + SUBJECT_EMPTY, expectedCommandSubjects);
+        assertParseSuccess(parser, "1" + SUBJECT_DESC_MATH
+                + SUBJECT_EMPTY + SUBJECT_DESC_MT, expectedCommandSubjects);
+        assertParseSuccess(parser, "1" + SUBJECT_EMPTY
+                + SUBJECT_DESC_MATH + SUBJECT_DESC_MT, expectedCommandSubjects);
+        assertParseSuccess(parser, "1" + SUBJECT_EMPTY + SUBJECT_DESC_MATH
+                + SUBJECT_EMPTY + SUBJECT_DESC_MT + SUBJECT_EMPTY, expectedCommandSubjects);
     }
 
     @Test
