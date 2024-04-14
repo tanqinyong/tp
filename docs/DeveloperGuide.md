@@ -708,6 +708,10 @@ Team Size: 5
 5. 
 6. 
 7. 
-8. 
+8. **Improve consistency of multiple prefixes:** Currently, TutorRec accepts multiple arguments for certain prefixes. 
+For example, users can have multiple prefixes for `subject`, `edit 4 s/ENGLISH s/MATH` resulting in the student having both subjects. 
+However, for the `note` and `level` prefixes, TutorRec allows multiple prefixes but only takes the last argument.
+`edit 4 l/p1 l/p6` results in the student having only the `p6` level assigned. To improve on this, we can enhance the consistency
+of accepting multiple prefixes across all commands in the project.
 9. 
 10. 
